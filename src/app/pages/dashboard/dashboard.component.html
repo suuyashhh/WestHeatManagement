@@ -1,0 +1,314 @@
+<div class="dashboard-page">
+  <!-- Page Header -->
+  <div class="dashboard-header">
+    <div class="header-titles">
+      <div class="header-pre-title">
+        <span class="live-pulse flame"></span>
+        <span>WEST FACILITY // UNIT 04</span>
+      </div>
+      <h1 class="page-title">Thermal Telemetry & Heat Control Center</h1>
+      <p class="page-subtitle">Real-time combustion temperatures, boiler pressures, and thermal energy yield monitoring.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="triggerDiagnosticScan()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <polyline points="1 20 1 14 7 14"></polyline>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        <span>Run Diagnostics</span>
+      </button>
+
+      <button class="btn btn-primary">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Export Heat Logs</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Metrics Row -->
+  <div class="metrics-grid">
+    <!-- Metric 1 -->
+    <div class="metric-card flame-border">
+      <div class="metric-header">
+        <span class="metric-title">CORE COMBUSTION TEMP</span>
+        <div class="metric-icon-box flame">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-value-row">
+        <span class="metric-number font-mono">874.2</span>
+        <span class="metric-unit">°C</span>
+      </div>
+      <div class="metric-footer">
+        <span class="metric-trend up">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+          +1.4%
+        </span>
+        <span class="metric-baseline">Target: 850.0°C (High Zone)</span>
+      </div>
+    </div>
+
+    <!-- Metric 2 -->
+    <div class="metric-card cyan-border">
+      <div class="metric-header">
+        <span class="metric-title">THERMAL POWER YIELD</span>
+        <div class="metric-icon-box cyan">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-value-row">
+        <span class="metric-number font-mono">1.84</span>
+        <span class="metric-unit">MW-th</span>
+      </div>
+      <div class="metric-footer">
+        <span class="metric-trend steady">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          96.8%
+        </span>
+        <span class="metric-baseline">Rated Capacity: 1.90 MW</span>
+      </div>
+    </div>
+
+    <!-- Metric 3 -->
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">STEAM HEADER PRESSURE</span>
+        <div class="metric-icon-box normal">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-value-row">
+        <span class="metric-number font-mono">18.40</span>
+        <span class="metric-unit">Bar</span>
+      </div>
+      <div class="metric-footer">
+        <span class="metric-trend normal">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          Stable
+        </span>
+        <span class="metric-baseline">Safety Range: 14 - 22 Bar</span>
+      </div>
+    </div>
+
+    <!-- Metric 4 -->
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-title">FLUE HEAT RECAPTURE</span>
+        <div class="metric-icon-box purple">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-value-row">
+        <span class="metric-number font-mono">+14.2</span>
+        <span class="metric-unit">%</span>
+      </div>
+      <div class="metric-footer">
+        <span class="metric-trend normal">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+          +2.1%
+        </span>
+        <span class="metric-baseline">Economizer Efficiency</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thermal Zones Overview Grid -->
+  <div class="section-container">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Active Thermal Zones & Steam Chambers</h2>
+        <span class="badge badge-cyan">4 Online Units</span>
+      </div>
+      <span class="section-hint">Telemetry synchronized via Industrial Modbus TCP</span>
+    </div>
+
+    <div class="zones-grid">
+      <div *ngFor="let zone of zones" class="zone-card">
+        <div class="zone-card-top">
+          <div class="zone-info">
+            <span class="zone-tag font-mono">{{ zone.id }}</span>
+            <h3 class="zone-name">{{ zone.name }}</h3>
+            <span class="zone-loc">{{ zone.subLocation }}</span>
+          </div>
+          <span 
+            class="badge" 
+            [ngClass]="'badge-' + zone.status">
+            {{ zone.status }}
+          </span>
+        </div>
+
+        <div class="zone-temp-block">
+          <div class="temp-readout">
+            <span class="temp-val font-mono">{{ zone.temperature }}°C</span>
+            <span class="temp-target font-mono">Target: {{ zone.targetTemp }}°C</span>
+          </div>
+
+          <!-- Heat Progress Bar -->
+          <div class="heat-bar-track">
+            <div 
+              class="heat-bar-fill" 
+              [style.width.%]="(zone.temperature / 1000) * 100"
+              [ngClass]="'fill-' + zone.status">
+            </div>
+          </div>
+        </div>
+
+        <div class="zone-specs-row">
+          <div class="spec-item">
+            <span class="spec-label">Chamber Pressure</span>
+            <span class="spec-val font-mono">{{ zone.pressure }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Fuel / Flow</span>
+            <span class="spec-val font-mono">{{ zone.fuelFlow }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Thermal Yield</span>
+            <span class="spec-val font-mono" style="color: var(--cyan-primary)">{{ zone.efficiency }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dual Layout: Controls & Sensor Telemetry Table -->
+  <div class="dashboard-split-grid">
+    <!-- Left / Center: Live Sensor Telemetry Feed -->
+    <div class="table-card">
+      <div class="card-header-flex">
+        <div>
+          <h2 class="section-title">Sensor Telemetry Feed</h2>
+          <p class="section-subtitle">Pyrometers, thermocouples, and pressure transducers</p>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="filter-chips">
+          <button 
+            class="chip-btn" 
+            [class.active]="selectedFilter === 'all'" 
+            (click)="setFilter('all')">
+            All ({{ sensors.length }})
+          </button>
+          <button 
+            class="chip-btn" 
+            [class.active]="selectedFilter === 'warning'" 
+            (click)="setFilter('warning')">
+            Warnings (1)
+          </button>
+          <button 
+            class="chip-btn" 
+            [class.active]="selectedFilter === 'normal'" 
+            (click)="setFilter('normal')">
+            Normal (5)
+          </button>
+        </div>
+      </div>
+
+      <!-- Telemetry Data Table -->
+      <div class="table-responsive">
+        <table class="telemetry-table">
+          <thead>
+            <tr>
+              <th>SENSOR TAG</th>
+              <th>HARDWARE / TYPE</th>
+              <th>LOCATION</th>
+              <th>READING</th>
+              <th>THRESHOLD</th>
+              <th>STATUS</th>
+              <th>SYNC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sensor of filteredSensors">
+              <td>
+                <span class="tag-pill font-mono">{{ sensor.tag }}</span>
+              </td>
+              <td class="sensor-name-cell">{{ sensor.name }}</td>
+              <td class="sensor-loc-cell">{{ sensor.location }}</td>
+              <td class="sensor-val-cell font-mono">
+                <span class="val-bold">{{ sensor.value }}</span> {{ sensor.unit }}
+              </td>
+              <td class="sensor-threshold font-mono">{{ sensor.threshold }}</td>
+              <td>
+                <span class="badge" [ngClass]="'badge-' + sensor.status">
+                  {{ sensor.status }}
+                </span>
+              </td>
+              <td class="sync-cell font-mono">{{ sensor.lastUpdated }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right: Operational Controls & Safety Overrides -->
+    <div class="controls-card">
+      <div class="controls-card-header">
+        <h2 class="section-title">Plant Auto-Controls</h2>
+        <span class="badge badge-flame">AUTOMATED SCADA</span>
+      </div>
+      <p class="section-subtitle">Direct override toggles for thermal control loops.</p>
+
+      <div class="controls-list">
+        <div 
+          *ngFor="let ctrl of controlToggles" 
+          class="control-item"
+          [class.engaged]="ctrl.state">
+          
+          <div class="control-text">
+            <span class="control-label">{{ ctrl.label }}</span>
+            <span class="control-desc">{{ ctrl.desc }}</span>
+          </div>
+
+          <!-- Switch Toggle Button -->
+          <button 
+            type="button" 
+            class="toggle-switch" 
+            [class.active]="ctrl.state" 
+            (click)="toggleControl(ctrl)"
+            [title]="ctrl.state ? 'Disengage' : 'Engage'">
+            <span class="toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Action Alert Box -->
+      <div class="emergency-notice-box">
+        <div class="notice-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="notice-body">
+          <span class="notice-title">SAFETY LOCK ENGAGED</span>
+          <p class="notice-text">Emergency purge circuit is on standby. All pressure release valves calibrated.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

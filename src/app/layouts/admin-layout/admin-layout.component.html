@@ -1,0 +1,114 @@
+<div class="admin-shell">
+  <!-- Top Navigation / Telemetry Header -->
+  <header class="admin-topbar">
+    <div class="topbar-left">
+      <!-- Mobile Left-Sidebar Trigger -->
+      <button 
+        class="mobile-menu-trigger" 
+        (click)="toggleMobileSidebar()" 
+        title="Toggle Menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="plant-badge">
+        <span class="live-pulse normal"></span>
+        <span class="plant-id">PLANT 04-WEST</span>
+        <span class="plant-divider">/</span>
+        <span class="plant-sub">ACTIVE TELEMETRY</span>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          placeholder="Search boilers, zones, sensor IDs (e.g. TS-201)..." 
+          class="search-input" />
+        <span class="search-shortcut">⌘K</span>
+      </div>
+    </div>
+
+    <!-- Topbar Right Control Panel -->
+    <div class="topbar-right">
+      <!-- Live Clock -->
+      <div class="system-clock-box">
+        <span class="clock-label">TELEMETRY SYNC</span>
+        <span class="clock-val font-mono">{{ currentTimeString }}</span>
+      </div>
+
+      <!-- Emergency Quick Action -->
+      <button class="topbar-action-btn emergency-btn" title="Initiate Cooling Loop Purge">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span class="btn-text">AUTO COOL</span>
+      </button>
+
+      <!-- Notification Bell -->
+      <div class="notifications-wrapper">
+        <button 
+          class="topbar-icon-btn" 
+          (click)="toggleNotifications()"
+          title="Active Alerts">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="badge-dot" *ngIf="unreadAlertCount > 0">{{ unreadAlertCount }}</span>
+        </button>
+
+        <!-- Dropdown Notifications Menu -->
+        <div class="notifications-dropdown" *ngIf="isNotificationsOpen">
+          <div class="dropdown-header">
+            <span class="dropdown-title">CRITICAL SYSTEM NOTIFICATIONS</span>
+            <span class="badge badge-flame">{{ notifications.length }} Unread</span>
+          </div>
+
+          <div class="dropdown-list">
+            <div *ngFor="let notif of notifications" class="dropdown-item" [ngClass]="'item-' + notif.type">
+              <div class="notif-header">
+                <span class="notif-title">{{ notif.title }}</span>
+                <span class="notif-time">{{ notif.time }}</span>
+              </div>
+              <p class="notif-desc">{{ notif.desc }}</p>
+            </div>
+          </div>
+
+          <div class="dropdown-footer">
+            <button class="view-all-btn" (click)="toggleNotifications()">View All Incidents</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Viewport Body & Left Sidebar Layout -->
+  <div class="admin-body">
+    <!-- LEFT SIDEBAR COMPONENT -->
+    <app-sidebar 
+      [isCollapsed]="isSidebarCollapsed"
+      [isMobileOpen]="isMobileSidebarOpen"
+      (toggleCollapse)="toggleSidebar()"
+      (closeMobile)="closeMobileSidebar()">
+    </app-sidebar>
+
+    <!-- Center / Right Main Routed Content -->
+    <main class="admin-main-viewport">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- Backdrop for Mobile Drawer -->
+  <div 
+    class="mobile-backdrop" 
+    *ngIf="isMobileSidebarOpen" 
+    (click)="closeMobileSidebar()">
+  </div>
+</div>
