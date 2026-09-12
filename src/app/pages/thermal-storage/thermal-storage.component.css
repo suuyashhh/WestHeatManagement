@@ -1,0 +1,346 @@
+.storage-page {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pre-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--flame-primary);
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Mode Selector */
+.mode-selector-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.mode-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.mode-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mode-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mode-btn:hover {
+  color: var(--text-primary);
+  background: #f1f5f9;
+}
+
+.mode-btn.active {
+  background: var(--flame-light);
+  border-color: #fed7aa;
+  color: var(--flame-primary);
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.metric-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal);
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -4px rgba(15, 23, 42, 0.08);
+}
+
+.metric-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.icon-chip {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-chip.flame { background: var(--flame-light); color: var(--flame-primary); }
+.icon-chip.normal { background: var(--status-normal-bg); color: var(--status-normal); }
+.icon-chip.cyan { background: var(--cyan-bg); color: var(--cyan-primary); }
+.icon-chip.purple { background: #f5f3ff; color: #7c3aed; }
+
+.metric-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.metric-val {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.metric-unit {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.metric-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.foot-badge { font-weight: 800; }
+.foot-badge.good { color: var(--status-normal); }
+.foot-note { color: var(--text-muted); }
+
+/* Tanks Grid */
+.section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.tanks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.tank-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal);
+}
+
+.tank-card:hover {
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -4px rgba(15, 23, 42, 0.08);
+}
+
+.tank-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.tank-id {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--flame-primary);
+  background: var(--flame-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tank-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.tank-type {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Level Visual Track */
+.level-visual-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.level-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.soc-pct {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.soc-mwh {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.tank-level-track {
+  width: 100%;
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.tank-level-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.tank-level-fill.charging {
+  background: linear-gradient(90deg, #10b981, #ea580c);
+}
+
+.tank-level-fill.discharging {
+  background: linear-gradient(90deg, #f59e0b, #ea580c);
+}
+
+.tank-level-fill.standby {
+  background: #0284c7;
+}
+
+/* Specs Row */
+.tank-specs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.spec-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spec-lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.spec-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Actions */
+.tank-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tank-mode-btn {
+  width: 100%;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tank-mode-btn:hover {
+  background: var(--flame-light);
+  border-color: #fed7aa;
+  color: var(--flame-primary);
+}

@@ -1,0 +1,727 @@
+.data-server-page {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pre-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--cyan-primary);
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+}
+
+.btn-primary {
+  background: var(--flame-gradient);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   ANIMATED DATA SERVER STAGE (PURE VISUAL - HEAT COMING OUT)
+   ========================================================================== */
+.animated-server-stage {
+  background: radial-gradient(circle at 50% 60%, #ffffff 0%, #f8fafc 70%, #f1f5f9 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 40px 20px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  min-height: 480px;
+}
+
+/* Ambient Warm Glow behind the Server */
+.stage-ambient-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 440px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.14) 0%, rgba(249, 115, 22, 0.08) 45%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  animation: stage-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes stage-pulse {
+  0% { opacity: 0.6; transform: translateX(-50%) scale(0.95); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+
+/* Server Rack Container */
+.server-rack-system {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 340px;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   HEAT EXHAUST PLUMES (ANIMATED HEAT LEAVING THE SERVER)
+   ========================================================================== */
+.heat-exhaust-plumes {
+  position: absolute;
+  bottom: 96%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Fluid Heat Waves */
+.heat-wave {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wave-1 {
+  left: 20%;
+  width: 180px;
+  height: 70px;
+  background: radial-gradient(ellipse at center, rgba(255, 61, 0, 0.5) 0%, rgba(255, 145, 0, 0.25) 60%, transparent 80%);
+  animation: heat-rise 2.4s infinite ease-out;
+}
+
+.wave-2 {
+  left: 30%;
+  width: 140px;
+  height: 60px;
+  background: radial-gradient(ellipse at center, rgba(255, 109, 0, 0.55) 0%, rgba(255, 171, 0, 0.25) 55%, transparent 75%);
+  animation: heat-rise 2.8s infinite ease-out 0.6s;
+}
+
+.wave-3 {
+  left: 15%;
+  width: 220px;
+  height: 80px;
+  background: radial-gradient(ellipse at center, rgba(249, 115, 22, 0.45) 0%, rgba(251, 191, 36, 0.2) 65%, transparent 85%);
+  animation: heat-rise 3.2s infinite ease-out 1.2s;
+}
+
+.wave-4 {
+  left: 35%;
+  width: 120px;
+  height: 55px;
+  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.5) 0%, rgba(249, 115, 22, 0.2) 60%, transparent 80%);
+  animation: heat-rise 2.2s infinite ease-out 1.8s;
+}
+
+.wave-5 {
+  left: 25%;
+  width: 160px;
+  height: 65px;
+  background: radial-gradient(ellipse at center, rgba(255, 61, 0, 0.4) 0%, rgba(255, 183, 77, 0.15) 70%, transparent 85%);
+  animation: heat-rise 2.6s infinite ease-out 0.9s;
+}
+
+@keyframes heat-rise {
+  0% {
+    transform: translateY(10px) scale(0.85);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.6;
+    transform: translateY(-80px) scale(1.25);
+  }
+  100% {
+    transform: translateY(-160px) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Heat Flow Lines (SVG) */
+.heat-stream-svg {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 300px;
+  height: 180px;
+  overflow: visible;
+}
+
+.stream-line {
+  stroke-dasharray: 40 10;
+  animation: stream-flow 2s linear infinite;
+}
+
+.line-1 { animation-duration: 2.2s; }
+.line-2 { animation-duration: 1.8s; animation-delay: 0.3s; }
+.line-3 { animation-duration: 2.4s; animation-delay: 0.6s; }
+.line-4 { animation-duration: 2s; animation-delay: 0.9s; }
+.line-5 { animation-duration: 2.6s; animation-delay: 1.2s; }
+
+@keyframes stream-flow {
+  0% {
+    stroke-dashoffset: 200;
+    opacity: 0.1;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* Rising Glowing Thermal Embers */
+.heat-ember {
+  position: absolute;
+  bottom: 5px;
+  border-radius: 50%;
+  background: #ff5722;
+  box-shadow: 0 0 8px #ff5722, 0 0 16px #ff9800;
+  opacity: 0;
+  animation: ember-float 3s infinite ease-in;
+}
+
+.ember-1 { left: 25%; width: 5px; height: 5px; animation-duration: 2.5s; animation-delay: 0.2s; }
+.ember-2 { left: 45%; width: 4px; height: 4px; animation-duration: 3.1s; animation-delay: 0.7s; background: #ff9800; }
+.ember-3 { left: 65%; width: 6px; height: 6px; animation-duration: 2.8s; animation-delay: 1.1s; }
+.ember-4 { left: 35%; width: 4px; height: 4px; animation-duration: 2.2s; animation-delay: 1.5s; background: #ffeb3b; }
+.ember-5 { left: 55%; width: 5px; height: 5px; animation-duration: 3.4s; animation-delay: 0.4s; }
+.ember-6 { left: 75%; width: 4px; height: 4px; animation-duration: 2.9s; animation-delay: 1.8s; background: #ff7043; }
+.ember-7 { left: 20%; width: 6px; height: 6px; animation-duration: 3.3s; animation-delay: 2.1s; }
+.ember-8 { left: 60%; width: 5px; height: 5px; animation-duration: 2.6s; animation-delay: 2.5s; background: #ff9800; }
+
+@keyframes ember-float {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-160px) translateX(calc(sin(1) * 25px)) scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   RACK CABINET (METALLIC INDUSTRIAL SERVER CHASSIS)
+   ========================================================================== */
+.rack-cabinet {
+  width: 320px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 12px;
+  border: 2px solid #334155;
+  box-shadow: 
+    0 20px 40px -10px rgba(15, 23, 42, 0.4),
+    0 0 25px rgba(234, 88, 12, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Top Exhaust Ventilation Area */
+.rack-top-vent {
+  height: 28px;
+  background: #090d16;
+  border-bottom: 2px solid #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.exhaust-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255, 87, 34, 0.6) 0%, rgba(255, 145, 0, 0.2) 100%);
+  filter: blur(4px);
+  animation: vent-glow-pulse 1.8s infinite alternate ease-in-out;
+}
+
+@keyframes vent-glow-pulse {
+  0% { opacity: 0.5; filter: blur(3px); }
+  100% { opacity: 1; filter: blur(6px); }
+}
+
+.vent-slots {
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.vent-slot {
+  width: 14px;
+  height: 8px;
+  background: #020617;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 87, 34, 0.4);
+  box-shadow: 0 0 6px rgba(255, 87, 34, 0.5);
+}
+
+/* Rack Body & Server Blades */
+.rack-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: #0b1120;
+}
+
+.server-blade {
+  height: 48px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 10px;
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Handle */
+.blade-handle {
+  width: 5px;
+  height: 28px;
+  border-radius: 3px;
+  background: #475569;
+  border: 1px solid #64748b;
+  flex-shrink: 0;
+}
+
+/* Drive Bays with Activity LEDs */
+.blade-drive-bays {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.drive-bay {
+  width: 22px;
+  height: 28px;
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 3px;
+}
+
+.led {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 4px #10b981;
+}
+
+.led-active { background: #10b981; box-shadow: 0 0 5px #10b981; }
+
+.led-blink {
+  animation: led-flash 1.4s infinite;
+}
+
+.led-blink-fast {
+  animation: led-flash 0.6s infinite;
+}
+
+.led-pulse {
+  animation: led-pulsate 1.8s infinite alternate;
+}
+
+@keyframes led-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+@keyframes led-pulsate {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; box-shadow: 0 0 7px #06b6d4; background: #06b6d4; }
+}
+
+/* Blade Vent Mesh with Heat Bleed */
+.blade-vent-mesh {
+  flex: 1;
+  height: 26px;
+  background: repeating-linear-gradient(
+    90deg,
+    #090d16 0px,
+    #090d16 4px,
+    #1e293b 4px,
+    #1e293b 6px
+  );
+  border-radius: 3px;
+  border: 1px solid #1e293b;
+  position: relative;
+  overflow: hidden;
+}
+
+.heat-bleed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(234, 88, 12, 0.4) 0%, transparent 80%);
+  animation: heat-bleed-anim 2s infinite alternate ease-in-out;
+}
+
+.heat-bleed.intense {
+  background: radial-gradient(circle at center, rgba(255, 61, 0, 0.6) 0%, rgba(255, 145, 0, 0.25) 60%, transparent 90%);
+  animation: heat-bleed-anim 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes heat-bleed-anim {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.95; }
+}
+
+/* Indicator Lights on Right */
+.blade-indicators {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.ind-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.ind-dot.green { background: #10b981; box-shadow: 0 0 5px #10b981; }
+.ind-dot.cyan { background: #06b6d4; box-shadow: 0 0 5px #06b6d4; }
+.ind-dot.orange { background: #ea580c; box-shadow: 0 0 6px #ea580c; }
+.ind-dot.red { background: #ef4444; box-shadow: 0 0 7px #ef4444; }
+
+.ind-dot.blink { animation: led-flash 0.8s infinite; }
+.ind-dot.pulse { animation: led-flash 1.2s infinite; }
+
+/* Bottom Intake Fans */
+.rack-bottom {
+  background: #090d16;
+  padding: 10px 14px 12px;
+  border-top: 2px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.intake-fans {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.fan-grille {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #334155;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.fan-blade {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #475569 60deg,
+    transparent 120deg,
+    #475569 180deg,
+    transparent 240deg,
+    #475569 300deg,
+    transparent 360deg
+  );
+}
+
+.fan-blade.spinning {
+  animation: fan-rotate 1s linear infinite;
+}
+
+.fan-blade.spinning-fast {
+  animation: fan-rotate 0.6s linear infinite;
+}
+
+@keyframes fan-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rack-feet {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.foot {
+  width: 24px;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 2px;
+}
+
+/* Floor Reflection & Shadow */
+.server-floor-reflection {
+  width: 360px;
+  height: 22px;
+  margin-top: -2px;
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.25) 0%, rgba(234, 88, 12, 0.12) 40%, transparent 75%);
+  filter: blur(6px);
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   TABLE CARD & LOGS
+   ========================================================================== */
+.table-card, .log-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.data-table th {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: #f8fafc;
+}
+
+.data-table td {
+  padding: 13px 14px;
+  font-size: 12.5px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-secondary);
+}
+
+.data-table tr:hover td {
+  background: #f8fafc;
+}
+
+.tag-pill {
+  background: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.primary-cell {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.proto-badge {
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cyan-primary);
+}
+
+.text-muted { color: var(--text-muted); }
+.text-bold { font-weight: 700; color: var(--text-primary); }
+
+.action-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.action-icon-btn:hover {
+  background: var(--flame-light);
+  color: var(--flame-primary);
+  border-color: #fed7aa;
+}
+
+/* Log Stream */
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.log-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-radius: var(--radius-md);
+  border: 1px solid #f1f5f9;
+  font-size: 12px;
+}
+
+.log-time {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.log-src {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 11.5px;
+}
+
+.log-msg {
+  flex: 1;
+  color: var(--text-secondary);
+}
+
+.log-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.log-success .log-badge { background: #dcfce7; color: #15803d; }
+.log-info .log-badge { background: #e0f2fe; color: #0369a1; }
+.log-warn .log-badge { background: #fef3c7; color: #b45309; }
+.log-error .log-badge { background: #fee2e2; color: #b91c1c; }

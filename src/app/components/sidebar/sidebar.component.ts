@@ -24,69 +24,42 @@ export class SidebarComponent {
   @Output() toggleCollapse = new EventEmitter<void>();
   @Output() closeMobile = new EventEmitter<void>();
 
-  activeNavId: string = 'dashboard';
-
   navItems: NavItem[] = [
     {
       id: 'dashboard',
-      label: 'Heat Dashboard',
+      label: 'Dashboard',
       icon: 'flame',
       badge: 'LIVE',
       badgeColor: 'flame',
       route: '/dashboard'
     },
     {
-      id: 'zones',
-      label: 'Thermal Zones',
-      icon: 'layers',
-      badge: '4 Active',
-      badgeColor: 'cyan',
-      route: '/dashboard'
-    },
-    {
-      id: 'telemetry',
-      label: 'Sensor Telemetry',
-      icon: 'activity',
-      route: '/dashboard'
-    },
-    {
-      id: 'equipment',
-      label: 'Boilers & Exchangers',
-      icon: 'cpu',
-      route: '/dashboard'
-    },
-    {
-      id: 'energy',
-      label: 'Power & Fuel Yield',
-      icon: 'zap',
-      badge: '96.4%',
+      id: 'data-server',
+      label: 'Data Server',
+      icon: 'server',
+      badge: 'ONLINE',
       badgeColor: 'normal',
-      route: '/dashboard'
+      route: '/data-server'
     },
     {
-      id: 'alarms',
-      label: 'Safety & Alarms',
-      icon: 'alert-triangle',
-      badge: '2 Alert',
-      badgeColor: 'warning',
-      route: '/dashboard'
+      id: 'thermal-storage',
+      label: 'Thermal Storage',
+      icon: 'cylinder',
+      badge: '84%',
+      badgeColor: 'cyan',
+      route: '/thermal-storage'
     },
     {
-      id: 'analytics',
-      label: 'Thermal Reports',
-      icon: 'bar-chart-2',
-      route: '/dashboard'
-    },
-    {
-      id: 'settings',
-      label: 'Plant Settings',
-      icon: 'settings',
-      route: '/dashboard'
+      id: 'clients',
+      label: 'Clients',
+      icon: 'users',
+      badge: '12 Active',
+      badgeColor: 'optimal',
+      route: '/clients'
     }
   ];
 
-  selectNav(item: NavItem): void {
-    this.activeNavId = item.id;
+  onNavClick(): void {
     this.closeMobile.emit();
   }
 

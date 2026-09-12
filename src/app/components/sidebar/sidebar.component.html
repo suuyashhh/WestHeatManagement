@@ -21,17 +21,15 @@
       </div>
     </div>
 
-    <!-- Toggle Collapse / Close button (Left Sidebar: points left to collapse, right to expand) -->
+    <!-- Toggle Collapse / Close button -->
     <button 
       type="button" 
       class="sidebar-toggle-btn" 
       (click)="onToggle()" 
       [title]="isCollapsed ? 'Expand Menu' : 'Collapse Menu'">
-      <!-- When expanded: arrow points left to collapse -->
       <svg *ngIf="!isCollapsed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
-      <!-- When collapsed: arrow points right to expand -->
       <svg *ngIf="isCollapsed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
       </svg>
@@ -57,60 +55,40 @@
       <a 
         *ngFor="let item of navItems" 
         [routerLink]="item.route"
-        (click)="selectNav(item)"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: item.route === '/dashboard'}"
+        (click)="onNavClick()"
         class="nav-link"
-        [class.active]="activeNavId === item.id"
         [title]="item.label">
         
         <!-- Icons -->
         <div class="nav-icon-box">
-          <!-- Flame Icon -->
+          <!-- Flame Icon (Dashboard) -->
           <svg *ngIf="item.icon === 'flame'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"></path>
           </svg>
-          <!-- Layers Icon -->
-          <svg *ngIf="item.icon === 'layers'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
+
+          <!-- Server Icon (Data Server) -->
+          <svg *ngIf="item.icon === 'server'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+            <line x1="6" y1="18" x2="6.01" y2="18"></line>
           </svg>
-          <!-- Activity / Sensor Icon -->
-          <svg *ngIf="item.icon === 'activity'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+
+          <!-- Cylinder / Storage Tank Icon (Thermal Storage) -->
+          <svg *ngIf="item.icon === 'cylinder'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
           </svg>
-          <!-- CPU / Equipment Icon -->
-          <svg *ngIf="item.icon === 'cpu'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-            <rect x="9" y="9" width="6" height="6"></rect>
-            <line x1="9" y1="1" x2="9" y2="4"></line>
-            <line x1="15" y1="1" x2="15" y2="4"></line>
-            <line x1="9" y1="20" x2="9" y2="23"></line>
-            <line x1="15" y1="20" x2="15" y2="23"></line>
-            <line x1="20" y1="9" x2="23" y2="9"></line>
-            <line x1="20" y1="14" x2="23" y2="14"></line>
-            <line x1="1" y1="9" x2="4" y2="9"></line>
-            <line x1="1" y1="14" x2="4" y2="14"></line>
-          </svg>
-          <!-- Zap / Power Icon -->
-          <svg *ngIf="item.icon === 'zap'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
-          <!-- Alert Triangle Icon -->
-          <svg *ngIf="item.icon === 'alert-triangle'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-            <line x1="12" y1="9" x2="12" y2="13"></line>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <!-- Bar Chart Icon -->
-          <svg *ngIf="item.icon === 'bar-chart-2'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="20" x2="18" y2="10"></line>
-            <line x1="12" y1="20" x2="12" y2="4"></line>
-            <line x1="6" y1="20" x2="6" y2="14"></line>
-          </svg>
-          <!-- Settings Icon -->
-          <svg *ngIf="item.icon === 'settings'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+
+          <!-- Users Icon (Clients) -->
+          <svg *ngIf="item.icon === 'users'" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
         </div>
 

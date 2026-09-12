@@ -1,0 +1,189 @@
+<div class="storage-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <div class="pre-badge">
+        <span class="live-pulse flame"></span>
+        <span>THERMAL BATTERY ARRAY</span>
+      </div>
+      <h1 class="page-title">Thermal Energy Storage & Steam Accumulators</h1>
+      <p class="page-sub">Molten salt reservoirs, steam accumulators, phase change cells, and peak shaving dispatch.</p>
+    </div>
+
+    <!-- Mode Selector Controls -->
+    <div class="mode-selector-wrap">
+      <span class="mode-label">STORAGE LOGIC:</span>
+      <div class="mode-pills">
+        <button 
+          class="mode-btn" 
+          [class.active]="globalMode === 'auto'"
+          (click)="setGlobalMode('auto')">
+          Auto SCADA
+        </button>
+        <button 
+          class="mode-btn" 
+          [class.active]="globalMode === 'force_charge'"
+          (click)="setGlobalMode('force_charge')">
+          Force Charge
+        </button>
+        <button 
+          class="mode-btn" 
+          [class.active]="globalMode === 'peak_discharge'"
+          (click)="setGlobalMode('peak_discharge')">
+          Peak Discharge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Metrics Row -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-head">
+        <span class="metric-label">TOTAL STORED ENERGY</span>
+        <div class="icon-chip flame">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-val-row">
+        <span class="metric-val font-mono">345.6</span>
+        <span class="metric-unit">MWh</span>
+      </div>
+      <div class="metric-foot">
+        <span class="foot-badge good">84.2% Capacity</span>
+        <span class="foot-note">Rated: 435 MWh Max</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-head">
+        <span class="metric-label">NET CHARGE RATE</span>
+        <div class="icon-chip normal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-val-row">
+        <span class="metric-val font-mono">+12.8</span>
+        <span class="metric-unit">MWth</span>
+      </div>
+      <div class="metric-foot">
+        <span class="foot-badge good">Surplus Storing</span>
+        <span class="foot-note">Burner output diverted</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-head">
+        <span class="metric-label">AUTONOMY DURATION</span>
+        <div class="icon-chip cyan">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-val-row">
+        <span class="metric-val font-mono">14.8</span>
+        <span class="metric-unit">Hours</span>
+      </div>
+      <div class="metric-foot">
+        <span class="foot-badge good">At 24 MW Demand</span>
+        <span class="foot-note">Standby reserve locked</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-head">
+        <span class="metric-label">INSULATION EFFICIENCY</span>
+        <div class="icon-chip purple">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="metric-val-row">
+        <span class="metric-val font-mono">&lt; 0.38</span>
+        <span class="metric-unit">%/24h</span>
+      </div>
+      <div class="metric-foot">
+        <span class="foot-badge good">Vacuum Jacket</span>
+        <span class="foot-note">Loss: 1.3 MWh / day</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storage Tanks Grid -->
+  <div class="section-container">
+    <div class="card-head-row">
+      <div>
+        <h2 class="section-title">Storage Vessel Inventory & Charging Dynamics</h2>
+        <p class="section-subtitle">Real-time tank charge status, core medium temperatures, and transfer valves</p>
+      </div>
+      <span class="badge badge-flame">4 Tanks Online</span>
+    </div>
+
+    <div class="tanks-grid">
+      <div *ngFor="let tank of tanks" class="tank-card">
+        <div class="tank-card-top">
+          <div>
+            <span class="tank-id font-mono">{{ tank.id }}</span>
+            <h3 class="tank-name">{{ tank.name }}</h3>
+            <span class="tank-type">{{ tank.type }}</span>
+          </div>
+
+          <span 
+            class="badge" 
+            [ngClass]="tank.mode === 'charging' ? 'badge-normal' : (tank.mode === 'discharging' ? 'badge-warning' : 'badge-cyan')">
+            {{ tank.mode | uppercase }}
+          </span>
+        </div>
+
+        <!-- Level Visual Bar -->
+        <div class="level-visual-block">
+          <div class="level-readout">
+            <span class="soc-pct font-mono">{{ tank.socPercent }}%</span>
+            <span class="soc-mwh font-mono">{{ tank.currentMWh }} / {{ tank.capacityMWh }} MWh</span>
+          </div>
+
+          <div class="tank-level-track">
+            <div 
+              class="tank-level-fill" 
+              [style.width.%]="tank.socPercent"
+              [ngClass]="tank.mode">
+            </div>
+          </div>
+        </div>
+
+        <!-- Sensor Specs -->
+        <div class="tank-specs-row">
+          <div class="spec-col">
+            <span class="spec-lbl">Core Temp</span>
+            <span class="spec-val font-mono">{{ tank.temperature }}°C</span>
+          </div>
+          <div class="spec-col">
+            <span class="spec-lbl">Pressure</span>
+            <span class="spec-val font-mono">{{ tank.pressure }}</span>
+          </div>
+          <div class="spec-col">
+            <span class="spec-lbl">Transfer Rate</span>
+            <span class="spec-val font-mono" [style.color]="tank.mode === 'charging' ? 'var(--status-normal)' : (tank.mode === 'discharging' ? 'var(--status-warning)' : 'var(--text-muted)')">
+              {{ tank.flowRate }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="tank-actions">
+          <button class="tank-mode-btn" (click)="toggleTankMode(tank)">
+            Switch Mode: {{ tank.mode === 'charging' ? 'Discharge' : (tank.mode === 'discharging' ? 'Standby' : 'Charge') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

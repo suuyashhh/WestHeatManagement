@@ -1,0 +1,235 @@
+<div class="data-server-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-info">
+      <div class="pre-badge">
+        <span class="live-pulse normal"></span>
+        <span>GATEWAY INFRASTRUCTURE</span>
+      </div>
+      <h1 class="page-title">Industrial Data Server & SCADA Gateways</h1>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="pingCluster()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <span>Ping All Nodes</span>
+      </button>
+      <button class="btn btn-primary">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Register New Endpoint</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- BIG ANIMATED DATA SERVER SHOWCASE (HEAT COMING OUT, NO TEXTS/VALUES) -->
+  <div class="animated-server-stage">
+    <div class="stage-ambient-glow"></div>
+
+    <!-- Animated Server Container -->
+    <div class="server-rack-system">
+
+      <!-- RISING HEAT WAVES & THERMAL PLUMES (ANIMATED) -->
+      <div class="heat-exhaust-plumes">
+        <!-- Floating heat wave bands -->
+        <div class="heat-wave wave-1"></div>
+        <div class="heat-wave wave-2"></div>
+        <div class="heat-wave wave-3"></div>
+        <div class="heat-wave wave-4"></div>
+        <div class="heat-wave wave-5"></div>
+
+        <!-- SVG Heat Stream Flow Lines -->
+        <svg class="heat-stream-svg" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="stream-line line-1" d="M150 200 C 130 150, 170 100, 140 20" stroke="url(#heatGrad1)"
+            stroke-width="4" stroke-linecap="round" />
+          <path class="stream-line line-2" d="M100 200 C 80 140, 120 90, 90 10" stroke="url(#heatGrad2)"
+            stroke-width="3.5" stroke-linecap="round" />
+          <path class="stream-line line-3" d="M200 200 C 220 145, 180 85, 210 15" stroke="url(#heatGrad1)"
+            stroke-width="3.5" stroke-linecap="round" />
+          <path class="stream-line line-4" d="M60 200 C 40 135, 80 80, 50 30" stroke="url(#heatGrad3)" stroke-width="3"
+            stroke-linecap="round" />
+          <path class="stream-line line-5" d="M240 200 C 260 140, 220 75, 250 25" stroke="url(#heatGrad3)"
+            stroke-width="3" stroke-linecap="round" />
+
+          <defs>
+            <linearGradient id="heatGrad1" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.9" />
+              <stop offset="50%" stop-color="#ff9100" stop-opacity="0.7" />
+              <stop offset="100%" stop-color="#ffab00" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient id="heatGrad2" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#ff1744" stop-opacity="0.95" />
+              <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6" />
+              <stop offset="100%" stop-color="#ffea00" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient id="heatGrad3" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.8" />
+              <stop offset="70%" stop-color="#ffa000" stop-opacity="0.4" />
+              <stop offset="100%" stop-color="#fff8e1" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Rising Thermal Particles / Embers -->
+        <span class="heat-ember ember-1"></span>
+        <span class="heat-ember ember-2"></span>
+        <span class="heat-ember ember-3"></span>
+        <span class="heat-ember ember-4"></span>
+        <span class="heat-ember ember-5"></span>
+        <span class="heat-ember ember-6"></span>
+        <span class="heat-ember ember-7"></span>
+        <span class="heat-ember ember-8"></span>
+      </div>
+
+      <!-- MAIN SERVER RACK HARDWARE CHASSIS -->
+      <div class="rack-cabinet">
+        <!-- Top Exhaust Ventilation Grille with Glowing Heat Aura -->
+        <div class="rack-top-vent">
+          <div class="exhaust-glow"></div>
+          <div class="vent-slots">
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+            <span class="vent-slot"></span>
+          </div>
+        </div>
+
+        <!-- Server Blade Units -->
+        <div class="rack-body">
+          <!-- Server Blade 1 -->
+          <div class="server-blade heat-core-1">
+            <div class="blade-handle"></div>
+            <div class="blade-drive-bays">
+              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-pulse"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+            </div>
+            <div class="blade-vent-mesh">
+              <div class="heat-bleed"></div>
+            </div>
+            <div class="blade-indicators">
+              <span class="ind-dot green"></span>
+              <span class="ind-dot cyan"></span>
+              <span class="ind-dot orange blink"></span>
+            </div>
+          </div>
+
+          <!-- Server Blade 2 -->
+          <div class="server-blade heat-core-2">
+            <div class="blade-handle"></div>
+            <div class="blade-drive-bays">
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-blink"></span></div>
+              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+            </div>
+            <div class="blade-vent-mesh">
+              <div class="heat-bleed intense"></div>
+            </div>
+            <div class="blade-indicators">
+              <span class="ind-dot green"></span>
+              <span class="ind-dot orange blink"></span>
+              <span class="ind-dot red pulse"></span>
+            </div>
+          </div>
+
+          <!-- Server Blade 3 (High Thermal Activity) -->
+          <div class="server-blade heat-core-3">
+            <div class="blade-handle"></div>
+            <div class="blade-drive-bays">
+              <div class="drive-bay"><span class="led led-blink"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
+            </div>
+            <div class="blade-vent-mesh">
+              <div class="heat-bleed intense"></div>
+            </div>
+            <div class="blade-indicators">
+              <span class="ind-dot green"></span>
+              <span class="ind-dot cyan"></span>
+              <span class="ind-dot orange"></span>
+            </div>
+          </div>
+
+          <!-- Server Blade 4 -->
+          <div class="server-blade heat-core-4">
+            <div class="blade-handle"></div>
+            <div class="blade-drive-bays">
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-pulse"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-blink"></span></div>
+            </div>
+            <div class="blade-vent-mesh">
+              <div class="heat-bleed"></div>
+            </div>
+            <div class="blade-indicators">
+              <span class="ind-dot green"></span>
+              <span class="ind-dot green"></span>
+              <span class="ind-dot cyan blink"></span>
+            </div>
+          </div>
+
+          <!-- Server Blade 5 -->
+          <div class="server-blade heat-core-5">
+            <div class="blade-handle"></div>
+            <div class="blade-drive-bays">
+              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+              <div class="drive-bay"><span class="led led-blink"></span></div>
+              <div class="drive-bay"><span class="led led-active"></span></div>
+            </div>
+            <div class="blade-vent-mesh">
+              <div class="heat-bleed"></div>
+            </div>
+            <div class="blade-indicators">
+              <span class="ind-dot green"></span>
+              <span class="ind-dot cyan"></span>
+              <span class="ind-dot orange blink"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Base Intake Grille & Stand -->
+        <div class="rack-bottom">
+          <div class="intake-fans">
+            <div class="fan-grille">
+              <div class="fan-blade spinning"></div>
+            </div>
+            <div class="fan-grille">
+              <div class="fan-blade spinning-fast"></div>
+            </div>
+            <div class="fan-grille">
+              <div class="fan-blade spinning"></div>
+            </div>
+          </div>
+          <div class="rack-feet">
+            <span class="foot left"></span>
+            <span class="foot right"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Floor Reflection & Shadow -->
+      <div class="server-floor-reflection"></div>
+    </div>
+  </div>
+
+</div>
