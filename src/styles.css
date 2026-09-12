@@ -1,73 +1,55 @@
 /* ==========================================================================
-   WestHeat Management - Professional Light Mode Design System
+   Waste Heat Management System - Exact UI Design System
    ========================================================================== */
 
 :root {
-  /* Color Palette - Clean Light Mode Backgrounds */
-  --bg-base: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-surface-elevated: #f1f5f9;
-  --bg-surface-hover: #e2e8f0;
+  /* Color Palette - Dark Navy Theme from Reference UI */
+  --bg-base: #0a1120;
+  --bg-topbar: #0d1527;
+  --bg-sidebar: #0b1325;
+  --bg-card: #131f37;
+  --bg-card-elevated: #162440;
+  --bg-card-hover: #1a2b4d;
   
-  /* Borders & Shadows */
-  --border-subtle: #e2e8f0;
-  --border-medium: #cbd5e1;
-  --border-active: #ea580c;
-  --border-cyan: #0284c7;
+  /* Borders */
+  --border-subtle: #1c2c49;
+  --border-medium: #24385d;
+  --border-highlight: rgba(37, 99, 235, 0.4);
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 25px -5px rgba(15, 23, 42, 0.04);
-
-  /* Brand Accents - Thermal Industrial Light */
-  --flame-primary: #ea580c;
-  --flame-secondary: #f97316;
-  --flame-light: #fff7ed;
-  --flame-dark: #c2410c;
-  --flame-gradient: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
-  --flame-glow: 0 4px 14px rgba(234, 88, 12, 0.28);
-  --flame-glow-sm: 0 2px 8px rgba(234, 88, 12, 0.2);
-
-  /* Status Accents (Light Mode High Contrast) */
-  --cyan-primary: #0284c7;
-  --cyan-bg: #f0f9ff;
-  --status-normal: #059669;
-  --status-normal-bg: #ecfdf5;
-  --status-warning: #d97706;
-  --status-warning-bg: #fffbeb;
-  --status-danger: #dc2626;
-  --status-danger-bg: #fef2f2;
-  --status-info: #2563eb;
-  --status-info-bg: #eff6ff;
+  /* Accents from Reference */
+  --accent-blue: #2563eb;
+  --accent-blue-active: #1d4ed8;
+  --accent-orange: #f97316;
+  --accent-flame: #ef4444;
+  --accent-green: #10b981;
+  --accent-cyan: #06b6d4;
+  --accent-sky: #38bdf8;
+  --accent-amber: #f59e0b;
 
   /* Typography Colors */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --text-light: #94a3b8;
-  --text-inverse: #ffffff;
+  --text-light: #cbd5e1;
 
-  /* Typography Fonts */
+  /* Fonts */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Sizing & Dimensions */
-  --header-height: 70px;
-  --sidebar-width: 290px;
-  --sidebar-collapsed-width: 76px;
+  /* Dimensions */
+  --header-height: 64px;
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 72px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-full: 9999px;
 
-  /* Transition Speeds */
+  /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset & Box-Sizing */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -87,138 +69,25 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ambient Radial Mesh Background - Soft Clean Light */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 90% 10%, rgba(234, 88, 12, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 10% 90%, rgba(2, 132, 199, 0.03) 0%, transparent 40%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Custom Clean Scrollbar */
+/* Custom Clean Dark Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #090e1a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #1e2c49;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #2563eb;
 }
 
-/* Global Utility Badges */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 9px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border-radius: var(--radius-full);
-}
-
-.badge-normal {
-  background: var(--status-normal-bg);
-  color: var(--status-normal);
-  border: 1px solid #a7f3d0;
-}
-
-.badge-optimal {
-  background: #f0fdfa;
-  color: #0d9488;
-  border: 1px solid #99f6e4;
-}
-
-.badge-warning {
-  background: var(--status-warning-bg);
-  color: var(--status-warning);
-  border: 1px solid #fde68a;
-}
-
-.badge-danger {
-  background: var(--status-danger-bg);
-  color: var(--status-danger);
-  border: 1px solid #fecaca;
-}
-
-.badge-cyan {
-  background: var(--cyan-bg);
-  color: var(--cyan-primary);
-  border: 1px solid #bae6fd;
-}
-
-.badge-flame {
-  background: var(--flame-light);
-  color: var(--flame-primary);
-  border: 1px solid #fed7aa;
-}
-
-/* Pulsing Live Dot */
-.live-pulse {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-}
-
-.live-pulse.normal {
-  background-color: var(--status-normal);
-  box-shadow: 0 0 6px rgba(5, 150, 105, 0.4);
-}
-
-.live-pulse.normal::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--status-normal);
-  animation: pulse-ring 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.live-pulse.flame {
-  background-color: var(--flame-primary);
-  box-shadow: 0 0 6px rgba(234, 88, 12, 0.5);
-}
-
-.live-pulse.flame::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--flame-primary);
-  animation: pulse-ring 1.8s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(0.7); opacity: 0.8; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-
-/* Monospace Telemetry Digits */
 .font-mono {
   font-family: var(--font-mono);
 }

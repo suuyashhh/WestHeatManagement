@@ -1,189 +1,257 @@
 <div class="storage-page">
-  <!-- Page Header -->
-  <div class="page-header">
-    <div class="header-info">
-      <div class="pre-badge">
-        <span class="live-pulse flame"></span>
-        <span>THERMAL BATTERY ARRAY</span>
-      </div>
-      <h1 class="page-title">Thermal Energy Storage & Steam Accumulators</h1>
-      <p class="page-sub">Molten salt reservoirs, steam accumulators, phase change cells, and peak shaving dispatch.</p>
-    </div>
+  <!-- PURE ANIMATED THERMAL STORAGE STAGE (4 CONTAINERS: 2 FILLING ENERGY, 2 EMPTY) -->
+  <div class="animated-storage-stage">
+    
+    <!-- Ambient Atmospheric Thermal Radiation (Left 2 Tanks Glowing) -->
+    <div class="active-tanks-glow"></div>
 
-    <!-- Mode Selector Controls -->
-    <div class="mode-selector-wrap">
-      <span class="mode-label">STORAGE LOGIC:</span>
-      <div class="mode-pills">
-        <button 
-          class="mode-btn" 
-          [class.active]="globalMode === 'auto'"
-          (click)="setGlobalMode('auto')">
-          Auto SCADA
-        </button>
-        <button 
-          class="mode-btn" 
-          [class.active]="globalMode === 'force_charge'"
-          (click)="setGlobalMode('force_charge')">
-          Force Charge
-        </button>
-        <button 
-          class="mode-btn" 
-          [class.active]="globalMode === 'peak_discharge'"
-          (click)="setGlobalMode('peak_discharge')">
-          Peak Discharge
-        </button>
-      </div>
-    </div>
-  </div>
+    <!-- Complete 4-Tank Storage Complex -->
+    <div class="storage-complex-layout">
 
-  <!-- Key Metrics Row -->
-  <div class="metrics-grid">
-    <div class="metric-card">
-      <div class="metric-head">
-        <span class="metric-label">TOTAL STORED ENERGY</span>
-        <div class="icon-chip flame">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"></path>
-          </svg>
+      <!-- ============================================================
+           OVERHEAD THERMAL SUPPLY MANIFOLD & PIPELINE SYSTEM
+           ============================================================ -->
+      <div class="overhead-manifold-system">
+        <!-- Main Horizontal Pipe Header -->
+        <div class="main-header-pipe">
+          <div class="energy-flow-pulse active-flow"></div>
         </div>
-      </div>
-      <div class="metric-val-row">
-        <span class="metric-val font-mono">345.6</span>
-        <span class="metric-unit">MWh</span>
-      </div>
-      <div class="metric-foot">
-        <span class="foot-badge good">84.2% Capacity</span>
-        <span class="foot-note">Rated: 435 MWh Max</span>
-      </div>
-    </div>
 
-    <div class="metric-card">
-      <div class="metric-head">
-        <span class="metric-label">NET CHARGE RATE</span>
-        <div class="icon-chip normal">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-          </svg>
-        </div>
-      </div>
-      <div class="metric-val-row">
-        <span class="metric-val font-mono">+12.8</span>
-        <span class="metric-unit">MWth</span>
-      </div>
-      <div class="metric-foot">
-        <span class="foot-badge good">Surplus Storing</span>
-        <span class="foot-note">Burner output diverted</span>
-      </div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-head">
-        <span class="metric-label">AUTONOMY DURATION</span>
-        <div class="icon-chip cyan">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-        </div>
-      </div>
-      <div class="metric-val-row">
-        <span class="metric-val font-mono">14.8</span>
-        <span class="metric-unit">Hours</span>
-      </div>
-      <div class="metric-foot">
-        <span class="foot-badge good">At 24 MW Demand</span>
-        <span class="foot-note">Standby reserve locked</span>
-      </div>
-    </div>
-
-    <div class="metric-card">
-      <div class="metric-head">
-        <span class="metric-label">INSULATION EFFICIENCY</span>
-        <div class="icon-chip purple">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="metric-val-row">
-        <span class="metric-val font-mono">&lt; 0.38</span>
-        <span class="metric-unit">%/24h</span>
-      </div>
-      <div class="metric-foot">
-        <span class="foot-badge good">Vacuum Jacket</span>
-        <span class="foot-note">Loss: 1.3 MWh / day</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Storage Tanks Grid -->
-  <div class="section-container">
-    <div class="card-head-row">
-      <div>
-        <h2 class="section-title">Storage Vessel Inventory & Charging Dynamics</h2>
-        <p class="section-subtitle">Real-time tank charge status, core medium temperatures, and transfer valves</p>
-      </div>
-      <span class="badge badge-flame">4 Tanks Online</span>
-    </div>
-
-    <div class="tanks-grid">
-      <div *ngFor="let tank of tanks" class="tank-card">
-        <div class="tank-card-top">
-          <div>
-            <span class="tank-id font-mono">{{ tank.id }}</span>
-            <h3 class="tank-name">{{ tank.name }}</h3>
-            <span class="tank-type">{{ tank.type }}</span>
+        <!-- 4 Downward Feeder Inlets into Each Container -->
+        <div class="pipe-feeders-row">
+          <!-- Feeder 1: Charging into Tank 1 -->
+          <div class="feeder-branch filling">
+            <div class="branch-pipe">
+              <span class="pulse-jet"></span>
+            </div>
+            <div class="flow-valve active"></div>
           </div>
 
-          <span 
-            class="badge" 
-            [ngClass]="tank.mode === 'charging' ? 'badge-normal' : (tank.mode === 'discharging' ? 'badge-warning' : 'badge-cyan')">
-            {{ tank.mode | uppercase }}
-          </span>
-        </div>
-
-        <!-- Level Visual Bar -->
-        <div class="level-visual-block">
-          <div class="level-readout">
-            <span class="soc-pct font-mono">{{ tank.socPercent }}%</span>
-            <span class="soc-mwh font-mono">{{ tank.currentMWh }} / {{ tank.capacityMWh }} MWh</span>
+          <!-- Feeder 2: Charging into Tank 2 -->
+          <div class="feeder-branch filling">
+            <div class="branch-pipe">
+              <span class="pulse-jet alt"></span>
+            </div>
+            <div class="flow-valve active"></div>
           </div>
 
-          <div class="tank-level-track">
-            <div 
-              class="tank-level-fill" 
-              [style.width.%]="tank.socPercent"
-              [ngClass]="tank.mode">
+          <!-- Feeder 3: Closed (Empty Tank 3) -->
+          <div class="feeder-branch empty">
+            <div class="branch-pipe"></div>
+            <div class="flow-valve closed"></div>
+          </div>
+
+          <!-- Feeder 4: Closed (Empty Tank 4) -->
+          <div class="feeder-branch empty">
+            <div class="branch-pipe"></div>
+            <div class="flow-valve closed"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           4 THERMAL STORAGE CONTAINERS (2 FILLING, 2 EMPTY)
+           ============================================================ -->
+      <div class="storage-containers-row">
+
+        <!-- ------------------------------------------------------------
+             CONTAINER 1: ACTIVELY FILLING WITH THERMAL ENERGY
+             ------------------------------------------------------------ -->
+        <div class="thermal-container tank-filling tank-1">
+          <!-- Top Dome with Pressure Cap & Inlet Flange -->
+          <div class="container-dome top">
+            <div class="inlet-flange-active">
+              <span class="flange-heat-glow"></span>
+            </div>
+            <div class="pressure-relief-valve"></div>
+          </div>
+
+          <!-- Main Cylindrical Vessel Body -->
+          <div class="vessel-cylindrical-body">
+            <!-- Steel Outer Reinforcement Bands -->
+            <div class="vessel-shell-band b-top"></div>
+            <div class="vessel-shell-band b-mid"></div>
+            <div class="vessel-shell-band b-bot"></div>
+
+            <!-- Transparent Viewing Core: Actively Surging Molten Energy -->
+            <div class="vessel-liquid-chamber">
+              <!-- Molten Influx Jet streaming from top -->
+              <div class="influx-energy-stream"></div>
+
+              <!-- Animated Liquid Energy Bath -->
+              <div class="molten-liquid-volume level-filling-1">
+                <!-- Liquid Surface Wave (Animated SVG) -->
+                <svg class="liquid-surface-wave" viewBox="0 0 160 24" preserveAspectRatio="none">
+                  <path class="wave-path-1" d="M0 12 Q 40 0, 80 12 T 160 12 V 24 H 0 Z" fill="#ff7a00"/>
+                  <path class="wave-path-2" d="M0 14 Q 40 24, 80 14 T 160 14 V 24 H 0 Z" fill="#ff3d00" opacity="0.8"/>
+                </svg>
+                
+                <!-- Molten Core Body with Rising Bubbles & Embers -->
+                <div class="molten-core-mass">
+                  <span class="energy-bubble eb-1"></span>
+                  <span class="energy-bubble eb-2"></span>
+                  <span class="energy-bubble eb-3"></span>
+                  <span class="energy-bubble eb-4"></span>
+                  <span class="energy-bubble eb-5"></span>
+                </div>
+              </div>
+
+              <!-- Internal Thermal Radiation Shimmer -->
+              <div class="chamber-thermal-shimmer"></div>
+            </div>
+
+            <!-- Vertical Level Glass Column -->
+            <div class="sight-glass-column">
+              <div class="sight-glass-fill fill-1"></div>
             </div>
           </div>
-        </div>
 
-        <!-- Sensor Specs -->
-        <div class="tank-specs-row">
-          <div class="spec-col">
-            <span class="spec-lbl">Core Temp</span>
-            <span class="spec-val font-mono">{{ tank.temperature }}°C</span>
-          </div>
-          <div class="spec-col">
-            <span class="spec-lbl">Pressure</span>
-            <span class="spec-val font-mono">{{ tank.pressure }}</span>
-          </div>
-          <div class="spec-col">
-            <span class="spec-lbl">Transfer Rate</span>
-            <span class="spec-val font-mono" [style.color]="tank.mode === 'charging' ? 'var(--status-normal)' : (tank.mode === 'discharging' ? 'var(--status-warning)' : 'var(--text-muted)')">
-              {{ tank.flowRate }}
-            </span>
+          <!-- Bottom Domed Base & Industrial Saddle Legs -->
+          <div class="container-dome bottom"></div>
+          <div class="container-support-legs">
+            <span class="support-leg left"></span>
+            <span class="drain-valve active"></span>
+            <span class="support-leg right"></span>
           </div>
         </div>
 
-        <!-- Action Bar -->
-        <div class="tank-actions">
-          <button class="tank-mode-btn" (click)="toggleTankMode(tank)">
-            Switch Mode: {{ tank.mode === 'charging' ? 'Discharge' : (tank.mode === 'discharging' ? 'Standby' : 'Charge') }}
-          </button>
+        <!-- ------------------------------------------------------------
+             CONTAINER 2: ACTIVELY FILLING WITH THERMAL ENERGY
+             ------------------------------------------------------------ -->
+        <div class="thermal-container tank-filling tank-2">
+          <!-- Top Dome with Pressure Cap & Inlet Flange -->
+          <div class="container-dome top">
+            <div class="inlet-flange-active">
+              <span class="flange-heat-glow alt"></span>
+            </div>
+            <div class="pressure-relief-valve"></div>
+          </div>
+
+          <!-- Main Cylindrical Vessel Body -->
+          <div class="vessel-cylindrical-body">
+            <div class="vessel-shell-band b-top"></div>
+            <div class="vessel-shell-band b-mid"></div>
+            <div class="vessel-shell-band b-bot"></div>
+
+            <!-- Transparent Viewing Core: Actively Surging Molten Energy -->
+            <div class="vessel-liquid-chamber">
+              <div class="influx-energy-stream alt-stream"></div>
+
+              <div class="molten-liquid-volume level-filling-2">
+                <svg class="liquid-surface-wave" viewBox="0 0 160 24" preserveAspectRatio="none">
+                  <path class="wave-path-1" d="M0 12 Q 40 22, 80 12 T 160 12 V 24 H 0 Z" fill="#ff9100"/>
+                  <path class="wave-path-2" d="M0 14 Q 40 4, 80 14 T 160 14 V 24 H 0 Z" fill="#ff5722" opacity="0.85"/>
+                </svg>
+
+                <div class="molten-core-mass">
+                  <span class="energy-bubble eb-2"></span>
+                  <span class="energy-bubble eb-3"></span>
+                  <span class="energy-bubble eb-5"></span>
+                  <span class="energy-bubble eb-1"></span>
+                  <span class="energy-bubble eb-4"></span>
+                </div>
+              </div>
+
+              <div class="chamber-thermal-shimmer"></div>
+            </div>
+
+            <div class="sight-glass-column">
+              <div class="sight-glass-fill fill-2"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Domed Base & Industrial Saddle Legs -->
+          <div class="container-dome bottom"></div>
+          <div class="container-support-legs">
+            <span class="support-leg left"></span>
+            <span class="drain-valve active"></span>
+            <span class="support-leg right"></span>
+          </div>
         </div>
+
+        <!-- ------------------------------------------------------------
+             CONTAINER 3: EMPTY (COLD / NOT SAVED FROM THIS TIME)
+             ------------------------------------------------------------ -->
+        <div class="thermal-container tank-empty tank-3">
+          <!-- Top Dome with Pressure Cap (Cold) -->
+          <div class="container-dome top">
+            <div class="inlet-flange-cold"></div>
+            <div class="pressure-relief-valve cold"></div>
+          </div>
+
+          <!-- Main Cylindrical Vessel Body (Hollow / Empty Steel) -->
+          <div class="vessel-cylindrical-body empty-body">
+            <div class="vessel-shell-band b-top"></div>
+            <div class="vessel-shell-band b-mid"></div>
+            <div class="vessel-shell-band b-bot"></div>
+
+            <!-- Transparent Viewing Core: Empty Cold Metal Chamber -->
+            <div class="vessel-liquid-chamber empty-chamber">
+              <div class="hollow-depth-shadow"></div>
+              <div class="empty-base-plate"></div>
+            </div>
+
+            <div class="sight-glass-column">
+              <div class="sight-glass-fill empty"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Domed Base & Support Legs -->
+          <div class="container-dome bottom"></div>
+          <div class="container-support-legs">
+            <span class="support-leg left"></span>
+            <span class="drain-valve cold"></span>
+            <span class="support-leg right"></span>
+          </div>
+        </div>
+
+        <!-- ------------------------------------------------------------
+             CONTAINER 4: EMPTY (COLD / NOT SAVED FROM THIS TIME)
+             ------------------------------------------------------------ -->
+        <div class="thermal-container tank-empty tank-4">
+          <!-- Top Dome with Pressure Cap (Cold) -->
+          <div class="container-dome top">
+            <div class="inlet-flange-cold"></div>
+            <div class="pressure-relief-valve cold"></div>
+          </div>
+
+          <!-- Main Cylindrical Vessel Body (Hollow / Empty Steel) -->
+          <div class="vessel-cylindrical-body empty-body">
+            <div class="vessel-shell-band b-top"></div>
+            <div class="vessel-shell-band b-mid"></div>
+            <div class="vessel-shell-band b-bot"></div>
+
+            <!-- Transparent Viewing Core: Empty Cold Metal Chamber -->
+            <div class="vessel-liquid-chamber empty-chamber">
+              <div class="hollow-depth-shadow"></div>
+              <div class="empty-base-plate"></div>
+            </div>
+
+            <div class="sight-glass-column">
+              <div class="sight-glass-fill empty"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Domed Base & Support Legs -->
+          <div class="container-dome bottom"></div>
+          <div class="container-support-legs">
+            <span class="support-leg left"></span>
+            <span class="drain-valve cold"></span>
+            <span class="support-leg right"></span>
+          </div>
+        </div>
+
       </div>
+
+      <!-- Ground Shadows & Thermal Reflections -->
+      <div class="ground-shadows-row">
+        <div class="tank-shadow-slot hot-shadow"></div>
+        <div class="tank-shadow-slot hot-shadow"></div>
+        <div class="tank-shadow-slot cold-shadow"></div>
+        <div class="tank-shadow-slot cold-shadow"></div>
+      </div>
+
     </div>
+
   </div>
 </div>

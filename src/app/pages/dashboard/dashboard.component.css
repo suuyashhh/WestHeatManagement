@@ -1,637 +1,903 @@
-/* Dashboard Page Styles - Professional Light Mode */
-.dashboard-page {
+/* ==========================================================================
+   Dashboard Component - Waste Heat Management System Dark Navy UI
+   ========================================================================== */
+
+.dashboard-page-container {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  max-width: 1600px;
+  gap: 14px;
+  width: 100%;
+  max-width: 1480px;
   margin: 0 auto;
+  color: #ffffff;
 }
 
-/* Header */
-.dashboard-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.header-pre-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--flame-primary);
-  margin-bottom: 4px;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-
-.page-subtitle {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Button Styles */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 18px;
-  font-size: 13px;
-  font-weight: 700;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  border: none;
-  text-decoration: none;
-}
-
-.btn-primary {
-  background: var(--flame-gradient);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
-}
-
-.btn-primary:hover {
-  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.35);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background: #ffffff;
-  color: var(--text-primary);
-  border: 1px solid var(--border-medium);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-secondary:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
-  transform: translateY(-1px);
-}
-
-/* Metrics Grid */
-.metrics-grid {
+/* ==========================================================================
+   TOP ROW: 5 KPI METRIC CARDS
+   ========================================================================== */
+.kpi-metrics-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-}
-
-.metric-card {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
-  position: relative;
-  overflow: hidden;
-  transition: all var(--transition-normal);
-  box-shadow: var(--shadow-card);
 }
 
-.metric-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--border-medium);
-  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08);
-}
-
-.metric-card.flame-border:hover {
-  border-color: #fdba74;
-}
-
-.metric-card.cyan-border:hover {
-  border-color: #7dd3fc;
-}
-
-.metric-header {
+.kpi-card {
+  background: #111d33;
+  border: 1px solid #1a2b49;
+  border-radius: 12px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.metric-title {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
+.kpi-card:hover {
+  border-color: #2a4373;
+  transform: translateY(-2px);
 }
 
-.metric-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
+.kpi-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.metric-icon-box.flame {
-  background: #fff7ed;
-  color: var(--flame-primary);
+.kpi-icon-box.red-gradient {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.15) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
 }
 
-.metric-icon-box.cyan {
-  background: var(--cyan-bg);
-  color: var(--cyan-primary);
+.kpi-icon-box.orange-gradient {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.25) 0%, rgba(234, 88, 12, 0.15) 100%);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  color: #fb923c;
 }
 
-.metric-icon-box.normal {
-  background: var(--status-normal-bg);
-  color: var(--status-normal);
+.kpi-icon-box.blue-gradient {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(3, 105, 161, 0.15) 100%);
+  border: 1px solid rgba(2, 132, 199, 0.35);
+  color: #38bdf8;
 }
 
-.metric-icon-box.purple {
-  background: #f5f3ff;
-  color: #7c3aed;
+.kpi-icon-box.green-gradient {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.15) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
 }
 
-.metric-value-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-}
-
-.metric-number {
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.metric-unit {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.metric-footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
-}
-
-.metric-trend {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-weight: 800;
-}
-
-.metric-trend.up {
-  color: var(--flame-primary);
-}
-
-.metric-trend.normal {
-  color: var(--status-normal);
-}
-
-.metric-trend.steady {
-  color: var(--cyan-primary);
-}
-
-.metric-baseline {
-  color: var(--text-muted);
-}
-
-/* Section Header */
-.section-container {
+.kpi-details {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 2px;
+  overflow: hidden;
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
+.kpi-label {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.section-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.section-title {
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--text-primary);
+.kpi-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
-.section-subtitle {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 2px;
-}
-
-.section-hint {
-  font-size: 11.5px;
-  color: var(--text-muted);
-}
-
-/* Zones Grid */
-.zones-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 18px;
-}
-
-.zone-card {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition: all var(--transition-normal);
-  box-shadow: var(--shadow-card);
-}
-
-.zone-card:hover {
-  border-color: var(--border-medium);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px -4px rgba(15, 23, 42, 0.08);
-}
-
-.zone-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.zone-tag {
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--flame-primary);
-  background: var(--flame-light);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.zone-name {
-  font-size: 14.5px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-top: 4px;
-}
-
-.zone-loc {
+.kpi-sub {
   font-size: 11px;
-  color: var(--text-muted);
+  color: #64748b;
+  white-space: nowrap;
 }
 
-.zone-temp-block {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* Card 5: Circular Gauge */
+.gauge-kpi-card {
+  gap: 12px;
 }
 
-.temp-readout {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+.gauge-wrapper {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
 }
 
-.temp-val {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.temp-target {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.heat-bar-track {
+.donut-svg {
   width: 100%;
-  height: 7px;
-  background: #f1f5f9;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.donut-bg {
+  fill: none;
+  stroke: #162a4a;
+  stroke-width: 5.5;
+}
+
+.donut-fill {
+  fill: none;
+  stroke: #10b981;
+  stroke-width: 5.5;
+  stroke-linecap: round;
+}
+
+.gauge-center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.kpi-title-gauge {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ==========================================
+   CENTER HERO: SCADA VISUALIZATION CARD
+   ========================================== */
+.scada-hero-card {
+  background: #0d172c;
+  border: 1px solid #1a2b49;
+  border-radius: 14px;
+  padding: 16px 20px 20px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.scada-titles-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 10px;
+}
+
+.title-left {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  width: 160px;
+  text-align: center;
+}
+
+.title-center {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  flex: 1;
+  text-align: center;
+  margin-left: 20px;
+}
+
+.scada-stage {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  min-height: 260px;
+  gap: 0;
+}
+
+/* 3D Isometric Server Rack Cabinet */
+.server-rack-isometric {
+  width: 155px;
+  height: 225px;
+  position: relative;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+.isometric-side {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 215px;
+  background: linear-gradient(180deg, #121c2e 0%, #0a111e 100%);
+  border: 1.5px solid #1e3152;
+  border-right: none;
+  transform: skewY(-22deg);
+  transform-origin: top right;
+  border-radius: 4px 0 0 4px;
+}
+
+.isometric-top {
+  position: absolute;
+  top: -13px;
+  left: 32px;
+  width: 123px;
+  height: 14px;
+  background: #1b2a45;
+  border: 1.5px solid #283e65;
+  transform: skewX(-45deg);
+  transform-origin: bottom left;
+  border-radius: 4px 4px 0 0;
+}
+
+.isometric-front {
+  position: absolute;
+  top: 0;
+  left: 32px;
+  width: 123px;
+  height: 215px;
+  background: #080e1a;
+  border: 2px solid #1e3357;
+  border-radius: 0 4px 4px 0;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+}
+
+.rack-unit {
+  height: 25px;
+  background: #0c1527;
+  border: 1px solid #172847;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.blade-dots {
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+}
+
+.dot {
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+}
+
+.dot.b {
+  background: #38bdf8;
+  box-shadow: 0 0 5px #38bdf8;
+}
+
+.dot.a {
+  background: #f59e0b;
+  box-shadow: 0 0 5px #f59e0b;
+}
+
+.dot.r {
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+}
+
+.blade-grill {
+  flex: 1;
+  height: 4px;
+  margin: 0 5px;
+  background: repeating-linear-gradient(90deg, #1e2f4e, #1e2f4e 2px, transparent 2px, transparent 4px);
+}
+
+.blade-grill.warm {
+  background: repeating-linear-gradient(90deg, #d97706, #d97706 2px, transparent 2px, transparent 4px);
+}
+
+.blade-grill.hot {
+  background: repeating-linear-gradient(90deg, #dc2626, #dc2626 2px, transparent 2px, transparent 4px);
+}
+
+.server-floor-shadow {
+  position: absolute;
+  bottom: -10px;
+  left: 10px;
+  width: 145px;
+  height: 16px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75) 0%, transparent 75%);
+}
+
+/* DUCT CONDUIT: Server to Manifold */
+.server-to-manifold-duct {
+  width: 95px;
+  height: 225px;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: -5px;
+}
+
+.hot-air-floating-label {
+  position: absolute;
+  top: 15px;
+  left: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 10;
+}
+
+.hot-air-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff5500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.temp-tag.red-tag {
+  background: #ef4444;
+  border: 1.5px solid #ff9999;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+}
+
+.duct-curve-svg {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 95px;
+  height: 70px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* CONTAINERS ASSEMBLY */
+.containers-assembly-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-left: -2px;
+}
+
+/* Overhead Continuous Manifold */
+.overhead-manifold-bar {
+  height: 8px;
+  width: 100%;
+  margin-top: 40px;
+  background: linear-gradient(90deg, #ff5500 0%, #ff7700 28%, #f97316 48%, #38bdf8 75%, #0284c7 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.45);
+  position: relative;
+  z-index: 4;
+}
+
+.manifold-glow-line {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 2px;
+  margin: 1px auto;
+  width: 98%;
+}
+
+/* Tanks Flex Layout */
+.tanks-flex-row {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  width: 100%;
+}
+
+.tank-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 105px;
+  flex-shrink: 0;
+}
+
+/* Vertical Dropper into Dome */
+.tank-top-dropper {
+  width: 8px;
+  height: 24px;
+  border-radius: 2px;
+  z-index: 3;
+}
+
+.dropper-orange {
+  background: linear-gradient(180deg, #ff6600, #ff5500);
+  box-shadow: 0 0 6px rgba(255, 85, 0, 0.6);
+}
+
+.dropper-blue {
+  background: linear-gradient(180deg, #38bdf8, #0284c7);
+  box-shadow: 0 0 6px rgba(2, 132, 199, 0.6);
+}
+
+/* Mid-level Interconnect Pipes */
+.mid-interconnect-pipe {
+  flex: 1;
+  height: 6px;
+  margin-bottom: 95px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.mid-interconnect-pipe.pipe-orange {
+  background: #ff6a00;
+  box-shadow: 0 0 8px rgba(255, 106, 0, 0.7);
+}
+
+.mid-interconnect-pipe.pipe-trans {
+  background: linear-gradient(90deg, #ff7700, #f97316);
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.5);
+}
+
+.mid-interconnect-pipe.pipe-blue {
+  background: #0284c7;
+  box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
+}
+
+/* Storage Tank Vessel Design */
+.storage-tank-vessel {
+  width: 95px;
+  height: 155px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+}
+
+.vessel-top-dome {
+  width: 90px;
+  height: 24px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: radial-gradient(circle at 50% 0%, #2c4777 0%, #15243e 70%, #0c1728 100%);
+  border: 1.5px solid #385587;
+  border-bottom: none;
+  position: relative;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.15);
+}
+
+.inlet-valve {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 6px;
+  border-radius: 2px 2px 0 0;
+}
+
+.inlet-valve.valve-orange {
+  background: #ff5500;
+  box-shadow: 0 0 6px #ff5500;
+}
+
+.inlet-valve.valve-blue {
+  background: #0284c7;
+  box-shadow: 0 0 6px #0284c7;
+}
+
+.dome-highlight {
+  position: absolute;
+  top: 3px;
+  left: 14px;
+  right: 14px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+}
+
+.vessel-cylinder-body {
+  width: 90px;
+  flex: 1;
+  background: #081222;
+  border-left: 1.5px solid #385587;
+  border-right: 1.5px solid #385587;
+  position: relative;
+  overflow: hidden;
+}
+
+.vessel-bottom-dome {
+  width: 90px;
+  height: 20px;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  background: linear-gradient(180deg, #15243e 0%, #09101d 100%);
+  border: 1.5px solid #385587;
+  border-top: none;
+}
+
+/* Tank Fluid Heating Gradients */
+.vessel-thermal-fluid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.fluid-high {
+  background: linear-gradient(180deg, #ffc400 0%, #ff4d00 42%, #db2777 75%, #1e3a8a 100%);
+  box-shadow: inset 0 0 28px rgba(255, 120, 0, 0.95);
+}
+
+.fluid-medium {
+  background: linear-gradient(180deg, #ff9500 0%, #ea580c 45%, #c2410c 70%, #1e293b 100%);
+  box-shadow: inset 0 0 24px rgba(234, 88, 12, 0.9);
+}
+
+.fluid-low {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 40%, #1e3a8a 70%, #0b1528 100%);
+  box-shadow: inset 0 0 20px rgba(2, 132, 199, 0.75);
+}
+
+.fluid-cold {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 25%, #0f172a 70%, #081020 100%);
+  box-shadow: inset 0 0 16px rgba(2, 132, 199, 0.55);
+}
+
+.vessel-glass-shine {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  width: 14px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.vessel-temp-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.vessel-temp-badge.badge-red {
+  background: #ef4444;
+  border: 1.5px solid #fca5a5;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+}
+
+.vessel-temp-badge.badge-orange {
+  background: #f97316;
+  border: 1.5px solid #fdba74;
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.7);
+}
+
+.vessel-temp-badge.badge-blue {
+  background: #0284c7;
+  border: 1.5px solid #7dd3fc;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.7);
+}
+
+.vessel-support-legs {
+  display: flex;
+  justify-content: space-between;
+  width: 76px;
+  height: 12px;
+}
+
+.vessel-support-legs .leg {
+  width: 4px;
+  height: 12px;
+  background: #283e60;
+  border-radius: 1px;
+}
+
+.vessel-support-legs .leg.l {
+  transform: rotate(-20deg);
+}
+
+.vessel-support-legs .leg.r {
+  transform: rotate(20deg);
+}
+
+/* Tank Footer Telemetry Bars */
+.tank-footer-metrics {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.tank-label {
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.tank-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  justify-content: center;
+}
+
+.capsule-track {
+  width: 52px;
+  height: 6px;
+  background: #162640;
   border-radius: 999px;
   overflow: hidden;
 }
 
-.heat-bar-fill {
+.capsule-fill {
   height: 100%;
   border-radius: 999px;
-  transition: width 0.6s ease;
 }
 
-.heat-bar-fill.fill-optimal {
-  background: linear-gradient(90deg, #0284c7, #059669);
+.capsule-fill.fill-green {
+  background: #10b981;
 }
 
-.heat-bar-fill.fill-normal {
-  background: linear-gradient(90deg, #059669, #d97706);
+.capsule-fill.fill-blue {
+  background: #38bdf8;
 }
 
-.heat-bar-fill.fill-warning {
-  background: linear-gradient(90deg, #d97706, #ea580c);
+.capsule-percent {
+  font-size: 11px;
+  font-weight: 600;
+  color: #cbd5e1;
 }
 
-.heat-bar-fill.fill-danger {
-  background: linear-gradient(90deg, #ea580c, #dc2626);
-}
-
-.zone-specs-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid #f1f5f9;
-}
-
-.spec-item {
+/* Cooled Air Exit Section */
+.cooled-air-exit-section {
+  width: 90px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: flex-end;
+  margin-bottom: 95px;
 }
 
-.spec-label {
-  font-size: 9.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
+.cooled-air-text-box {
+  position: absolute;
+  top: -45px;
+  right: -5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+
+.cooled-title {
+  font-size: 12px;
   font-weight: 700;
+  color: #38bdf8;
 }
 
-.spec-val {
+.cooled-sub {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.cooled-exit-arrow-svg {
+  width: 85px;
+  height: 55px;
+}
+
+/* ==========================================
+   BOTTOM ROW: 4 TELEMETRY & ANALYTICS CARDS
+   ========================================== */
+.bottom-analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.analytics-card {
+  background: #111d33;
+  border: 1px solid #1a2b49;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.card-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.header-icon-box {
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.telemetry-rows-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.telemetry-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+}
+
+.stat-name {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.stat-value {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Temperature Trend Card */
+.trend-card {
+  gap: 8px;
+}
+
+.trend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-line {
+  width: 10px;
+  height: 2.5px;
+  border-radius: 1px;
+}
+
+.legend-line.orange {
+  background: #f97316;
+}
+
+.legend-line.blue {
+  background: #0284c7;
+}
+
+.legend-lbl {
+  font-size: 10.5px;
+  color: #cbd5e1;
+}
+
+.trend-y-axis-label {
+  font-size: 9.5px;
+  color: #94a3b8;
+}
+
+.chart-render-wrap {
+  width: 100%;
+  height: 90px;
+  position: relative;
+}
+
+.trend-line-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-x-labels {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 28px;
+  padding-right: 6px;
+  font-size: 9.5px;
+  color: #64748b;
+}
+
+/* Heat Storage Level Card */
+.storage-levels-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.storage-level-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.battery-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.level-name {
+  font-size: 12px;
+  color: #cbd5e1;
+  width: 72px;
+  white-space: nowrap;
+}
+
+.level-track {
+  flex: 1;
+  height: 7px;
+  background: #162640;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.level-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.level-val {
   font-size: 11.5px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #ffffff;
+  width: 32px;
+  text-align: right;
 }
 
-/* Split Grid */
-.dashboard-split-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
+/* Responsive Breakpoints */
+@media (max-width: 1280px) {
+  .kpi-metrics-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .bottom-analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width: 1200px) {
-  .dashboard-split-grid {
+@media (max-width: 860px) {
+  .kpi-metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bottom-analytics-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Table Card */
-.table-card {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: var(--shadow-card);
-}
-
-.card-header-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.filter-chips {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.chip-btn {
-  background: #f1f5f9;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  border-radius: var(--radius-full);
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.chip-btn:hover {
-  background: #e2e8f0;
-  color: var(--text-primary);
-}
-
-.chip-btn.active {
-  background: var(--flame-light);
-  border-color: #fed7aa;
-  color: var(--flame-primary);
-}
-
-.table-responsive {
-  overflow-x: auto;
-}
-
-.telemetry-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-.telemetry-table th {
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border-subtle);
-  background: #f8fafc;
-}
-
-.telemetry-table td {
-  padding: 12px 14px;
-  font-size: 12.5px;
-  border-bottom: 1px solid #f1f5f9;
-  color: var(--text-secondary);
-}
-
-.telemetry-table tr:hover td {
-  background: #f8fafc;
-}
-
-.tag-pill {
-  background: #f1f5f9;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-}
-
-.sensor-name-cell {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-.sensor-val-cell {
-  color: var(--cyan-primary);
-}
-
-.sensor-val-cell .val-bold {
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.sensor-threshold {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.sync-cell {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Controls Card */
-.controls-card {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: var(--shadow-card);
-}
-
-.controls-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.controls-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.control-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  background: #f8fafc;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-}
-
-.control-item:hover {
-  background: #f1f5f9;
-  border-color: var(--border-medium);
-}
-
-.control-item.engaged {
-  border-color: #fed7aa;
-  background: #fff7ed;
-}
-
-.control-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.control-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.control-desc {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Toggle Switch */
-.toggle-switch {
-  width: 44px;
-  height: 24px;
-  border-radius: 999px;
-  background: #cbd5e1;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  transition: background var(--transition-normal);
-  flex-shrink: 0;
-}
-
-.toggle-switch.active {
-  background: var(--flame-gradient);
-}
-
-.toggle-thumb {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #ffffff;
-  transition: transform var(--transition-normal);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.toggle-switch.active .toggle-thumb {
-  transform: translateX(20px);
-}
-
-/* Emergency Notice Box */
-.emergency-notice-box {
-  margin-top: auto;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: var(--radius-md);
-}
-
-.notice-icon {
-  color: var(--status-warning);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.notice-title {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: #92400e;
-}
-
-.notice-text {
-  font-size: 11px;
-  color: #78350f;
-  line-height: 1.4;
-  margin-top: 2px;
-}

@@ -59,12 +59,15 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
 
   private updateClock(): void {
     const now = new Date();
-    this.currentTimeString = now.toLocaleTimeString('en-US', {
-      hour12: false,
+    const day = now.getDate();
+    const month = now.toLocaleString('en-US', { month: 'short' });
+    const year = now.getFullYear();
+    const time = now.toLocaleTimeString('en-US', {
+      hour12: true,
       hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+      minute: '2-digit'
     });
+    this.currentTimeString = `${day} ${month} ${year}  ${time}`;
   }
 
   toggleSidebar(): void {

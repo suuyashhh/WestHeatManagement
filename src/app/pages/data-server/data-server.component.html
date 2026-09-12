@@ -4,232 +4,352 @@
     <div class="header-info">
       <div class="pre-badge">
         <span class="live-pulse normal"></span>
-        <span>GATEWAY INFRASTRUCTURE</span>
+        <span>Industrial Data Server & SCADA Gateways</span>
       </div>
-      <h1 class="page-title">Industrial Data Server & SCADA Gateways</h1>
-    </div>
-
-    <div class="header-actions">
-      <button class="btn btn-secondary" (click)="pingCluster()">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        <span>Ping All Nodes</span>
-      </button>
-      <button class="btn btn-primary">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Register New Endpoint</span>
-      </button>
     </div>
   </div>
 
-  <!-- BIG ANIMATED DATA SERVER SHOWCASE (HEAT COMING OUT, NO TEXTS/VALUES) -->
+  <!-- REALISTIC ANIMATED DATA SERVER WITH DUAL-SIDE (LEFT & RIGHT) HEAT EXHAUST -->
   <div class="animated-server-stage">
-    <div class="stage-ambient-glow"></div>
+    
+    <!-- Dynamic Ambient Thermal Radiation Haze (Left & Right) -->
+    <div class="thermal-haze-glow left"></div>
+    <div class="thermal-haze-glow right"></div>
 
-    <!-- Animated Server Container -->
-    <div class="server-rack-system">
+    <!-- Central Stage Area containing Server and Left/Right Heat Streams -->
+    <div class="server-stage-layout">
 
-      <!-- RISING HEAT WAVES & THERMAL PLUMES (ANIMATED) -->
-      <div class="heat-exhaust-plumes">
-        <!-- Floating heat wave bands -->
-        <div class="heat-wave wave-1"></div>
-        <div class="heat-wave wave-2"></div>
-        <div class="heat-wave wave-3"></div>
-        <div class="heat-wave wave-4"></div>
-        <div class="heat-wave wave-5"></div>
+      <!-- ============================================================
+           LEFT-SIDE HEAT EXHAUST SYSTEM (ANIMATED HEAT LEAVING LEFT)
+           ============================================================ -->
+      <div class="side-heat-exhaust left-exhaust">
+        <!-- Billowing Thermal Clouds (Left) -->
+        <div class="plume-cloud left-cloud-1"></div>
+        <div class="plume-cloud left-cloud-2"></div>
+        <div class="plume-cloud left-cloud-3"></div>
 
-        <!-- SVG Heat Stream Flow Lines -->
-        <svg class="heat-stream-svg" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="stream-line line-1" d="M150 200 C 130 150, 170 100, 140 20" stroke="url(#heatGrad1)"
-            stroke-width="4" stroke-linecap="round" />
-          <path class="stream-line line-2" d="M100 200 C 80 140, 120 90, 90 10" stroke="url(#heatGrad2)"
-            stroke-width="3.5" stroke-linecap="round" />
-          <path class="stream-line line-3" d="M200 200 C 220 145, 180 85, 210 15" stroke="url(#heatGrad1)"
-            stroke-width="3.5" stroke-linecap="round" />
-          <path class="stream-line line-4" d="M60 200 C 40 135, 80 80, 50 30" stroke="url(#heatGrad3)" stroke-width="3"
-            stroke-linecap="round" />
-          <path class="stream-line line-5" d="M240 200 C 260 140, 220 75, 250 25" stroke="url(#heatGrad3)"
-            stroke-width="3" stroke-linecap="round" />
-
+        <!-- Flowing Curved Heat Waves (SVG) -->
+        <svg class="lateral-heat-svg" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="heat-trail trail-l1" d="M220 220 C 160 210, 90 180, 20 120" stroke="url(#heatGradL1)" stroke-width="4.5" stroke-linecap="round"/>
+          <path class="heat-trail trail-l2" d="M220 160 C 140 150, 70 110, 10 50" stroke="url(#heatGradL2)" stroke-width="4" stroke-linecap="round"/>
+          <path class="heat-trail trail-l3" d="M220 100 C 150 90, 80 50, 30 10" stroke="url(#heatGradL1)" stroke-width="3.5" stroke-linecap="round"/>
+          <path class="heat-trail trail-l4" d="M220 260 C 170 250, 110 220, 50 170" stroke="url(#heatGradL3)" stroke-width="3" stroke-linecap="round"/>
+          
           <defs>
-            <linearGradient id="heatGrad1" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.9" />
-              <stop offset="50%" stop-color="#ff9100" stop-opacity="0.7" />
-              <stop offset="100%" stop-color="#ffab00" stop-opacity="0" />
+            <linearGradient id="heatGradL1" x1="1" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.95"/>
+              <stop offset="50%" stop-color="#ff9100" stop-opacity="0.75"/>
+              <stop offset="100%" stop-color="#ffab00" stop-opacity="0"/>
             </linearGradient>
-            <linearGradient id="heatGrad2" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#ff1744" stop-opacity="0.95" />
-              <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6" />
-              <stop offset="100%" stop-color="#ffea00" stop-opacity="0" />
+            <linearGradient id="heatGradL2" x1="1" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#ff1744" stop-opacity="0.9"/>
+              <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#ffea00" stop-opacity="0"/>
             </linearGradient>
-            <linearGradient id="heatGrad3" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.8" />
-              <stop offset="70%" stop-color="#ffa000" stop-opacity="0.4" />
-              <stop offset="100%" stop-color="#fff8e1" stop-opacity="0" />
+            <linearGradient id="heatGradL3" x1="1" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.85"/>
+              <stop offset="70%" stop-color="#ffa000" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#fff8e1" stop-opacity="0"/>
             </linearGradient>
           </defs>
         </svg>
 
-        <!-- Rising Thermal Particles / Embers -->
-        <span class="heat-ember ember-1"></span>
-        <span class="heat-ember ember-2"></span>
-        <span class="heat-ember ember-3"></span>
-        <span class="heat-ember ember-4"></span>
-        <span class="heat-ember ember-5"></span>
-        <span class="heat-ember ember-6"></span>
-        <span class="heat-ember ember-7"></span>
-        <span class="heat-ember ember-8"></span>
+        <!-- Rising Hot Embers (Left Side) -->
+        <span class="heat-particle lp-1"></span>
+        <span class="heat-particle lp-2"></span>
+        <span class="heat-particle lp-3"></span>
+        <span class="heat-particle lp-4"></span>
+        <span class="heat-particle lp-5"></span>
       </div>
 
-      <!-- MAIN SERVER RACK HARDWARE CHASSIS -->
-      <div class="rack-cabinet">
-        <!-- Top Exhaust Ventilation Grille with Glowing Heat Aura -->
-        <div class="rack-top-vent">
-          <div class="exhaust-glow"></div>
-          <div class="vent-slots">
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-          </div>
+      <!-- ============================================================
+           REALISTIC HIGH-TECH ENTERPRISE SERVER RACK (CENTER)
+           ============================================================ -->
+      <div class="realistic-server-rack">
+        
+        <!-- Left Lateral Heat Exhaust Flange / Louver Bank -->
+        <div class="side-louver-bank left-louvers">
+          <span class="louver-fin hot"></span>
+          <span class="louver-fin intense"></span>
+          <span class="louver-fin intense"></span>
+          <span class="louver-fin hot"></span>
+          <span class="louver-fin hot"></span>
+          <span class="louver-fin normal"></span>
         </div>
 
-        <!-- Server Blade Units -->
-        <div class="rack-body">
-          <!-- Server Blade 1 -->
-          <div class="server-blade heat-core-1">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-pulse"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan"></span>
-              <span class="ind-dot orange blink"></span>
-            </div>
+        <!-- Main Chassis Metal Outer Shell -->
+        <div class="chassis-outer-frame">
+          
+          <!-- Outer 42U Vertical Mounting Rails (Matte Steel with Screws) -->
+          <div class="rack-rail left-rail">
+            <span class="rail-screw s1"></span>
+            <span class="rail-unit u1"></span>
+            <span class="rail-screw s2"></span>
+            <span class="rail-unit u2"></span>
+            <span class="rail-screw s3"></span>
+            <span class="rail-unit u3"></span>
+            <span class="rail-screw s4"></span>
+            <span class="rail-unit u4"></span>
+            <span class="rail-screw s5"></span>
+            <span class="rail-unit u5"></span>
+            <span class="rail-screw s6"></span>
           </div>
 
-          <!-- Server Blade 2 -->
-          <div class="server-blade heat-core-2">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
+          <!-- Server Blade Inner Column -->
+          <div class="chassis-inner-bay">
+            
+            <!-- Top Thermal Exhaust Chamber with Glowing Heat Cores -->
+            <div class="chassis-header-vent">
+              <div class="internal-core-glow"></div>
+              <div class="top-grille-honeycomb">
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+                <span class="grille-slot"></span>
+              </div>
             </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed intense"></div>
+
+            <!-- Server Blade 1 (Compute Node 01) -->
+            <div class="enterprise-blade blade-1">
+              <div class="blade-latch"></div>
+              <!-- NVMe Hot-Swap Trays with Real Bezels -->
+              <div class="nvme-drive-caddy">
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+              </div>
+              <!-- Honeycomb Heatsink Mesh with Glowing Copper Heatcore -->
+              <div class="honeycomb-heatsink-mesh">
+                <div class="radiant-core-glow"></div>
+              </div>
+              <!-- Network SFP+ Optic & Diagnostic LEDs -->
+              <div class="blade-optic-cluster">
+                <div class="sfp-optic"><span class="optic-laser"></span></div>
+                <div class="diagnostic-leds">
+                  <span class="d-led green"></span>
+                  <span class="d-led cyan blink"></span>
+                  <span class="d-led amber"></span>
+                </div>
+              </div>
             </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot orange blink"></span>
-              <span class="ind-dot red pulse"></span>
+
+            <!-- Server Blade 2 (Compute Node 02 - Intense Heat Core) -->
+            <div class="enterprise-blade blade-2">
+              <div class="blade-latch"></div>
+              <div class="nvme-drive-caddy">
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+              </div>
+              <div class="honeycomb-heatsink-mesh">
+                <div class="radiant-core-glow intense"></div>
+              </div>
+              <div class="blade-optic-cluster">
+                <div class="sfp-optic"><span class="optic-laser active"></span></div>
+                <div class="diagnostic-leds">
+                  <span class="d-led green"></span>
+                  <span class="d-led red pulse"></span>
+                  <span class="d-led amber blink"></span>
+                </div>
+              </div>
             </div>
+
+            <!-- Server Blade 3 (Compute Node 03 - High Load) -->
+            <div class="enterprise-blade blade-3">
+              <div class="blade-latch"></div>
+              <div class="nvme-drive-caddy">
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+              </div>
+              <div class="honeycomb-heatsink-mesh">
+                <div class="radiant-core-glow intense"></div>
+              </div>
+              <div class="blade-optic-cluster">
+                <div class="sfp-optic"><span class="optic-laser"></span></div>
+                <div class="diagnostic-leds">
+                  <span class="d-led green"></span>
+                  <span class="d-led cyan"></span>
+                  <span class="d-led amber blink"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Server Blade 4 (Compute Node 04) -->
+            <div class="enterprise-blade blade-4">
+              <div class="blade-latch"></div>
+              <div class="nvme-drive-caddy">
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+              </div>
+              <div class="honeycomb-heatsink-mesh">
+                <div class="radiant-core-glow"></div>
+              </div>
+              <div class="blade-optic-cluster">
+                <div class="sfp-optic"><span class="optic-laser active"></span></div>
+                <div class="diagnostic-leds">
+                  <span class="d-led green"></span>
+                  <span class="d-led green"></span>
+                  <span class="d-led cyan blink"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Server Blade 5 (Compute Node 05) -->
+            <div class="enterprise-blade blade-5">
+              <div class="blade-latch"></div>
+              <div class="nvme-drive-caddy">
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+              </div>
+              <div class="honeycomb-heatsink-mesh">
+                <div class="radiant-core-glow"></div>
+              </div>
+              <div class="blade-optic-cluster">
+                <div class="sfp-optic"><span class="optic-laser"></span></div>
+                <div class="diagnostic-leds">
+                  <span class="d-led green"></span>
+                  <span class="d-led cyan blink"></span>
+                  <span class="d-led amber"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lower Intake Subsystem with Dual High-Velocity Industrial Turbines -->
+            <div class="chassis-intake-module">
+              <div class="dual-intake-turbines">
+                <!-- Left Turbine -->
+                <div class="turbine-housing">
+                  <div class="turbine-bezel">
+                    <div class="turbine-impeller spinning-fast"></div>
+                    <span class="turbine-axis"></span>
+                  </div>
+                </div>
+
+                <!-- Center Airflow Matrix -->
+                <div class="center-vent-grid">
+                  <span class="dot-matrix"></span>
+                  <span class="dot-matrix"></span>
+                  <span class="dot-matrix"></span>
+                </div>
+
+                <!-- Right Turbine -->
+                <div class="turbine-housing">
+                  <div class="turbine-bezel">
+                    <div class="turbine-impeller spinning-fast"></div>
+                    <span class="turbine-axis"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Base Pedestal & Leveling Stabilizers -->
+              <div class="pedestal-feet">
+                <span class="heavy-foot left"></span>
+                <span class="heavy-foot right"></span>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Server Blade 3 (High Thermal Activity) -->
-          <div class="server-blade heat-core-3">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed intense"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan"></span>
-              <span class="ind-dot orange"></span>
-            </div>
+          <!-- Right 42U Vertical Mounting Rail -->
+          <div class="rack-rail right-rail">
+            <span class="rail-screw s1"></span>
+            <span class="rail-unit u1"></span>
+            <span class="rail-screw s2"></span>
+            <span class="rail-unit u2"></span>
+            <span class="rail-screw s3"></span>
+            <span class="rail-unit u3"></span>
+            <span class="rail-screw s4"></span>
+            <span class="rail-unit u4"></span>
+            <span class="rail-screw s5"></span>
+            <span class="rail-unit u5"></span>
+            <span class="rail-screw s6"></span>
           </div>
 
-          <!-- Server Blade 4 -->
-          <div class="server-blade heat-core-4">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-pulse"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan blink"></span>
-            </div>
-          </div>
-
-          <!-- Server Blade 5 -->
-          <div class="server-blade heat-core-5">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan"></span>
-              <span class="ind-dot orange blink"></span>
-            </div>
-          </div>
         </div>
 
-        <!-- Bottom Base Intake Grille & Stand -->
-        <div class="rack-bottom">
-          <div class="intake-fans">
-            <div class="fan-grille">
-              <div class="fan-blade spinning"></div>
-            </div>
-            <div class="fan-grille">
-              <div class="fan-blade spinning-fast"></div>
-            </div>
-            <div class="fan-grille">
-              <div class="fan-blade spinning"></div>
-            </div>
-          </div>
-          <div class="rack-feet">
-            <span class="foot left"></span>
-            <span class="foot right"></span>
-          </div>
+        <!-- Right Lateral Heat Exhaust Flange / Louver Bank -->
+        <div class="side-louver-bank right-louvers">
+          <span class="louver-fin hot"></span>
+          <span class="louver-fin intense"></span>
+          <span class="louver-fin intense"></span>
+          <span class="louver-fin hot"></span>
+          <span class="louver-fin hot"></span>
+          <span class="louver-fin normal"></span>
         </div>
 
       </div>
 
-      <!-- Floor Reflection & Shadow -->
-      <div class="server-floor-reflection"></div>
+      <!-- ============================================================
+           RIGHT-SIDE HEAT EXHAUST SYSTEM (ANIMATED HEAT LEAVING RIGHT)
+           ============================================================ -->
+      <div class="side-heat-exhaust right-exhaust">
+        <!-- Billowing Thermal Clouds (Right) -->
+        <div class="plume-cloud right-cloud-1"></div>
+        <div class="plume-cloud right-cloud-2"></div>
+        <div class="plume-cloud right-cloud-3"></div>
+
+        <!-- Flowing Curved Heat Waves (SVG) -->
+        <svg class="lateral-heat-svg" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="heat-trail trail-r1" d="M0 220 C 60 210, 130 180, 200 120" stroke="url(#heatGradR1)" stroke-width="4.5" stroke-linecap="round"/>
+          <path class="heat-trail trail-r2" d="M0 160 C 80 150, 150 110, 210 50" stroke="url(#heatGradR2)" stroke-width="4" stroke-linecap="round"/>
+          <path class="heat-trail trail-r3" d="M0 100 C 70 90, 140 50, 190 10" stroke="url(#heatGradR1)" stroke-width="3.5" stroke-linecap="round"/>
+          <path class="heat-trail trail-r4" d="M0 260 C 50 250, 110 220, 170 170" stroke="url(#heatGradR3)" stroke-width="3" stroke-linecap="round"/>
+          
+          <defs>
+            <linearGradient id="heatGradR1" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.95"/>
+              <stop offset="50%" stop-color="#ff9100" stop-opacity="0.75"/>
+              <stop offset="100%" stop-color="#ffab00" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="heatGradR2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff1744" stop-opacity="0.9"/>
+              <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#ffea00" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="heatGradR3" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.85"/>
+              <stop offset="70%" stop-color="#ffa000" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#fff8e1" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Rising Hot Embers (Right Side) -->
+        <span class="heat-particle rp-1"></span>
+        <span class="heat-particle rp-2"></span>
+        <span class="heat-particle rp-3"></span>
+        <span class="heat-particle rp-4"></span>
+        <span class="heat-particle rp-5"></span>
+      </div>
+
     </div>
-  </div>
 
+    <!-- Realistic Floor Ground Shadow & Radiant Thermal Reflection -->
+    <div class="chassis-ground-shadow"></div>
+
+  </div>
 </div>

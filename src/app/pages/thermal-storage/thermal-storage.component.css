@@ -1,346 +1,608 @@
 .storage-page {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 20px;
   max-width: 1600px;
   margin: 0 auto;
 }
 
-.page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.pre-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--flame-primary);
-  margin-bottom: 4px;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-}
-
-.page-sub {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
-
-/* Mode Selector */
-.mode-selector-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #ffffff;
-  padding: 6px 10px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-sm);
-}
-
-.mode-label {
-  font-size: 11px;
-  font-weight: 800;
-  color: var(--text-muted);
-}
-
-.mode-pills {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.mode-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  padding: 5px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.mode-btn:hover {
-  color: var(--text-primary);
-  background: #f1f5f9;
-}
-
-.mode-btn.active {
-  background: var(--flame-light);
-  border-color: #fed7aa;
-  color: var(--flame-primary);
-}
-
-/* Metrics Grid */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-}
-
-.metric-card {
-  background: #ffffff;
+/* ==========================================================================
+   ANIMATED THERMAL STORAGE STAGE (PURE VISUAL 4 TANKS)
+   ========================================================================== */
+.animated-storage-stage {
+  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f8fafc 65%, #f1f5f9 100%);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  box-shadow: var(--shadow-card);
-  transition: all var(--transition-normal);
-}
-
-.metric-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px -4px rgba(15, 23, 42, 0.08);
-}
-
-.metric-head {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  min-height: 560px;
 }
 
-.metric-label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
+/* Ambient Thermal Radiance behind Tanks 1 & 2 */
+.active-tanks-glow {
+  position: absolute;
+  top: 25%;
+  left: 32%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 380px;
+  background: radial-gradient(ellipse at center, rgba(234, 88, 12, 0.22) 0%, rgba(249, 115, 22, 0.1) 50%, transparent 75%);
+  filter: blur(55px);
+  pointer-events: none;
+  animation: storage-ambient-pulse 3.6s ease-in-out infinite alternate;
 }
 
-.icon-chip {
-  width: 36px;
+@keyframes storage-ambient-pulse {
+  0% { opacity: 0.65; transform: translateX(-50%) scale(0.95); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+/* Complex Layout */
+.storage-complex-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 980px;
+}
+
+/* ==========================================================================
+   OVERHEAD MANIFOLD & CHARGE PIPE SYSTEM
+   ========================================================================== */
+.overhead-manifold-system {
+  width: 86%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+}
+
+/* Main Pipe Header */
+.main-header-pipe {
+  width: 100%;
+  height: 16px;
+  background: linear-gradient(180deg, #475569 0%, #1e293b 50%, #0f172a 100%);
+  border-radius: 8px;
+  border: 2px solid #334155;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-flow-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, #ff5722 40%, #ff9800 80%, transparent 100%);
+  filter: blur(2px);
+  animation: manifold-flow 2.2s linear infinite;
+}
+
+@keyframes manifold-flow {
+  0% { transform: translateX(-80%); opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { transform: translateX(160%); opacity: 0.2; }
+}
+
+/* 4 Downward Branch Feeder Pipes */
+.pipe-feeders-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+
+.feeder-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 32px;
+}
+
+.branch-pipe {
+  width: 12px;
+  height: 32px;
+  background: linear-gradient(90deg, #334155 0%, #1e293b 50%, #0f172a 100%);
+  border-left: 1px solid #475569;
+  border-right: 1px solid #1f2937;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Active Downward Energy Jet in Feeders 1 & 2 */
+.feeder-branch.filling .pulse-jet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: linear-gradient(180deg, #ff9800, #ff3d00);
+  border-radius: 2px;
+  box-shadow: 0 0 8px #ff5722;
+  animation: jet-down 1.2s infinite linear;
+}
+
+.feeder-branch.filling .pulse-jet.alt {
+  animation-delay: 0.6s;
+  background: linear-gradient(180deg, #ffab00, #ff5722);
+}
+
+@keyframes jet-down {
+  0% { transform: translateY(-16px); opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { transform: translateY(32px); opacity: 0.2; }
+}
+
+/* Flow Valves */
+.flow-valve {
+  width: 22px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid #334155;
+  background: #1e293b;
+}
+
+.flow-valve.active {
+  background: linear-gradient(180deg, #ff5722, #c2410c);
+  border-color: #ff9800;
+  box-shadow: 0 0 10px rgba(255, 87, 34, 0.6);
+}
+
+.flow-valve.closed {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+/* ==========================================================================
+   4 STORAGE CONTAINERS ROW
+   ========================================================================== */
+.storage-containers-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 28px;
+  margin-top: -2px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .storage-containers-row {
+    gap: 14px;
+  }
+}
+
+/* Base Container Styling */
+.thermal-container {
+  width: 190px;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: transform var(--transition-normal);
+}
+
+@media (max-width: 900px) {
+  .thermal-container {
+    width: 155px;
+    height: 320px;
+  }
+}
+
+/* Top & Bottom Domes */
+.container-dome {
+  width: 100%;
   height: 36px;
-  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, #334155 0%, #1e293b 50%, #0f172a 100%);
+  border: 2px solid #475569;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.icon-chip.flame { background: var(--flame-light); color: var(--flame-primary); }
-.icon-chip.normal { background: var(--status-normal-bg); color: var(--status-normal); }
-.icon-chip.cyan { background: var(--cyan-bg); color: var(--cyan-primary); }
-.icon-chip.purple { background: #f5f3ff; color: #7c3aed; }
-
-.metric-val-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
+.container-dome.top {
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  border-bottom: none;
 }
 
-.metric-val {
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--text-primary);
+.container-dome.bottom {
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  border-top: none;
 }
 
-.metric-unit {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-muted);
+/* Top Dome Inlet Flange & Pressure Cap */
+.inlet-flange-active {
+  width: 24px;
+  height: 10px;
+  background: #090d16;
+  border: 2px solid #ff5722;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 0 10px rgba(255, 87, 34, 0.7);
 }
 
-.metric-foot {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
+.flange-heat-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ff3d00;
+  border-radius: 2px;
+  animation: flange-pulse 1.4s infinite alternate ease-in-out;
 }
 
-.foot-badge { font-weight: 800; }
-.foot-badge.good { color: var(--status-normal); }
-.foot-note { color: var(--text-muted); }
-
-/* Tanks Grid */
-.section-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.flange-heat-glow.alt {
+  animation-delay: 0.7s;
 }
 
-.card-head-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+@keyframes flange-pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; filter: blur(2px); }
 }
 
-.section-title {
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--text-primary);
+.inlet-flange-cold {
+  width: 24px;
+  height: 10px;
+  background: #090d16;
+  border: 2px solid #334155;
+  border-radius: 3px;
 }
 
-.section-subtitle {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 2px;
+.pressure-relief-valve {
+  position: absolute;
+  top: 4px;
+  right: 28px;
+  width: 10px;
+  height: 14px;
+  background: #475569;
+  border: 1px solid #64748b;
+  border-radius: 2px;
 }
 
-.tanks-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 18px;
+.pressure-relief-valve.cold {
+  background: #1e293b;
+  border-color: #334155;
 }
 
-.tank-card {
-  background: #ffffff;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: var(--shadow-card);
-  transition: all var(--transition-normal);
-}
-
-.tank-card:hover {
-  border-color: var(--border-medium);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px -4px rgba(15, 23, 42, 0.08);
-}
-
-.tank-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.tank-id {
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--flame-primary);
-  background: var(--flame-light);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.tank-name {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-top: 4px;
-}
-
-.tank-type {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Level Visual Track */
-.level-visual-block {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.level-readout {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.soc-pct {
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.soc-mwh {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--text-muted);
-}
-
-.tank-level-track {
+/* Vessel Cylindrical Body */
+.vessel-cylindrical-body {
   width: 100%;
-  height: 8px;
-  background: #f1f5f9;
-  border-radius: 999px;
+  flex: 1;
+  background: linear-gradient(90deg, #1e293b 0%, #0f172a 12%, #090d16 50%, #0f172a 88%, #1e293b 100%);
+  border-left: 2px solid #475569;
+  border-right: 2px solid #475569;
+  position: relative;
+  display: flex;
   overflow: hidden;
 }
 
-.tank-level-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.5s ease;
+/* Reinforced Steel Bands */
+.vessel-shell-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(180deg, #475569 0%, #334155 50%, #1e293b 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid #0f172a;
+  z-index: 8;
+  pointer-events: none;
 }
 
-.tank-level-fill.charging {
-  background: linear-gradient(90deg, #10b981, #ea580c);
-}
+.b-top { top: 22%; }
+.b-mid { top: 52%; }
+.b-bot { top: 82%; }
 
-.tank-level-fill.discharging {
-  background: linear-gradient(90deg, #f59e0b, #ea580c);
-}
-
-.tank-level-fill.standby {
-  background: #0284c7;
-}
-
-/* Specs Row */
-.tank-specs-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid #f1f5f9;
-}
-
-.spec-col {
+/* Viewing Chamber (Center Cutaway) */
+.vessel-liquid-chamber {
+  flex: 1;
+  margin: 8px 18px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  background: #040711;
+  border: 1px solid #1e293b;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  justify-content: flex-end;
 }
 
-.spec-lbl {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
+/* Influx Energy Stream jetting from the top (Filling Tanks 1 & 2) */
+.influx-energy-stream {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 65px;
+  background: linear-gradient(180deg, rgba(255, 145, 0, 0.95) 0%, rgba(255, 61, 0, 0.8) 70%, transparent 100%);
+  filter: blur(1.5px);
+  z-index: 6;
+  animation: influx-stream-pulse 1.2s infinite ease-in-out;
 }
 
-.spec-val {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-primary);
+.alt-stream {
+  animation-delay: 0.5s;
 }
 
-/* Actions */
-.tank-actions {
-  display: flex;
-  gap: 8px;
+@keyframes influx-stream-pulse {
+  0% { height: 50px; opacity: 0.7; }
+  50% { height: 75px; opacity: 1; width: 12px; }
+  100% { height: 50px; opacity: 0.7; }
 }
 
-.tank-mode-btn {
+/* Molten Liquid Mass (Filling Tanks 1 & 2) */
+.molten-liquid-volume {
   width: 100%;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  background: #f8fafc;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  transition: height 0.6s ease;
 }
 
-.tank-mode-btn:hover {
-  background: var(--flame-light);
-  border-color: #fed7aa;
-  color: var(--flame-primary);
+/* Tank 1: ~82% Full and actively surging */
+.level-filling-1 {
+  height: 82%;
+  animation: liquid-surge-1 4s ease-in-out infinite alternate;
+}
+
+/* Tank 2: ~74% Full and actively surging */
+.level-filling-2 {
+  height: 74%;
+  animation: liquid-surge-2 4.4s ease-in-out infinite alternate;
+}
+
+@keyframes liquid-surge-1 {
+  0% { height: 79%; }
+  100% { height: 85%; }
+}
+
+@keyframes liquid-surge-2 {
+  0% { height: 71%; }
+  100% { height: 77%; }
+}
+
+/* SVG Animated Wave Surface */
+.liquid-surface-wave {
+  width: 100%;
+  height: 18px;
+  overflow: visible;
+  margin-bottom: -2px;
+  z-index: 6;
+}
+
+.wave-path-1 {
+  animation: wave-motion-1 2.4s linear infinite alternate;
+}
+
+.wave-path-2 {
+  animation: wave-motion-2 2s linear infinite alternate;
+}
+
+@keyframes wave-motion-1 {
+  0% { transform: scaleY(0.9) translateX(-4px); }
+  100% { transform: scaleY(1.3) translateX(4px); }
+}
+
+@keyframes wave-motion-2 {
+  0% { transform: scaleY(1.3) translateX(4px); }
+  100% { transform: scaleY(0.8) translateX(-4px); }
+}
+
+/* Molten Core Mass with Intense Gradient & Shadow */
+.molten-core-mass {
+  width: 100%;
+  flex: 1;
+  background: linear-gradient(180deg, #ff7a00 0%, #ff3d00 35%, #d81b60 75%, #880e4f 100%);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 25px rgba(255, 87, 34, 0.9),
+    inset 0 0 15px rgba(255, 235, 59, 0.6);
+}
+
+/* Rising Thermal Bubbles / Embers inside molten liquid */
+.energy-bubble {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  background: #fff59d;
+  box-shadow: 0 0 8px #ffeb3b, 0 0 14px #ff5722;
+  opacity: 0;
+  animation: bubble-up 2.8s infinite ease-in;
+}
+
+.eb-1 { left: 20%; width: 5px; height: 5px; animation-duration: 2.2s; animation-delay: 0.2s; }
+.eb-2 { left: 40%; width: 7px; height: 7px; animation-duration: 3s; animation-delay: 0.8s; }
+.eb-3 { left: 65%; width: 4px; height: 4px; animation-duration: 2.5s; animation-delay: 1.4s; }
+.eb-4 { left: 80%; width: 6px; height: 6px; animation-duration: 3.2s; animation-delay: 0.5s; }
+.eb-5 { left: 50%; width: 5px; height: 5px; animation-duration: 2.7s; animation-delay: 1.8s; }
+
+@keyframes bubble-up {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  30% { opacity: 0.95; }
+  85% { opacity: 0.9; }
+  100% { transform: translateY(-160px) scale(1.3); opacity: 0; }
+}
+
+/* Internal Shimmer */
+.chamber-thermal-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 65%, rgba(255, 145, 0, 0.35) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 7;
+  animation: shimmer-fade 2s infinite alternate ease-in-out;
+}
+
+@keyframes shimmer-fade {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* ==========================================================================
+   EMPTY CONTAINERS (3 & 4) - HOLLOW / COLD / UNCHARGED
+   ========================================================================== */
+.tank-empty .vessel-cylindrical-body {
+  background: linear-gradient(90deg, #111827 0%, #0b1120 20%, #030712 50%, #0b1120 80%, #111827 100%);
+  border-left-color: #334155;
+  border-right-color: #334155;
+}
+
+.tank-empty .container-dome {
+  background: linear-gradient(180deg, #1e293b 0%, #111827 50%, #030712 100%);
+  border-color: #334155;
+}
+
+.empty-chamber {
+  background: #02040a;
+  border-color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hollow-depth-shadow {
+  width: 70%;
+  height: 80%;
+  border-radius: 6px;
+  background: radial-gradient(ellipse at center, #090e1a 0%, #02040a 80%);
+  border: 1px solid #111827;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+}
+
+.empty-base-plate {
+  position: absolute;
+  bottom: 6px;
+  left: 12px;
+  right: 12px;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 2px;
+  border-top: 1px solid #334155;
+}
+
+/* Vertical Sight Glass Level Column */
+.sight-glass-column {
+  width: 7px;
+  height: 80%;
+  margin: auto 6px auto 0;
+  background: #090d16;
+  border-radius: 3px;
+  border: 1px solid #334155;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.sight-glass-fill {
+  width: 100%;
+  border-radius: 2px;
+}
+
+.sight-glass-fill.fill-1 {
+  height: 82%;
+  background: linear-gradient(180deg, #ff9800, #ff3d00);
+  box-shadow: 0 0 8px #ff5722;
+}
+
+.sight-glass-fill.fill-2 {
+  height: 74%;
+  background: linear-gradient(180deg, #ffab00, #ff5722);
+  box-shadow: 0 0 8px #ff5722;
+}
+
+.sight-glass-fill.empty {
+  height: 0%;
+}
+
+/* Bottom Support Legs & Drain Valves */
+.container-support-legs {
+  width: 86%;
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+
+.support-leg {
+  width: 20px;
+  height: 24px;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%);
+  border: 1px solid #475569;
+  border-radius: 0 0 4px 4px;
+}
+
+.drain-valve {
+  width: 14px;
+  height: 12px;
+  background: #1e293b;
+  border-radius: 2px;
+  border: 1px solid #334155;
+}
+
+.drain-valve.active {
+  background: #ff5722;
+  box-shadow: 0 0 6px #ff5722;
+}
+
+/* ==========================================================================
+   GROUND SHADOWS & THERMAL REFLECTIONS
+   ========================================================================== */
+.ground-shadows-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: -6px;
+  position: relative;
+  z-index: 5;
+}
+
+@media (max-width: 900px) {
+  .ground-shadows-row {
+    gap: 14px;
+  }
+}
+
+.tank-shadow-slot {
+  width: 190px;
+  height: 20px;
+  border-radius: 50%;
+  filter: blur(6px);
+}
+
+@media (max-width: 900px) {
+  .tank-shadow-slot {
+    width: 155px;
+  }
+}
+
+.hot-shadow {
+  background: radial-gradient(ellipse at center, rgba(255, 87, 34, 0.4) 0%, rgba(15, 23, 42, 0.3) 45%, transparent 75%);
+}
+
+.cold-shadow {
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.22) 0%, transparent 70%);
 }

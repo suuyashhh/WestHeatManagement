@@ -15,6 +15,8 @@ export const routes: Routes = [
       { path: 'data-server', component: DataServerComponent },
       { path: 'thermal-storage', component: ThermalStorageComponent },
       { path: 'clients', component: ClientsComponent },
+      { path: 'reports', component: DashboardComponent },
+      { path: 'settings', component: DashboardComponent },
       { path: '**', redirectTo: 'dashboard' }
     ]
   }

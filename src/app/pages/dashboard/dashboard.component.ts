@@ -1,27 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export interface ThermalZone {
-  id: string;
-  name: string;
-  subLocation: string;
-  temperature: number;
-  targetTemp: number;
-  pressure: string;
-  status: 'normal' | 'warning' | 'danger' | 'optimal';
-  fuelFlow: string;
-  efficiency: number;
+export interface TelemetryMetric {
+  icon: string;
+  label: string;
+  value: string;
 }
 
-export interface SensorData {
-  tag: string;
+export interface ContainerState {
+  id: number;
   name: string;
-  location: string;
-  value: string;
-  unit: string;
-  status: 'normal' | 'warning' | 'danger';
-  threshold: string;
-  lastUpdated: string;
+  temp: number;
+  tempColor: string;
+  level: number;
+  levelColor: string;
+  heatLevel: 'high' | 'medium' | 'low' | 'cold';
 }
 
 @Component({
@@ -32,143 +25,72 @@ export interface SensorData {
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  selectedFilter: string = 'all';
-
-  zones: ThermalZone[] = [
+  // Center schematic container states
+  containers: ContainerState[] = [
     {
-      id: 'ZN-01',
-      name: 'Primary Combustion Chamber',
-      subLocation: 'Boiler Unit A - Main Vessel',
-      temperature: 874.2,
-      targetTemp: 850.0,
-      pressure: '4.15 Bar',
-      status: 'warning',
-      fuelFlow: '142.8 m³/h',
-      efficiency: 94.8
+      id: 1,
+      name: 'Container 1',
+      temp: 72,
+      tempColor: '#ef4444',
+      level: 85,
+      levelColor: '#10b981',
+      heatLevel: 'high'
     },
     {
-      id: 'ZN-02',
-      name: 'Superheater Exchanger',
-      subLocation: 'Secondary Steam Circuit #2',
-      temperature: 642.0,
-      targetTemp: 640.0,
-      pressure: '18.40 Bar',
-      status: 'optimal',
-      fuelFlow: '88.4 m³/h',
-      efficiency: 98.2
+      id: 2,
+      name: 'Container 2',
+      temp: 64,
+      tempColor: '#f97316',
+      level: 67,
+      levelColor: '#10b981',
+      heatLevel: 'medium'
     },
     {
-      id: 'ZN-03',
-      name: 'Turbine Pre-Heater Section',
-      subLocation: 'Generator Intake Manifold',
-      temperature: 512.6,
-      targetTemp: 520.0,
-      pressure: '12.80 Bar',
-      status: 'normal',
-      fuelFlow: '64.0 m³/h',
-      efficiency: 96.1
+      id: 3,
+      name: 'Container 3',
+      temp: 48,
+      tempColor: '#0284c7',
+      level: 42,
+      levelColor: '#38bdf8',
+      heatLevel: 'low'
     },
     {
-      id: 'ZN-04',
-      name: 'Flue Gas Economizer',
-      subLocation: 'Exhaust Stack Recovery',
-      temperature: 228.4,
-      targetTemp: 235.0,
-      pressure: '1.20 Bar',
-      status: 'optimal',
-      fuelFlow: 'N/A (Recapture)',
-      efficiency: 99.4
+      id: 4,
+      name: 'Container 4',
+      temp: 36,
+      tempColor: '#0284c7',
+      level: 18,
+      levelColor: '#38bdf8',
+      heatLevel: 'cold'
     }
   ];
 
-  sensors: SensorData[] = [
-    {
-      tag: 'TS-304',
-      name: 'Combustion Core Pyrometer',
-      location: 'Boiler Chamber A',
-      value: '874.2',
-      unit: '°C',
-      status: 'warning',
-      threshold: 'Max: 860°C',
-      lastUpdated: '1s ago'
-    },
-    {
-      tag: 'PS-102',
-      name: 'Superheater High-Pressure Feed',
-      location: 'Circuit #2 Pipe',
-      value: '18.40',
-      unit: 'Bar',
-      status: 'normal',
-      threshold: 'Max: 22.0 Bar',
-      lastUpdated: '2s ago'
-    },
-    {
-      tag: 'FS-501',
-      name: 'Pre-heater Intake Flow Sensor',
-      location: 'Intake Manifold 1',
-      value: '142.8',
-      unit: 'kg/s',
-      status: 'normal',
-      threshold: '120 - 160 kg/s',
-      lastUpdated: 'Just now'
-    },
-    {
-      tag: 'TS-809',
-      name: 'Flue Gas Recirculation Temp',
-      location: 'Stack Economizer',
-      value: '228.4',
-      unit: '°C',
-      status: 'normal',
-      threshold: 'Max: 260°C',
-      lastUpdated: '4s ago'
-    },
-    {
-      tag: 'OS-202',
-      name: 'Excess O2 Analyzer',
-      location: 'Burner Array B',
-      value: '2.84',
-      unit: '% O2',
-      status: 'normal',
-      threshold: '2.5 - 3.2 %',
-      lastUpdated: '10s ago'
-    },
-    {
-      tag: 'VS-411',
-      name: 'Turbine Vibration Transducer',
-      location: 'Shaft Bearing 4',
-      value: '1.42',
-      unit: 'mm/s',
-      status: 'normal',
-      threshold: 'Max: 2.8 mm/s',
-      lastUpdated: '2s ago'
-    }
+  // Bottom Card 1: Server Heat Data
+  serverHeatData: TelemetryMetric[] = [
+    { icon: 'thermometer', label: 'Inlet Temp (°C)', value: '78' },
+    { icon: 'outlet', label: 'Outlet Temp (°C)', value: '62' },
+    { icon: 'heat', label: 'Heat Output (kW)', value: '8.5' },
+    { icon: 'flow', label: 'Flow Rate (m³/h)', value: '1.2' }
   ];
 
-  controlToggles = [
-    { label: 'Auto Burner Modulator', state: true, desc: 'Dynamic fuel-air ratio optimization' },
-    { label: 'Coolant Emergency Loop', state: false, desc: 'Standby for high-heat emergency' },
-    { label: 'EGR Heat Recapture', state: true, desc: 'Circulate flue gases to preheater' },
-    { label: 'Secondary Pressure Relief', state: false, desc: 'Automatic safety valve bypass' }
+  // Bottom Card 2: Thermal Storage Details
+  storageDetails: TelemetryMetric[] = [
+    { icon: 'thermometer', label: 'Total Capacity (kWh)', value: '10.0' },
+    { icon: 'stored', label: 'Stored Heat (kWh)', value: '6.8' },
+    { icon: 'available', label: 'Available Capacity (kWh)', value: '3.2' },
+    { icon: 'avg-temp', label: 'Current Avg. Temp (°C)', value: '56' }
+  ];
+
+  // Bottom Card 4: Heat Storage Level
+  storageLevels = [
+    { name: 'Container 1', percent: 85, color: '#10b981', iconColor: '#10b981' },
+    { name: 'Container 2', percent: 67, color: '#10b981', iconColor: '#38bdf8' },
+    { name: 'Container 3', percent: 42, color: '#38bdf8', iconColor: '#38bdf8' },
+    { name: 'Container 4', percent: 18, color: '#38bdf8', iconColor: '#38bdf8' }
   ];
 
   ngOnInit(): void {
-    // Component initialization
-  }
-
-  setFilter(filter: string): void {
-    this.selectedFilter = filter;
-  }
-
-  get filteredSensors(): SensorData[] {
-    if (this.selectedFilter === 'all') return this.sensors;
-    return this.sensors.filter(s => s.status === this.selectedFilter);
-  }
-
-  toggleControl(control: any): void {
-    control.state = !control.state;
-  }
-
-  triggerDiagnosticScan(): void {
-    alert('Diagnostics initiated: All 24 thermal zones reporting telemetry within calibrated margins.');
+    // Initialized with reference image telemetry values
   }
 }
+

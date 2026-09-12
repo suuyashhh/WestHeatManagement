@@ -28,34 +28,32 @@ export class SidebarComponent {
     {
       id: 'dashboard',
       label: 'Dashboard',
-      icon: 'flame',
-      badge: 'LIVE',
-      badgeColor: 'flame',
+      icon: 'home',
       route: '/dashboard'
     },
     {
       id: 'data-server',
       label: 'Data Server',
       icon: 'server',
-      badge: 'ONLINE',
-      badgeColor: 'normal',
       route: '/data-server'
     },
     {
       id: 'thermal-storage',
       label: 'Thermal Storage',
       icon: 'cylinder',
-      badge: '84%',
-      badgeColor: 'cyan',
       route: '/thermal-storage'
     },
     {
-      id: 'clients',
-      label: 'Clients',
-      icon: 'users',
-      badge: '12 Active',
-      badgeColor: 'optimal',
-      route: '/clients'
+      id: 'reports',
+      label: 'Reports',
+      icon: 'reports',
+      route: '/reports'
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: 'settings',
+      route: '/settings'
     }
   ];
 
