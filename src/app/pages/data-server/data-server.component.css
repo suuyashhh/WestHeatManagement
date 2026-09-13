@@ -1,46 +1,242 @@
+/* ==========================================================================
+   DATA SERVER & SCADA WASTE HEAT SIMULATION - ZERO-SCROLL COMPACT STYLESHEET
+   ========================================================================== */
+
 .data-server-page {
   display: flex;
   flex-direction: column;
-  gap: 26px;
-  max-width: 1600px;
+  gap: 8px;
+  height: 100%;
+  max-height: calc(100vh - 84px);
+  max-width: 1720px;
   margin: 0 auto;
+  overflow: hidden;
 }
 
+/* Page Header - Compact Single Row */
 .page-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-wrap: nowrap;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .pre-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 11px;
+  gap: 6px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: var(--cyan-primary);
-  margin-bottom: 4px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+}
+
+.page-main-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
+}
+
+.live-pulse.normal {
+  animation: pulse-ring 1.8s infinite ease-out;
+}
+
+.live-pulse.paused {
+  background: var(--text-muted);
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+  100% { transform: scale(0.9); opacity: 1; }
+}
+
+/* Header Quick Chips */
+.header-badges-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.scada-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.scada-chip.active-heat {
+  border-color: rgba(249, 115, 22, 0.4);
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.chip-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 6px var(--accent-green);
+}
+
+.scada-chip:not(.active-heat) .chip-dot {
+  background: var(--text-muted);
+  box-shadow: none;
+}
+
+.chip-label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.chip-val {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chip-val.highlight {
+  color: var(--accent-orange);
+}
+
+.temp-chip svg { color: var(--accent-orange); }
+.power-chip svg { color: var(--accent-sky); }
+
+/* ==========================================================================
+   MAIN DUAL-COLUMN WORKSPACE GRID (FITS VIEWPORT)
+   ========================================================================== */
+.scada-workspace-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(370px, 430px);
+  gap: 12px;
+  align-items: stretch;
+}
+
+@media (max-width: 1280px) {
+  .scada-workspace-grid {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
 }
 
 /* ==========================================================================
-   ANIMATED STAGE (DUAL-SIDED LEFT & RIGHT HEAT DISSIPATION)
+   LEFT COLUMN: SERVER VISUAL STAGE PANEL
    ========================================================================== */
-.animated-server-stage {
-  background: radial-gradient(circle at 50% 55%, #ffffff 0%, #f8fafc 65%, #f1f5f9 100%);
+.server-stage-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 50px 20px 40px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  position: relative;
+  height: 100%;
+}
+
+.panel-inner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--bg-card-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-indicator-lamp {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #334155;
+  transition: var(--transition-normal);
+}
+
+.status-indicator-lamp.lamp-hot {
+  background: #ff5722;
+  box-shadow: 0 0 8px #ff5722, 0 0 16px #ff9800;
+  animation: lamp-blink 2s infinite ease-in-out;
+}
+
+.status-indicator-lamp.lamp-off {
+  background: #475569;
+  box-shadow: none;
+}
+
+@keyframes lamp-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+.panel-title-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.live-power-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-base);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.live-power-tag strong {
+  color: var(--accent-orange);
+}
+
+/* Animated Stage Viewport */
+.animated-server-stage {
+  flex: 1;
+  min-height: 0;
+  background: radial-gradient(circle at 50% 55%, #162238 0%, #0d1629 60%, #080e1c 100%);
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-card);
-  min-height: 540px;
 }
 
 /* Ambient Thermal Radiation Haze (Left & Right Flanks) */
@@ -50,34 +246,35 @@
   width: 320px;
   height: 340px;
   border-radius: 50%;
-  filter: blur(50px);
+  filter: blur(55px);
   pointer-events: none;
-  opacity: 0.75;
+  opacity: calc(0.1 + var(--heat-ratio, 0.2) * 0.9);
+  transition: opacity 0.4s ease;
 }
 
 .thermal-haze-glow.left {
   left: 2%;
-  background: radial-gradient(circle, rgba(234, 88, 12, 0.22) 0%, rgba(249, 115, 22, 0.12) 50%, transparent 75%);
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.35) 0%, rgba(249, 115, 22, 0.18) 50%, transparent 75%);
   animation: haze-pulse-left 3.5s ease-in-out infinite alternate;
 }
 
 .thermal-haze-glow.right {
   right: 2%;
-  background: radial-gradient(circle, rgba(234, 88, 12, 0.22) 0%, rgba(249, 115, 22, 0.12) 50%, transparent 75%);
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.35) 0%, rgba(249, 115, 22, 0.18) 50%, transparent 75%);
   animation: haze-pulse-right 3.5s ease-in-out infinite alternate 0.5s;
 }
 
 @keyframes haze-pulse-left {
-  0% { transform: scale(0.9) translateX(10px); opacity: 0.6; }
-  100% { transform: scale(1.15) translateX(-25px); opacity: 0.95; }
+  0% { transform: scale(0.9) translateX(10px); }
+  100% { transform: scale(1.15) translateX(-25px); }
 }
 
 @keyframes haze-pulse-right {
-  0% { transform: scale(0.9) translateX(-10px); opacity: 0.6; }
-  100% { transform: scale(1.15) translateX(25px); opacity: 0.95; }
+  0% { transform: scale(0.9) translateX(-10px); }
+  100% { transform: scale(1.15) translateX(25px); }
 }
 
-/* Stage Layout: Left Heat + Center Server + Right Heat */
+/* Stage Layout - Scaled Gracefully for Ultra-Crisp Zero-Scroll Fit */
 .server-stage-layout {
   display: flex;
   align-items: center;
@@ -86,17 +283,24 @@
   z-index: 10;
   width: 100%;
   max-width: 960px;
+  transform: scale(0.78);
+  transform-origin: center center;
+  margin-top: -10px;
 }
 
-/* ==========================================================================
-   SIDE HEAT EXHAUST STREAMS (LEFT & RIGHT)
-   ========================================================================== */
+/* Side Heat Exhaust */
 .side-heat-exhaust {
   width: 210px;
   height: 340px;
   position: relative;
   pointer-events: none;
   flex-shrink: 0;
+  opacity: calc(0.1 + var(--heat-ratio, 0.2) * 0.9);
+  transition: opacity 0.35s ease;
+}
+
+.server-stage-panel.is-idle .side-heat-exhaust {
+  opacity: 0.05;
 }
 
 /* Billowing Thermal Vapor Clouds */
@@ -108,13 +312,12 @@
   pointer-events: none;
 }
 
-/* Left Clouds (Billow Outward to Left and Rise) */
 .left-cloud-1 {
   right: 10px;
   top: 30%;
   width: 140px;
   height: 60px;
-  background: radial-gradient(ellipse at center, rgba(255, 61, 0, 0.6) 0%, rgba(255, 145, 0, 0.25) 55%, transparent 75%);
+  background: radial-gradient(ellipse at center, rgba(255, 61, 0, 0.65) 0%, rgba(255, 145, 0, 0.3) 55%, transparent 75%);
   animation: billow-left 2.6s infinite ease-out;
 }
 
@@ -123,7 +326,7 @@
   top: 55%;
   width: 160px;
   height: 70px;
-  background: radial-gradient(ellipse at center, rgba(249, 115, 22, 0.55) 0%, rgba(251, 191, 36, 0.2) 60%, transparent 80%);
+  background: radial-gradient(ellipse at center, rgba(249, 115, 22, 0.6) 0%, rgba(251, 191, 36, 0.25) 60%, transparent 80%);
   animation: billow-left 3.2s infinite ease-out 0.8s;
 }
 
@@ -132,35 +335,23 @@
   top: 15%;
   width: 130px;
   height: 55px;
-  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.5) 0%, rgba(249, 115, 22, 0.2) 55%, transparent 75%);
+  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.55) 0%, rgba(249, 115, 22, 0.25) 55%, transparent 75%);
   animation: billow-left 2.8s infinite ease-out 1.5s;
 }
 
 @keyframes billow-left {
-  0% {
-    transform: translate(0, 0) scale(0.7);
-    opacity: 0;
-  }
-  30% {
-    opacity: 0.9;
-  }
-  70% {
-    opacity: 0.65;
-    transform: translate(-90px, -40px) scale(1.3);
-  }
-  100% {
-    transform: translate(-170px, -110px) scale(1.7);
-    opacity: 0;
-  }
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  30% { opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8); }
+  70% { opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.65); transform: translate(-90px, -40px) scale(1.3); }
+  100% { transform: translate(-170px, -110px) scale(1.7); opacity: 0; }
 }
 
-/* Right Clouds (Billow Outward to Right and Rise) */
 .right-cloud-1 {
   left: 10px;
   top: 30%;
   width: 140px;
   height: 60px;
-  background: radial-gradient(ellipse at center, rgba(255, 61, 0, 0.6) 0%, rgba(255, 145, 0, 0.25) 55%, transparent 75%);
+  background: radial-gradient(ellipse at center, rgba(255, 61, 0, 0.65) 0%, rgba(255, 145, 0, 0.3) 55%, transparent 75%);
   animation: billow-right 2.6s infinite ease-out;
 }
 
@@ -169,7 +360,7 @@
   top: 55%;
   width: 160px;
   height: 70px;
-  background: radial-gradient(ellipse at center, rgba(249, 115, 22, 0.55) 0%, rgba(251, 191, 36, 0.2) 60%, transparent 80%);
+  background: radial-gradient(ellipse at center, rgba(249, 115, 22, 0.6) 0%, rgba(251, 191, 36, 0.25) 60%, transparent 80%);
   animation: billow-right 3.2s infinite ease-out 0.8s;
 }
 
@@ -178,29 +369,18 @@
   top: 15%;
   width: 130px;
   height: 55px;
-  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.5) 0%, rgba(249, 115, 22, 0.2) 55%, transparent 75%);
+  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.55) 0%, rgba(249, 115, 22, 0.25) 55%, transparent 75%);
   animation: billow-right 2.8s infinite ease-out 1.5s;
 }
 
 @keyframes billow-right {
-  0% {
-    transform: translate(0, 0) scale(0.7);
-    opacity: 0;
-  }
-  30% {
-    opacity: 0.9;
-  }
-  70% {
-    opacity: 0.65;
-    transform: translate(90px, -40px) scale(1.3);
-  }
-  100% {
-    transform: translate(170px, -110px) scale(1.7);
-    opacity: 0;
-  }
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  30% { opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8); }
+  70% { opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.65); transform: translate(90px, -40px) scale(1.3); }
+  100% { transform: translate(170px, -110px) scale(1.7); opacity: 0; }
 }
 
-/* SVG Thermal Flow Trails */
+/* SVG Flow Trails */
 .lateral-heat-svg {
   width: 100%;
   height: 100%;
@@ -211,53 +391,31 @@
   stroke-dasharray: 45 15;
 }
 
-/* Left SVG Trails */
 .trail-l1 { animation: stream-left 2s linear infinite; }
 .trail-l2 { animation: stream-left 2.5s linear infinite 0.4s; }
 .trail-l3 { animation: stream-left 2.2s linear infinite 0.9s; }
 .trail-l4 { animation: stream-left 2.7s linear infinite 1.3s; }
 
 @keyframes stream-left {
-  0% {
-    stroke-dashoffset: -240;
-    opacity: 0.1;
-  }
-  30% {
-    opacity: 0.95;
-  }
-  80% {
-    opacity: 0.7;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
+  0% { stroke-dashoffset: -240; opacity: 0.1; }
+  30% { opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8); }
+  80% { opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.6); }
+  100% { stroke-dashoffset: 0; opacity: 0; }
 }
 
-/* Right SVG Trails */
 .trail-r1 { animation: stream-right 2s linear infinite; }
 .trail-r2 { animation: stream-right 2.5s linear infinite 0.4s; }
 .trail-r3 { animation: stream-right 2.2s linear infinite 0.9s; }
 .trail-r4 { animation: stream-right 2.7s linear infinite 1.3s; }
 
 @keyframes stream-right {
-  0% {
-    stroke-dashoffset: 240;
-    opacity: 0.1;
-  }
-  30% {
-    opacity: 0.95;
-  }
-  80% {
-    opacity: 0.7;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
+  0% { stroke-dashoffset: 240; opacity: 0.1; }
+  30% { opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8); }
+  80% { opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.6); }
+  100% { stroke-dashoffset: 0; opacity: 0; }
 }
 
-/* Hot Rising Embers (Left Side) */
+/* Hot Embers */
 .heat-particle {
   position: absolute;
   border-radius: 50%;
@@ -274,12 +432,11 @@
 
 @keyframes ember-left {
   0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-  25% { opacity: 0.95; }
-  80% { opacity: 0.7; }
+  25% { opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8); }
+  80% { opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.6); }
   100% { transform: translate(-140px, -120px) scale(1.4); opacity: 0; }
 }
 
-/* Hot Rising Embers (Right Side) */
 .rp-1 { left: 20px; top: 40%; width: 5px; height: 5px; animation: ember-right 2.8s infinite ease-out; }
 .rp-2 { left: 40px; top: 60%; width: 6px; height: 6px; animation: ember-right 3.2s infinite ease-out 0.6s; background: #ff9800; }
 .rp-3 { left: 15px; top: 20%; width: 4px; height: 4px; animation: ember-right 2.4s infinite ease-out 1.2s; background: #ffeb3b; }
@@ -288,8 +445,8 @@
 
 @keyframes ember-right {
   0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-  25% { opacity: 0.95; }
-  80% { opacity: 0.7; }
+  25% { opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8); }
+  80% { opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.6); }
   100% { transform: translate(140px, -120px) scale(1.4); opacity: 0; }
 }
 
@@ -301,10 +458,9 @@
   align-items: stretch;
   position: relative;
   z-index: 15;
-  filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.25));
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
 }
 
-/* Lateral Louver Heat Exhaust Manifolds (Attached to Left & Right Flanks) */
 .side-louver-bank {
   width: 14px;
   background: #090d16;
@@ -321,13 +477,13 @@
 .left-louvers {
   border-radius: 6px 0 0 6px;
   border-right: none;
-  box-shadow: -4px 0 12px rgba(255, 61, 0, 0.35);
+  box-shadow: -4px 0 12px rgba(255, 61, 0, calc(0.1 + var(--heat-ratio, 0.2) * 0.5));
 }
 
 .right-louvers {
   border-radius: 0 6px 6px 0;
   border-left: none;
-  box-shadow: 4px 0 12px rgba(255, 61, 0, 0.35);
+  box-shadow: 4px 0 12px rgba(255, 61, 0, calc(0.1 + var(--heat-ratio, 0.2) * 0.5));
 }
 
 .louver-fin {
@@ -342,10 +498,7 @@
 .louver-fin::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   border-radius: 2px;
 }
 
@@ -356,13 +509,22 @@
 .louver-fin.hot::after {
   background: linear-gradient(90deg, #ff5722, #ff9800);
   box-shadow: 0 0 10px #ff5722;
+  opacity: calc(0.2 + var(--heat-ratio, 0.2) * 0.8);
   animation: louver-pulse 1.8s infinite alternate ease-in-out;
 }
 
 .louver-fin.intense::after {
   background: linear-gradient(90deg, #ff1744, #ff6d00);
   box-shadow: 0 0 14px #ff3d00;
+  opacity: calc(0.3 + var(--heat-ratio, 0.2) * 0.7);
   animation: louver-pulse 1.2s infinite alternate ease-in-out;
+}
+
+.server-stage-panel.is-idle .louver-fin::after {
+  background: #334155;
+  box-shadow: none;
+  opacity: 0.3;
+  animation: none;
 }
 
 @keyframes louver-pulse {
@@ -370,7 +532,6 @@
   100% { opacity: 1; }
 }
 
-/* Chassis Outer Frame */
 .chassis-outer-frame {
   width: 370px;
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
@@ -380,10 +541,9 @@
   overflow: hidden;
   box-shadow: 
     inset 0 1px 2px rgba(255, 255, 255, 0.15),
-    0 0 20px rgba(0, 0, 0, 0.4);
+    0 0 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Vertical 42U Mounting Rails (Steel with Screws & Unit Ticks) */
 .rack-rail {
   width: 22px;
   background: #111827;
@@ -416,7 +576,6 @@
   background: #374151;
 }
 
-/* Chassis Inner Bay */
 .chassis-inner-bay {
   flex: 1;
   background: #090d16;
@@ -424,7 +583,6 @@
   flex-direction: column;
 }
 
-/* Top Exhaust Ventilation Grille */
 .chassis-header-vent {
   height: 26px;
   background: #020617;
@@ -438,18 +596,20 @@
 
 .internal-core-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(180deg, rgba(255, 61, 0, 0.5) 0%, rgba(255, 145, 0, 0.15) 100%);
   filter: blur(4px);
+  opacity: calc(0.1 + var(--heat-ratio, 0.2) * 0.9);
   animation: vent-glow-pulse 1.8s infinite alternate ease-in-out;
 }
 
+.server-stage-panel.is-idle .internal-core-glow {
+  opacity: 0;
+}
+
 @keyframes vent-glow-pulse {
-  0% { opacity: 0.5; filter: blur(3px); }
-  100% { opacity: 1; filter: blur(6px); }
+  0% { opacity: 0.4; filter: blur(3px); }
+  100% { opacity: 0.95; filter: blur(6px); }
 }
 
 .top-grille-honeycomb {
@@ -464,7 +624,7 @@
   background: #090d16;
   border-radius: 2px;
   border: 1px solid rgba(255, 87, 34, 0.4);
-  box-shadow: 0 0 6px rgba(255, 87, 34, 0.5);
+  box-shadow: 0 0 6px rgba(255, 87, 34, calc(0.1 + var(--heat-ratio, 0.2) * 0.6));
 }
 
 /* Enterprise Blade Units */
@@ -490,7 +650,6 @@
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
-/* NVMe Drive Caddy Array (Hot Swap) */
 .nvme-drive-caddy {
   display: flex;
   gap: 4px;
@@ -526,7 +685,6 @@
   50% { opacity: 0.15; }
 }
 
-/* Honeycomb Heatsink Ventilation Mesh with Radiant Heat Bleed */
 .honeycomb-heatsink-mesh {
   flex: 1;
   height: 32px;
@@ -544,25 +702,27 @@
 
 .radiant-core-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: radial-gradient(circle at center, rgba(234, 88, 12, 0.5) 0%, rgba(249, 115, 22, 0.2) 60%, transparent 85%);
+  opacity: calc(0.15 + var(--heat-ratio, 0.2) * 0.85);
   animation: heat-glow-pulse 2s infinite alternate ease-in-out;
 }
 
 .radiant-core-glow.intense {
   background: radial-gradient(circle at center, rgba(255, 61, 0, 0.75) 0%, rgba(255, 145, 0, 0.3) 55%, transparent 85%);
+  opacity: calc(0.25 + var(--heat-ratio, 0.2) * 0.75);
   animation: heat-glow-pulse 1.4s infinite alternate ease-in-out;
 }
 
+.server-stage-panel.is-idle .radiant-core-glow {
+  opacity: 0.05;
+}
+
 @keyframes heat-glow-pulse {
-  0% { opacity: 0.45; }
+  0% { opacity: 0.4; }
   100% { opacity: 1; }
 }
 
-/* SFP+ Fiber Optics & Status LEDs */
 .blade-optic-cluster {
   display: flex;
   align-items: center;
@@ -611,11 +771,10 @@
 .d-led.cyan { background: #06b6d4; box-shadow: 0 0 5px #06b6d4; }
 .d-led.amber { background: #f59e0b; box-shadow: 0 0 5px #f59e0b; }
 .d-led.red { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
-
 .d-led.blink { animation: led-flash 0.7s infinite; }
 .d-led.pulse { animation: led-flash 1.2s infinite; }
 
-/* Lower Intake Module with Dual Turbines */
+/* Lower Intake Turbines */
 .chassis-intake-module {
   background: #090d16;
   padding: 12px 16px 14px;
@@ -680,6 +839,10 @@
   animation: fan-rotate 0.5s linear infinite;
 }
 
+.server-stage-panel.is-idle .turbine-impeller.spinning-fast {
+  animation: fan-rotate 1.6s linear infinite;
+}
+
 @keyframes fan-rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -721,14 +884,710 @@
   border-top: 1px solid #475569;
 }
 
-/* Chassis Ground Shadow & Dual Heat Aura */
 .chassis-ground-shadow {
   width: 620px;
   height: 28px;
   margin-top: -6px;
-  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.3) 0%, rgba(234, 88, 12, 0.16) 45%, transparent 75%);
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.7) 0%, rgba(234, 88, 12, 0.2) 45%, transparent 75%);
   filter: blur(8px);
   border-radius: 50%;
   position: relative;
   z-index: 5;
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: SCADA SIMULATION & CALCULATION CONTROL PANEL (COMPACT ZERO-SCROLL)
+   ========================================================================== */
+.scada-control-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.scada-panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  height: 100%;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.panel-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  color: var(--accent-sky);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-title-meta {
+  flex: 1;
+}
+
+.control-panel-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.control-panel-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.live-tag {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
+/* Control Section Generic */
+.control-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.control-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: 0.01em;
+}
+
+/* 1. SLIDER & PRESETS */
+.active-val-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.active-val-badge .val-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent-orange);
+}
+
+.active-val-badge .val-unit {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.custom-scada-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(to right, #ea580c 0%, #f97316 var(--slider-fill, 20%), #1e293b var(--slider-fill, 20%), #1e293b 100%);
+  outline: none;
+  cursor: pointer;
+  border: 1px solid #334155;
+}
+
+.custom-scada-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ff7700 50%, #c2410c 100%);
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.8);
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+
+.custom-scada-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.custom-scada-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+
+.slider-scale-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
+.slider-scale-ticks span.active-tick {
+  color: var(--accent-orange);
+  font-weight: 700;
+}
+
+/* Preset Buttons */
+.presets-row {
+  display: flex;
+  gap: 6px;
+}
+
+.preset-btn {
+  flex: 1;
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition-fast);
+}
+
+.preset-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.preset-btn.active {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.2);
+}
+
+/* 2. LIVE PARAMETERS DISPLAY */
+.live-params-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.telemetry-box {
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: var(--transition-fast);
+}
+
+.telemetry-box:hover {
+  border-color: var(--border-medium);
+}
+
+.box-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.temp-box .box-icon {
+  color: var(--accent-sky);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.power-box .box-icon {
+  color: var(--accent-orange);
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.box-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.box-title {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.box-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.box-value.glow-orange {
+  color: var(--accent-orange);
+}
+
+.status-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.status-pulse-dot.online {
+  background: var(--accent-green);
+  box-shadow: 0 0 6px var(--accent-green);
+  animation: pulse-ring 1.8s infinite ease-out;
+}
+
+.status-pulse-dot.idle {
+  background: var(--text-muted);
+}
+
+.status-text-label {
+  font-size: 11px !important;
+}
+
+.status-text-label.text-active {
+  color: var(--accent-green) !important;
+}
+
+/* 3. STORAGE DURATION */
+.duration-active-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-cyan);
+}
+
+.duration-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.duration-tab {
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-normal);
+}
+
+.duration-tab:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-medium);
+}
+
+.duration-tab.selected {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: var(--accent-cyan);
+}
+
+.tab-indicator {
+  width: 4px;
+  height: 22px;
+  border-radius: 2px;
+  background: var(--border-medium);
+  transition: var(--transition-fast);
+}
+
+.duration-tab.selected .tab-indicator {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 6px var(--accent-cyan);
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.duration-tab.selected .tab-title {
+  color: var(--accent-cyan);
+}
+
+.tab-desc {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* 4. PROMINENT CARD: THERMAL ENERGY STORED */
+.thermal-energy-prominent-card {
+  background: linear-gradient(145deg, #18233c 0%, #111a2f 100%);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.prominent-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.energy-icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #ea580c 0%, #b45309 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(234, 88, 12, 0.4);
+}
+
+.energy-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.energy-heading {
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.energy-sub {
+  font-size: 9.5px;
+  color: var(--text-secondary);
+}
+
+/* Readouts Cluster */
+.energy-readouts-cluster {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(10, 17, 32, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.energy-primary-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.energy-large-val {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.energy-large-unit {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-orange);
+}
+
+.eq-symbol {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.energy-secondary-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.energy-kwh-val {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-sky);
+  line-height: 1;
+}
+
+.energy-kwh-unit {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Meter Bar */
+.energy-meter-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.meter-bar-track {
+  width: 100%;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: #1e293b;
+  overflow: hidden;
+  position: relative;
+}
+
+.meter-bar-fill {
+  height: 100%;
+  min-width: 4px;
+  max-width: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, #f97316 0%, #eab308 50%, #10b981 100%);
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.7);
+  transition: width 0.35s ease;
+}
+
+/* Formula line and note */
+.energy-calculation-box {
+  background: rgba(13, 21, 39, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.formula-line {
+  font-size: 10px;
+}
+
+.formula-line code {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.energy-rule-note {
+  font-size: 9.5px;
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+}
+
+/* 5. VISUAL INDICATOR: HEAT FLOW → THERMAL STORAGE */
+.heat-flow-conduit-card {
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.heat-flow-conduit-card.flow-active {
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.flow-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.flow-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.flow-chips-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flow-target-chip {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.flow-target-chip strong {
+  color: var(--accent-cyan);
+}
+
+.flow-rate-chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-orange);
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.flow-rate-chip.idle {
+  color: var(--text-muted);
+  background: rgba(100, 116, 139, 0.12);
+  border-color: rgba(100, 116, 139, 0.3);
+}
+
+/* Conduit graphic */
+.flow-graphic-stage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: var(--bg-base);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  gap: 6px;
+}
+
+.source-node, .target-node {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.source-node svg { color: var(--accent-sky); }
+.target-node svg { color: var(--accent-orange); }
+
+.flow-pipe-line {
+  flex: 1;
+  height: 8px;
+  background: #1e293b;
+  border-radius: var(--radius-full);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #334155;
+  display: flex;
+  align-items: center;
+}
+
+.pipe-core-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.2) 0%, rgba(249, 115, 22, 0.25) 100%);
+}
+
+.flowing-heat-stream {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.flow-pulse {
+  position: absolute;
+  width: 18px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, #ff9800, #ff5722);
+  box-shadow: 0 0 6px #ff5722;
+  animation: heat-packet 2s infinite linear;
+}
+
+.flow-pulse.p1 { animation-delay: 0s; }
+.flow-pulse.p2 { animation-delay: 0.5s; }
+.flow-pulse.p3 { animation-delay: 1.0s; }
+.flow-pulse.p4 { animation-delay: 1.5s; }
+
+@keyframes heat-packet {
+  0% { left: -20px; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: calc(100% + 10px); opacity: 0; }
+}
+
+.flow-arrow-head {
+  position: absolute;
+  right: -2px;
+  color: var(--accent-orange);
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+.flow-inline-jump-btn {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  text-decoration: none;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.flow-inline-jump-btn:hover {
+  background: rgba(6, 182, 212, 0.22);
+  color: #ffffff;
 }

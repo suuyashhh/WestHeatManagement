@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { WasteHeatService, StorageDurationOption } from '../../services/waste-heat.service';
 
 export interface ServerNode {
   id: string;
@@ -25,11 +28,15 @@ export interface ServerLog {
 @Component({
   selector: 'app-data-server',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './data-server.component.html',
   styleUrl: './data-server.component.css'
 })
 export class DataServerComponent {
+  readonly heatService = inject(WasteHeatService);
+
+  readonly presets: number[] = [0, 1.0, 2.5, 5.0];
+
   serverNodes: ServerNode[] = [
     {
       id: 'SRV-MODBUS-01',
@@ -111,6 +118,19 @@ export class DataServerComponent {
       message: 'State snapshot synchronized with standby node SRV-FAILOVER-04.'
     }
   ];
+
+  onSliderInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.heatService.setHeatOutput(parseFloat(input.value));
+  }
+
+  setPreset(kw: number): void {
+    this.heatService.setHeatOutput(kw);
+  }
+
+  setDuration(sec: StorageDurationOption): void {
+    this.heatService.setDuration(sec);
+  }
 
   restartNode(node: ServerNode): void {
     alert(`Re-initializing network interface for ${node.name} (${node.ipAddress}:${node.port})`);
