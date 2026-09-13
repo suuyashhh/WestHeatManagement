@@ -2,6 +2,8 @@
 :host {
   display: block;
   height: 100%;
+  position: relative;
+  z-index: 35;
 }
 
 .left-sidebar {
@@ -12,8 +14,47 @@
   background: #0a1120;
   border-right: 1px solid #162444;
   user-select: none;
-  overflow: hidden;
-  padding: 16px 12px;
+  overflow: visible;
+  padding: 14px 12px;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease;
+  position: relative;
+}
+
+/* Sidebar Top / Toggle Row */
+.sidebar-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.sidebar-top-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar-toggle-action-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  color: #94a3b8;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sidebar-toggle-action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #3b82f6;
+  color: #ffffff;
 }
 
 .nav-menu {
@@ -34,6 +75,7 @@
   font-size: 13.5px;
   transition: all 0.15s ease;
   cursor: pointer;
+  position: relative;
 }
 
 .nav-icon-box {
@@ -72,3 +114,70 @@
 .nav-link.active .nav-icon-box {
   color: #ffffff;
 }
+
+/* ==========================================================================
+   COLLAPSED STATE: Width 68px, Center Icons Only, Hidden Labels & Tooltips
+   ========================================================================== */
+.left-sidebar.collapsed {
+  width: 68px;
+  padding: 14px 8px;
+}
+
+.left-sidebar.collapsed .sidebar-top-row {
+  justify-content: center;
+  padding: 0;
+}
+
+.left-sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 11px 0;
+  width: 100%;
+}
+
+.left-sidebar.collapsed .nav-icon-box {
+  margin: 0;
+}
+
+.left-sidebar.collapsed .nav-label {
+  display: none;
+}
+
+/* Sleek Tooltip Popout when Collapsed */
+.nav-tooltip {
+  display: none;
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #111d33;
+  border: 1px solid #233b66;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.nav-tooltip::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px 5px 5px 0;
+  border-style: solid;
+  border-color: transparent #233b66 transparent transparent;
+}
+
+.left-sidebar.collapsed .nav-link:hover .nav-tooltip {
+  display: block;
+  opacity: 1;
+  transform: translateY(-50%) translateX(2px);
+}
+

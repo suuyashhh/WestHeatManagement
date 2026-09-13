@@ -25,6 +25,27 @@
 .topbar-left {
   display: flex;
   align-items: center;
+  gap: 12px;
+}
+
+.topbar-sidebar-toggle {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #1c2e4f;
+  border-radius: 8px;
+  color: #94a3b8;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.topbar-sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #3b82f6;
+  color: #ffffff;
 }
 
 .topbar-brand {

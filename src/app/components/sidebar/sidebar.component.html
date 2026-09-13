@@ -1,6 +1,27 @@
 <aside 
   class="left-sidebar" 
+  [class.collapsed]="isCollapsed"
   aria-label="Admin Navigation Sidebar">
+
+  <!-- Sidebar Header / Collapse Toggle Row -->
+  <div class="sidebar-top-row">
+    <span class="sidebar-top-title" *ngIf="!isCollapsed">MENU</span>
+    <button 
+      type="button" 
+      class="sidebar-toggle-action-btn" 
+      (click)="onToggle()" 
+      [title]="isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'"
+      aria-label="Toggle Sidebar Navigation">
+      <!-- Chevron Left when Expanded -->
+      <svg *ngIf="!isCollapsed" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      <!-- Chevron Right when Collapsed -->
+      <svg *ngIf="isCollapsed" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
 
   <nav class="nav-menu">
     <a 
@@ -10,7 +31,7 @@
       [routerLinkActiveOptions]="{exact: item.route === '/dashboard'}"
       (click)="onNavClick()"
       class="nav-link"
-      [title]="item.label">
+      [attr.aria-label]="item.label">
       
       <!-- Icons matching reference UI -->
       <div class="nav-icon-box">
@@ -47,7 +68,11 @@
         </svg>
       </div>
 
-      <span class="nav-label">{{ item.label }}</span>
+      <!-- Menu Name Label (Shown when expanded) -->
+      <span class="nav-label" *ngIf="!isCollapsed">{{ item.label }}</span>
+
+      <!-- Tooltip Popout (Shown on hover when collapsed) -->
+      <span class="nav-tooltip" *ngIf="isCollapsed">{{ item.label }}</span>
     </a>
   </nav>
 
