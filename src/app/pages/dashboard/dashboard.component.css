@@ -1721,3 +1721,267 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   LIGHT THEME OVERRIDES FOR DASHBOARD
+   ========================================================================== */
+[data-theme="light"] .dashboard-page-container,
+body.light-theme .dashboard-page-container {
+  color: #0f172a;
+}
+
+[data-theme="light"] .kpi-card,
+body.light-theme .kpi-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .kpi-card:hover,
+body.light-theme .kpi-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .kpi-value,
+body.light-theme .kpi-value {
+  color: #0f172a;
+}
+
+[data-theme="light"] .kpi-label,
+body.light-theme .kpi-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .kpi-preset-btn,
+body.light-theme .kpi-preset-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .kpi-preset-btn:hover,
+body.light-theme .kpi-preset-btn:hover {
+  background: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+}
+
+[data-theme="light"] .donut-bg,
+body.light-theme .donut-bg {
+  stroke: #e2e8f0;
+}
+
+[data-theme="light"] .gauge-center-text,
+body.light-theme .gauge-center-text {
+  color: #0f172a;
+}
+
+[data-theme="light"] .kpi-title-gauge,
+body.light-theme .kpi-title-gauge {
+  color: #0f172a;
+}
+
+/* SCADA Stage */
+[data-theme="light"] .scada-hero-card,
+body.light-theme .scada-hero-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .scada-titles-row,
+body.light-theme .scada-titles-row {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .stage-main-title,
+body.light-theme .stage-main-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .server-stage-block,
+body.light-theme .server-stage-block {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .server-status-pill,
+body.light-theme .server-status-pill {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .server-heat-telemetry-tag,
+body.light-theme .server-heat-telemetry-tag {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .conduit-label-box,
+body.light-theme .conduit-label-box {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .conduit-title,
+body.light-theme .conduit-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .pipe-outer,
+body.light-theme .pipe-outer {
+  stroke: #e2e8f0;
+}
+
+[data-theme="light"] .pipe-core,
+body.light-theme .pipe-core {
+  stroke: #cbd5e1;
+}
+
+[data-theme="light"] .pipe-dist-core,
+body.light-theme .pipe-dist-core {
+  stroke: #cbd5e1;
+}
+
+[data-theme="light"] .containers-assembly-block,
+body.light-theme .containers-assembly-block {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .overhead-manifold-bar,
+body.light-theme .overhead-manifold-bar {
+  background: #cbd5e1;
+}
+
+[data-theme="light"] .distribution-manifold-bar,
+body.light-theme .distribution-manifold-bar {
+  background: #cbd5e1;
+}
+
+[data-theme="light"] .tank-label,
+body.light-theme .tank-label {
+  color: #0f172a;
+}
+
+[data-theme="light"] .capsule-track,
+body.light-theme .capsule-track {
+  background: #e2e8f0;
+}
+
+[data-theme="light"] .capsule-percent,
+body.light-theme .capsule-percent {
+  color: #475569;
+}
+
+/* Consumers Hub */
+[data-theme="light"] .consumers-hub-block,
+body.light-theme .consumers-hub-block {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .consumers-hub-header,
+body.light-theme .consumers-hub-header {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .hub-title,
+body.light-theme .hub-title {
+  color: #475569;
+}
+
+[data-theme="light"] .consumer-flow-card,
+body.light-theme .consumer-flow-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .c-name,
+body.light-theme .c-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .container-link-pill,
+body.light-theme .container-link-pill {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+
+[data-theme="light"] .link-tank,
+body.light-theme .link-tank {
+  color: #0f172a;
+}
+
+[data-theme="light"] .c-metrics-row,
+body.light-theme .c-metrics-row {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .c-metric .val,
+body.light-theme .c-metric .val {
+  color: #0f172a;
+}
+
+[data-theme="light"] .c-prog-bar,
+body.light-theme .c-prog-bar {
+  background: #e2e8f0;
+}
+
+/* Bottom Analytics */
+[data-theme="light"] .analytics-card,
+body.light-theme .analytics-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .card-header-bar,
+body.light-theme .card-header-bar {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .card-title,
+body.light-theme .card-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .stat-name,
+body.light-theme .stat-name {
+  color: #64748b;
+}
+
+[data-theme="light"] .stat-value,
+body.light-theme .stat-value {
+  color: #0f172a;
+}
+
+[data-theme="light"] .level-name,
+body.light-theme .level-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .level-track,
+body.light-theme .level-track {
+  background: #e2e8f0;
+}
+
+[data-theme="light"] .level-val,
+body.light-theme .level-val {
+  color: #475569;
+}
+
+[data-theme="light"] .history-mini-row,
+body.light-theme .history-mini-row {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .h-customer,
+body.light-theme .h-customer {
+  color: #0f172a;
+}
+

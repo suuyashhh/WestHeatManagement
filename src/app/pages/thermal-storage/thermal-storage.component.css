@@ -1438,3 +1438,55 @@
   transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   LIGHT THEME OVERRIDES FOR THERMAL STORAGE
+   ========================================================================== */
+[data-theme="light"] .thermal-storage-page,
+body.light-theme .thermal-storage-page {
+  color: #0f172a;
+}
+
+[data-theme="light"] .page-main-title,
+body.light-theme .page-main-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .kpi-metric-card,
+body.light-theme .kpi-metric-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .kpi-val,
+body.light-theme .kpi-val {
+  color: #0f172a;
+}
+
+[data-theme="light"] .scada-tank-card,
+body.light-theme .scada-tank-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .scada-vessel-stage,
+body.light-theme .scada-vessel-stage {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .tank-name-title,
+body.light-theme .tank-name-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .preset-btn,
+body.light-theme .preset-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+

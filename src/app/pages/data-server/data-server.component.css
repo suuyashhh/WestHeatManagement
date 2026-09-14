@@ -1591,3 +1591,37 @@
   background: rgba(6, 182, 212, 0.22);
   color: #ffffff;
 }
+
+/* ==========================================================================
+   LIGHT THEME OVERRIDES FOR DATA SERVER
+   ========================================================================== */
+[data-theme="light"] .data-server-page,
+body.light-theme .data-server-page {
+  color: #0f172a;
+}
+
+[data-theme="light"] .page-main-title,
+body.light-theme .page-main-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .scada-card,
+body.light-theme .scada-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .metric-val,
+[data-theme="light"] .telemetry-val,
+body.light-theme .metric-val,
+body.light-theme .telemetry-val {
+  color: #0f172a;
+}
+
+[data-theme="light"] .control-box,
+body.light-theme .control-box {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+

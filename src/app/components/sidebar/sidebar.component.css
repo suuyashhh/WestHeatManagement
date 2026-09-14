@@ -1,4 +1,4 @@
-/* Left Sidebar Styles - Dark Navy SCADA Theme */
+/* Left Sidebar Styles - Dual-Theme Responsive SCADA Layout */
 :host {
   display: block;
   height: 100%;
@@ -11,12 +11,12 @@
   flex-direction: column;
   height: 100%;
   width: 195px;
-  background: #0a1120;
-  border-right: 1px solid #162444;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-subtle);
   user-select: none;
   overflow: visible;
   padding: 14px 12px;
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease, background-color var(--transition-normal), border-color var(--transition-normal);
   position: relative;
 }
 
@@ -32,16 +32,16 @@
 .sidebar-top-title {
   font-size: 11px;
   font-weight: 700;
-  color: #475569;
+  color: var(--text-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .sidebar-toggle-action-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid #1e293b;
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-subtle);
   border-radius: 6px;
-  color: #94a3b8;
+  color: var(--text-secondary);
   width: 28px;
   height: 28px;
   display: flex;
@@ -52,9 +52,9 @@
 }
 
 .sidebar-toggle-action-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #3b82f6;
-  color: #ffffff;
+  background: var(--bg-card-hover);
+  border-color: var(--accent-blue);
+  color: var(--text-primary);
 }
 
 .nav-menu {
@@ -68,7 +68,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
-  color: #94a3b8;
+  color: var(--text-secondary);
   text-decoration: none;
   border-radius: 8px;
   font-weight: 500;
@@ -84,7 +84,7 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  color: #94a3b8;
+  color: var(--text-secondary);
   transition: color 0.15s ease;
   flex-shrink: 0;
 }
@@ -95,20 +95,20 @@
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.04);
-  color: #ffffff;
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 .nav-link:hover .nav-icon-box {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
-/* Active State: Royal Blue Pill from Reference UI */
+/* Active State: Royal Blue Pill */
 .nav-link.active {
-  background: #1d4ed8;
+  background: var(--accent-blue);
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
 }
 
 .nav-link.active .nav-icon-box {
@@ -142,22 +142,22 @@
   display: none;
 }
 
-/* Sleek Tooltip Popout when Collapsed */
+/* Tooltip Popout when Collapsed */
 .nav-tooltip {
   display: none;
   position: absolute;
   left: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
-  background: #111d33;
-  border: 1px solid #233b66;
-  color: #ffffff;
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   pointer-events: none;
   z-index: 1000;
   opacity: 0;
@@ -172,7 +172,7 @@
   transform: translateY(-50%);
   border-width: 5px 5px 5px 0;
   border-style: solid;
-  border-color: transparent #233b66 transparent transparent;
+  border-color: transparent var(--border-medium) transparent transparent;
 }
 
 .left-sidebar.collapsed .nav-link:hover .nav-tooltip {
@@ -180,4 +180,3 @@
   opacity: 1;
   transform: translateY(-50%) translateX(2px);
 }
-

@@ -1,8 +1,11 @@
 /* ==========================================================================
-   Waste Heat Management System - Exact UI Design System
+   Waste Heat Management System - Exact UI Design System & Theme Engine
    ========================================================================== */
 
-:root {
+/* DARK THEME (DEFAULT) */
+:root,
+[data-theme="dark"],
+body.dark-theme {
   /* Color Palette - Dark Navy Theme from Reference UI */
   --bg-base: #0a1120;
   --bg-topbar: #0d1527;
@@ -16,7 +19,7 @@
   --border-medium: #24385d;
   --border-highlight: rgba(37, 99, 235, 0.4);
 
-  /* Accents from Reference */
+  /* Accents */
   --accent-blue: #2563eb;
   --accent-blue-active: #1d4ed8;
   --accent-orange: #f97316;
@@ -32,9 +35,62 @@
   --text-muted: #64748b;
   --text-light: #cbd5e1;
 
+  /* Scrollbar */
+  --scrollbar-track: #090e1a;
+  --scrollbar-thumb: #1e2c49;
+  --scrollbar-thumb-hover: #2563eb;
+
+  /* Shadow & Glow */
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --modal-overlay-bg: rgba(5, 10, 20, 0.85);
+}
+
+/* LIGHT THEME */
+[data-theme="light"],
+body.light-theme {
+  /* Color Palette - Clean Crisp Enterprise SCADA Light Theme */
+  --bg-base: #f1f5f9;
+  --bg-topbar: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-elevated: #f8fafc;
+  --bg-card-hover: #f1f5f9;
+  
+  /* Borders */
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-highlight: rgba(37, 99, 235, 0.35);
+
+  /* Accents */
+  --accent-blue: #2563eb;
+  --accent-blue-active: #1d4ed8;
+  --accent-orange: #ea580c;
+  --accent-flame: #dc2626;
+  --accent-green: #059669;
+  --accent-cyan: #0891b2;
+  --accent-sky: #0284c7;
+  --accent-amber: #d97706;
+
+  /* Typography Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-light: #1e293b;
+
+  /* Scrollbar */
+  --scrollbar-track: #e2e8f0;
+  --scrollbar-thumb: #94a3b8;
+  --scrollbar-thumb-hover: #2563eb;
+
+  /* Shadow & Glow */
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --modal-overlay-bg: rgba(15, 23, 42, 0.55);
+}
+
+:root {
   /* Fonts */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Dimensions */
   --header-height: 64px;
@@ -67,25 +123,26 @@ html, body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Custom Clean Dark Scrollbar */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090e1a;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e2c49;
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: var(--scrollbar-thumb-hover);
 }
 
 .font-mono {
