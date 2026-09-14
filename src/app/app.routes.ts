@@ -3,7 +3,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DataServerComponent } from './pages/data-server/data-server.component';
 import { ThermalStorageComponent } from './pages/thermal-storage/thermal-storage.component';
-import { ClientsComponent } from './pages/clients/clients.component';
+import { HeatConsumersComponent } from './pages/heat-consumers/heat-consumers.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +14,8 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'data-server', component: DataServerComponent },
       { path: 'thermal-storage', component: ThermalStorageComponent },
-      { path: 'clients', component: ClientsComponent },
+      { path: 'heat-consumers', component: HeatConsumersComponent },
+      { path: 'clients', redirectTo: 'heat-consumers', pathMatch: 'full' },
       { path: 'reports', component: DashboardComponent },
       { path: 'settings', component: DashboardComponent },
       { path: '**', redirectTo: 'dashboard' }

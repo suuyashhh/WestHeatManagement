@@ -44,6 +44,12 @@ export class SidebarComponent {
       route: '/thermal-storage'
     },
     {
+      id: 'heat-consumers',
+      label: 'Heat Consumers',
+      icon: 'consumer',
+      route: '/heat-consumers'
+    },
+    {
       id: 'reports',
       label: 'Reports',
       icon: 'reports',

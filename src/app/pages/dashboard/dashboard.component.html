@@ -1,13 +1,13 @@
 <div class="dashboard-page-container">
 
-  <!-- ==========================================
-       TOP ROW: 5 KPI METRIC CARDS
-       ========================================== -->
+  <!-- =========================================================================
+       1. TOP ROW: LIVE SCADA TELEMETRY KPI METRIC STRIP (Connected to Service)
+       ========================================================================= -->
   <div class="kpi-metrics-row">
-    <!-- Card 1: Server Heat Output -->
+    <!-- KPI 1: Server Heat Output with Quick Controls -->
     <div class="kpi-card">
       <div class="kpi-icon-box red-gradient">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="2" y="3" width="20" height="18" rx="3"></rect>
           <line x1="6" y1="8" x2="18" y2="8"></line>
           <line x1="6" y1="12" x2="14" y2="12"></line>
@@ -15,50 +15,56 @@
         </svg>
       </div>
       <div class="kpi-details">
-        <span class="kpi-label">Server Heat Output</span>
+        <span class="kpi-label">Server Heat Production</span>
         <div class="kpi-val-row">
-          <span class="kpi-value">8.5 kW</span>
+          <span class="kpi-value font-mono orange-glow">{{ serverHeatKw() | number:'1.1-1' }} kW</span>
         </div>
-        <span class="kpi-sub">(Waste Heat)</span>
+        <div class="kpi-quick-presets">
+          <button type="button" class="kpi-preset-btn" [class.active]="serverHeatKw() === 0" (click)="setServerHeat(0)">0 kW</button>
+          <button type="button" class="kpi-preset-btn" [class.active]="serverHeatKw() === 1" (click)="setServerHeat(1)">1 kW</button>
+          <button type="button" class="kpi-preset-btn" [class.active]="serverHeatKw() === 3" (click)="setServerHeat(3)">3 kW</button>
+          <button type="button" class="kpi-preset-btn" [class.active]="serverHeatKw() === 5" (click)="setServerHeat(5)">5 kW</button>
+        </div>
       </div>
     </div>
 
-    <!-- Card 2: Server Exhaust Temp -->
+    <!-- KPI 2: Server Exhaust Temperature -->
     <div class="kpi-card">
       <div class="kpi-icon-box orange-gradient">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
         </svg>
       </div>
       <div class="kpi-details">
         <span class="kpi-label">Server Exhaust Temp</span>
         <div class="kpi-val-row">
-          <span class="kpi-value">78 °C</span>
+          <span class="kpi-value font-mono flame-glow">{{ temperatureC() }} °C</span>
         </div>
-        <span class="kpi-sub">(Outflow Temperature)</span>
+        <span class="kpi-sub">Thermal Outflow Channel</span>
       </div>
     </div>
 
-    <!-- Card 3: Storage Avg. Temp -->
+    <!-- KPI 3: Storage Vessels Avg. Temp -->
     <div class="kpi-card">
       <div class="kpi-icon-box blue-gradient">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="5" y="4" width="14" height="17" rx="3"></rect>
+          <line x1="10" y1="2" x2="14" y2="2"></line>
         </svg>
       </div>
       <div class="kpi-details">
         <span class="kpi-label">Storage Avg. Temp</span>
         <div class="kpi-val-row">
-          <span class="kpi-value">56 °C</span>
+          <span class="kpi-value font-mono cyan-glow">{{ avgStorageTemp() }} °C</span>
         </div>
-        <span class="kpi-sub">(Current)</span>
+        <span class="kpi-sub">4 Industrial Vessels</span>
       </div>
     </div>
 
-    <!-- Card 4: Heat Stored in Container -->
+    <!-- KPI 4: Total Stored Thermal Energy -->
     <div class="kpi-card">
       <div class="kpi-icon-box green-gradient">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="2" y="7" width="16" height="12" rx="2"></rect>
           <line x1="20" y1="11" x2="20" y2="15"></line>
           <line x1="10" y1="10" x2="10" y2="16"></line>
@@ -66,170 +72,210 @@
         </svg>
       </div>
       <div class="kpi-details">
-        <span class="kpi-label">Heat Stored in Container</span>
+        <span class="kpi-label">Total Stored Energy</span>
         <div class="kpi-val-row">
-          <span class="kpi-value">6.8 kWh</span>
+          <span class="kpi-value font-mono green-glow">{{ totalStoredEnergyKwh() | number:'1.1-1' }} kWh</span>
         </div>
-        <span class="kpi-sub">(of 10 kWh)</span>
+        <span class="kpi-sub">of {{ totalStorageCapacityKwh() }} kWh Capacity</span>
       </div>
     </div>
 
-    <!-- Card 5: Storage Capacity (Donut Gauge) -->
+    <!-- KPI 5: Storage Capacity (Live Donut Gauge) -->
     <div class="kpi-card gauge-kpi-card">
       <div class="gauge-wrapper">
         <svg class="donut-svg" viewBox="0 0 64 64">
           <circle class="donut-bg" cx="32" cy="32" r="26"></circle>
-          <circle class="donut-fill" cx="32" cy="32" r="26" stroke-dasharray="163.36" stroke-dashoffset="52.27"></circle>
+          <circle 
+            class="donut-fill" 
+            cx="32" 
+            cy="32" 
+            r="26" 
+            stroke-dasharray="163.36" 
+            [attr.stroke-dashoffset]="gaugeDashOffset()">
+          </circle>
         </svg>
-        <span class="gauge-center-text">68%</span>
+        <span class="gauge-center-text font-mono">{{ totalStorageLevelPercent() | number:'1.0-0' }}%</span>
       </div>
       <div class="kpi-details">
-        <span class="kpi-title-gauge">Storage Capacity</span>
-        <span class="kpi-sub">(Remaining 32%)</span>
+        <span class="kpi-title-gauge">Total Storage Level</span>
+        <span class="kpi-sub">{{ (100 - totalStorageLevelPercent()) | number:'1.0-0' }}% Headroom</span>
       </div>
     </div>
-  </div>
 
-  <!-- ==========================================
-       CENTER HERO: SCADA VISUALIZATION CARD
-       ========================================== -->
-  <div class="scada-hero-card">
-    <!-- Header Labels Row -->
-    <div class="scada-titles-row">
-      <div class="title-left">Data Server</div>
-      <div class="title-center">Thermal Storage Containers</div>
-    </div>
-
-    <!-- Main SCADA Assembly Stage -->
-    <div class="scada-stage">
-
-      <!-- LEFT: 3D Isometric Data Server Rack Cabinet -->
-      <div class="server-rack-isometric">
-        <div class="isometric-side">
-          <div class="side-panel-cut"></div>
-        </div>
-        <div class="isometric-top"></div>
-
-        <div class="isometric-front">
-          <div class="rack-unit blade-cool">
-            <div class="blade-dots">
-              <span class="dot b"></span><span class="dot b"></span>
-              <span class="dot b"></span><span class="dot b"></span>
-            </div>
-            <div class="blade-grill"></div>
-            <div class="blade-dots"><span class="dot b"></span><span class="dot b"></span></div>
-          </div>
-
-          <div class="rack-unit blade-cool">
-            <div class="blade-dots">
-              <span class="dot b"></span><span class="dot b"></span>
-              <span class="dot b"></span><span class="dot b"></span>
-            </div>
-            <div class="blade-grill"></div>
-            <div class="blade-dots"><span class="dot b"></span><span class="dot b"></span></div>
-          </div>
-
-          <div class="rack-unit blade-cool">
-            <div class="blade-dots">
-              <span class="dot b"></span><span class="dot b"></span>
-              <span class="dot b"></span><span class="dot b"></span>
-            </div>
-            <div class="blade-grill"></div>
-            <div class="blade-dots"><span class="dot b"></span><span class="dot b"></span></div>
-          </div>
-
-          <div class="rack-unit blade-cool">
-            <div class="blade-dots">
-              <span class="dot b"></span><span class="dot b"></span>
-              <span class="dot b"></span><span class="dot b"></span>
-            </div>
-            <div class="blade-grill"></div>
-            <div class="blade-dots"><span class="dot b"></span><span class="dot b"></span></div>
-          </div>
-
-          <div class="rack-unit blade-warm">
-            <div class="blade-dots">
-              <span class="dot a"></span><span class="dot a"></span>
-              <span class="dot a"></span><span class="dot a"></span>
-            </div>
-            <div class="blade-grill warm"></div>
-            <div class="blade-dots"><span class="dot a"></span><span class="dot a"></span></div>
-          </div>
-
-          <div class="rack-unit blade-hot">
-            <div class="blade-dots">
-              <span class="dot r"></span><span class="dot r"></span>
-              <span class="dot r"></span><span class="dot r"></span>
-            </div>
-            <div class="blade-grill hot"></div>
-            <div class="blade-dots"><span class="dot r"></span><span class="dot r"></span></div>
-          </div>
-
-          <div class="rack-unit blade-hot">
-            <div class="blade-dots">
-              <span class="dot r"></span><span class="dot r"></span>
-              <span class="dot r"></span><span class="dot r"></span>
-            </div>
-            <div class="blade-grill hot"></div>
-            <div class="blade-dots"><span class="dot r"></span><span class="dot r"></span></div>
-          </div>
-        </div>
-
-        <div class="server-floor-shadow"></div>
-      </div>
-
-      <!-- DUCT CONDUIT (Server to Manifold) -->
-      <div class="server-to-manifold-duct">
-        <div class="hot-air-floating-label">
-          <span class="hot-air-text">Hot Air / Waste Heat</span>
-          <div class="temp-tag red-tag">78 °C</div>
-        </div>
-
-        <svg class="duct-curve-svg" viewBox="0 0 110 90">
-          <defs>
-            <linearGradient id="ductCurveGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ff3b00"/>
-              <stop offset="60%" stop-color="#ff7700"/>
-              <stop offset="100%" stop-color="#ffaa00"/>
-            </linearGradient>
-            <filter id="ductGlowFilter" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="5" result="blur"/>
-              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-            </filter>
-          </defs>
-          <path d="M 0 70 C 45 70, 65 14, 110 14" stroke="#ff4d00" stroke-width="18" fill="none" opacity="0.35" filter="url(#ductGlowFilter)"/>
-          <path d="M 0 70 C 45 70, 65 14, 110 14" stroke="url(#ductCurveGrad)" stroke-width="10" fill="none" stroke-linecap="round"/>
-          <path d="M 0 70 C 45 70, 65 14, 110 14" stroke="#ffea00" stroke-width="3" fill="none" opacity="0.85"/>
+    <!-- KPI 6: Active Distribution to Consumers -->
+    <div class="kpi-card consumer-kpi-card">
+      <div class="kpi-icon-box purple-gradient">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
         </svg>
       </div>
+      <div class="kpi-details">
+        <span class="kpi-label">Active Heat Distribution</span>
+        <div class="kpi-val-row">
+          <span class="kpi-value font-mono green-glow">{{ activeHeatSuppliesCount() }} Supplies</span>
+        </div>
+        <span class="kpi-sub font-mono">⚡ {{ totalDeliveryPowerKw() | number:'1.1-1' }} kW Flowing</span>
+      </div>
+    </div>
+  </div>
 
-      <!-- CONTAINERS SYSTEM (Overhead Manifold + 4 Tanks + Interconnects + Exit) -->
-      <div class="containers-assembly-wrapper">
-        
-        <!-- Overhead Continuous Manifold Bar -->
-        <div class="overhead-manifold-bar">
-          <div class="manifold-glow-line"></div>
+  <!-- =========================================================================
+       2. CENTER HERO: END-TO-END SCADA VISUALIZATION (Server -> Containers -> Consumers)
+       ========================================================================= -->
+  <div class="scada-hero-card">
+    
+    <!-- Stage Header Titles -->
+    <div class="scada-titles-row">
+      <div class="stage-title-col">
+        <div class="stage-indicator stage-server"></div>
+        <span class="stage-main-title">1. DATA SERVER</span>
+        <span class="stage-sub-title">Waste Heat Production Source</span>
+      </div>
+
+      <div class="stage-title-col center-col">
+        <div class="stage-indicator stage-containers"></div>
+        <span class="stage-main-title">2. THERMAL CONTAINERS (TANKS 01–04)</span>
+        <span class="stage-sub-title">Thermal Energy Storage Vessels</span>
+      </div>
+
+      <div class="stage-title-col right-col">
+        <div class="stage-indicator stage-consumers"></div>
+        <span class="stage-main-title">3. HEAT CONSUMERS</span>
+        <span class="stage-sub-title">Live Energy Distribution &amp; Supply</span>
+      </div>
+    </div>
+
+    <!-- MAIN 3-STAGE SCADA ASSEMBLY STAGE -->
+    <div class="scada-stage-3d">
+
+      <!-- =====================================================================
+           STAGE 1: DATA SERVER RACK (HEAT PRODUCER)
+           ===================================================================== -->
+      <div class="server-stage-block">
+        <div class="server-status-pill" [class.active-glow]="serverHeatKw() > 0">
+          <span class="live-dot" *ngIf="serverHeatKw() > 0"></span>
+          <span>{{ serverHeatKw() > 0 ? 'PRODUCING HEAT' : 'STANDBY / IDLE' }}</span>
         </div>
 
-        <!-- 4 Storage Tanks Grid -->
+        <!-- 3D Isometric Server Rack -->
+        <div class="server-rack-isometric" [class.generating-heat]="serverHeatKw() > 0">
+          <div class="isometric-side">
+            <div class="side-panel-cut"></div>
+          </div>
+          <div class="isometric-top"></div>
+
+          <div class="isometric-front">
+            <!-- Blade Servers -->
+            <div class="rack-unit blade-hot" *ngFor="let u of [1,2,3,4,5,6]">
+              <div class="blade-dots">
+                <span class="dot r"></span><span class="dot r"></span>
+                <span class="dot a"></span><span class="dot a"></span>
+              </div>
+              <div class="blade-grill" [class.hot]="serverHeatKw() > 0"></div>
+              <div class="blade-dots">
+                <span class="dot" [class.r]="serverHeatKw() > 2" [class.b]="serverHeatKw() <= 2"></span>
+                <span class="dot a"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="server-floor-shadow"></div>
+        </div>
+
+        <!-- Server Heat Metrics Tag -->
+        <div class="server-heat-telemetry-tag">
+          <span class="lbl">THERMAL EXHAUST:</span>
+          <strong class="font-mono orange-glow">{{ serverHeatKw() | number:'1.1-1' }} kW</strong>
+          <span class="sub font-mono">&#64; {{ temperatureC() }}°C</span>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           CONDUIT 1: SERVER TO STORAGE MANIFOLD (ANIMATED CHARGING PARTICLES)
+           ===================================================================== -->
+      <div class="charging-conduit-section">
+        <div class="conduit-label-box" [class.is-flowing]="serverHeatKw() > 0">
+          <span class="conduit-title">Hot Thermal Stream</span>
+          <span class="conduit-sub font-mono">{{ serverHeatKw() | number:'1.1-1' }} kW ({{ temperatureC() }}°C)</span>
+        </div>
+
+        <!-- SVG Pipe with Flowing Particles -->
+        <div class="charging-pipe-svg-wrap">
+          <svg class="pipe-svg" viewBox="0 0 120 70" preserveAspectRatio="none">
+            <path d="M 0 50 C 40 50, 70 20, 120 20" class="pipe-outer" />
+            <path d="M 0 50 C 40 50, 70 20, 120 20" class="pipe-core" [class.flowing-core]="serverHeatKw() > 0" />
+          </svg>
+
+          <!-- Animated Heat Stream Particles -->
+          <div class="heat-stream-particles" *ngIf="serverHeatKw() > 0">
+            <span class="h-dot d1"></span>
+            <span class="h-dot d2"></span>
+            <span class="h-dot d3"></span>
+            <span class="h-dot d4"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           STAGE 2: 4 STORAGE CONTAINERS (TANKS 01–04)
+           ===================================================================== -->
+      <div class="containers-assembly-block">
+        
+        <!-- Overhead Charging Manifold -->
+        <div class="overhead-manifold-bar" [class.active-manifold]="serverHeatKw() > 0">
+          <div class="manifold-glow-line" [class.active]="serverHeatKw() > 0"></div>
+        </div>
+
+        <!-- 4 Storage Cylinders Grid -->
         <div class="tanks-flex-row">
+          <div 
+            *ngFor="let tank of tanks()" 
+            class="tank-column" 
+            [class.is-charging]="isTankCharging(tank.id)"
+            [class.is-discharging]="isTankDischarging(tank.id)">
+            
+            <!-- Top Dropper from Overhead Manifold into Container -->
+            <div class="tank-top-dropper" [class.dropper-charging]="isTankCharging(tank.id)">
+              <span class="dropper-flow-dot" *ngIf="isTankCharging(tank.id)"></span>
+            </div>
 
-          <!-- Container 1 -->
-          <div class="tank-column">
-            <!-- Vertical Dropper from Manifold into Dome -->
-            <div class="tank-top-dropper dropper-orange"></div>
-
-            <div class="storage-tank-vessel high-heat-tank">
+            <!-- Cylindrical Tank Vessel -->
+            <div class="storage-tank-vessel" [class.active-vessel]="isTankCharging(tank.id) || isTankDischarging(tank.id)">
+              
+              <!-- Dome Cap with Valves -->
               <div class="vessel-top-dome">
-                <span class="inlet-valve valve-orange"></span>
+                <span class="inlet-valve" [class.valve-open]="isTankCharging(tank.id)"></span>
                 <span class="dome-highlight"></span>
               </div>
+
+              <!-- Cylinder Body with Dynamic Fluid Height -->
               <div class="vessel-cylinder-body">
-                <div class="vessel-thermal-fluid fluid-high"></div>
+                <!-- Thermal Fluid Level (Dynamic Height) -->
+                <div 
+                  class="vessel-thermal-fluid" 
+                  [style.height.%]="tank.fillPercentage"
+                  [class.fluid-charging]="isTankCharging(tank.id)"
+                  [class.fluid-discharging]="isTankDischarging(tank.id)">
+                  <div class="fluid-wave"></div>
+                </div>
+
                 <div class="vessel-glass-shine"></div>
-                <div class="vessel-temp-badge badge-red">72 °C</div>
+
+                <!-- Temperature & Fill Readouts inside Vessel -->
+                <div class="vessel-inner-readout">
+                  <span class="vessel-temp-badge">{{ tank.temperatureC }} °C</span>
+                  <span class="vessel-kwh-badge font-mono">{{ tank.storedEnergyKwh | number:'1.1-1' }} kWh</span>
+                </div>
               </div>
-              <div class="vessel-bottom-dome"></div>
+
+              <!-- Bottom Dome & Legs -->
+              <div class="vessel-bottom-dome">
+                <!-- Discharge Valve at bottom -->
+                <span class="outlet-valve" [class.valve-discharging]="isTankDischarging(tank.id)"></span>
+              </div>
               <div class="vessel-support-legs">
                 <span class="leg l"></span>
                 <span class="leg c1"></span>
@@ -238,143 +284,157 @@
               </div>
             </div>
 
+            <!-- Tank Footer Meta -->
             <div class="tank-footer-metrics">
-              <span class="tank-label">Container 1</span>
+              <div class="tank-name-row">
+                <strong class="tank-label">{{ tank.name }}</strong>
+                <span class="tank-status-pill" [class]="tank.status.toLowerCase()">{{ tank.status }}</span>
+              </div>
               <div class="tank-bar-row">
                 <div class="capsule-track">
-                  <div class="capsule-fill fill-green" style="width: 85%"></div>
+                  <div 
+                    class="capsule-fill" 
+                    [style.width.%]="tank.fillPercentage"
+                    [class.fill-charging]="isTankCharging(tank.id)"
+                    [class.fill-discharging]="isTankDischarging(tank.id)">
+                  </div>
                 </div>
-                <span class="capsule-percent">85%</span>
+                <span class="capsule-percent font-mono">{{ tank.fillPercentage | number:'1.0-0' }}%</span>
+              </div>
+
+              <!-- Supplying Consumer Indicator Tag -->
+              <div class="tank-supply-tag" *ngIf="isTankDischarging(tank.id)">
+                <span class="supply-bullet">⚡</span>
+                <span class="supply-txt">Supplying {{ getSupplyingConsumers(tank.id).length }} Customer(s)</span>
               </div>
             </div>
+
+            <!-- Bottom Dropper connecting to Distribution Manifold -->
+            <div class="tank-bottom-dropper" [class.dropper-discharging]="isTankDischarging(tank.id)">
+              <span class="dropper-flow-dot-down" *ngIf="isTankDischarging(tank.id)"></span>
+            </div>
+
           </div>
+        </div>
 
-          <!-- Mid Pipe: Tank 1 to Tank 2 -->
-          <div class="mid-interconnect-pipe pipe-orange"></div>
+        <!-- Lower Distribution Manifold Bar (Discharging Heat to Consumers) -->
+        <div class="distribution-manifold-bar" [class.active-dist-manifold]="activeHeatSuppliesCount() > 0">
+          <div class="dist-glow-line" [class.active]="activeHeatSuppliesCount() > 0"></div>
+        </div>
 
-          <!-- Container 2 -->
-          <div class="tank-column">
-            <div class="tank-top-dropper dropper-orange"></div>
+      </div>
 
-            <div class="storage-tank-vessel medium-heat-tank">
-              <div class="vessel-top-dome">
-                <span class="inlet-valve valve-orange"></span>
-                <span class="dome-highlight"></span>
-              </div>
-              <div class="vessel-cylinder-body">
-                <div class="vessel-thermal-fluid fluid-medium"></div>
-                <div class="vessel-glass-shine"></div>
-                <div class="vessel-temp-badge badge-orange">64 °C</div>
-              </div>
-              <div class="vessel-bottom-dome"></div>
-              <div class="vessel-support-legs">
-                <span class="leg l"></span>
-                <span class="leg c1"></span>
-                <span class="leg c2"></span>
-                <span class="leg r"></span>
-              </div>
-            </div>
+      <!-- =====================================================================
+           CONDUIT 2: STORAGE TO CONSUMERS (ANIMATED DISTRIBUTION PARTICLES)
+           ===================================================================== -->
+      <div class="distribution-conduit-section">
+        <div class="conduit-label-box dist-label-box" [class.is-flowing]="activeHeatSuppliesCount() > 0">
+          <span class="conduit-title">Energy Delivery Conduit</span>
+          <span class="conduit-sub font-mono">{{ totalDeliveryPowerKw() | number:'1.1-1' }} kW (Active Flow)</span>
+        </div>
 
-            <div class="tank-footer-metrics">
-              <span class="tank-label">Container 2</span>
-              <div class="tank-bar-row">
-                <div class="capsule-track">
-                  <div class="capsule-fill fill-green" style="width: 67%"></div>
-                </div>
-                <span class="capsule-percent">67%</span>
-              </div>
-            </div>
+        <!-- SVG Distribution Pipe -->
+        <div class="charging-pipe-svg-wrap">
+          <svg class="pipe-svg" viewBox="0 0 120 70" preserveAspectRatio="none">
+            <path d="M 0 20 C 50 20, 70 50, 120 50" class="pipe-outer" />
+            <path d="M 0 20 C 50 20, 70 50, 120 50" class="pipe-dist-core" [class.flowing-dist-core]="activeHeatSuppliesCount() > 0" />
+          </svg>
+
+          <!-- Animated Distribution Particles -->
+          <div class="dist-stream-particles" *ngIf="activeHeatSuppliesCount() > 0">
+            <span class="d-dot p1"></span>
+            <span class="d-dot p2"></span>
+            <span class="d-dot p3"></span>
+            <span class="d-dot p4"></span>
           </div>
+        </div>
+      </div>
 
-          <!-- Mid Pipe: Tank 2 to Tank 3 -->
-          <div class="mid-interconnect-pipe pipe-trans"></div>
+      <!-- =====================================================================
+           STAGE 3: HEAT CONSUMERS HUB (CUSTOMERS RECEIVING STORED ENERGY)
+           ===================================================================== -->
+      <div class="consumers-hub-block">
+        <div class="consumers-hub-header">
+          <span class="hub-title">THERMAL CONSUMERS</span>
+          <a routerLink="/heat-consumers" class="hub-view-all-link">Manage All ({{ consumers().length }}) ➔</a>
+        </div>
 
-          <!-- Container 3 -->
-          <div class="tank-column">
-            <div class="tank-top-dropper dropper-blue"></div>
-
-            <div class="storage-tank-vessel low-heat-tank">
-              <div class="vessel-top-dome">
-                <span class="inlet-valve valve-blue"></span>
-                <span class="dome-highlight"></span>
+        <!-- Scrollable Consumers Flow List -->
+        <div class="consumers-flow-cards-list">
+          <div 
+            *ngFor="let c of consumers()" 
+            class="consumer-flow-card"
+            [class.receiving-flow]="c.status === 'RECEIVING'"
+            [class.paused-flow]="c.status === 'PAUSED'">
+            
+            <div class="c-head-row">
+              <img [src]="c.imageUrl || 'assets/heat-consumer-dp.jpg'" alt="DP" class="c-dp-thumb" />
+              <div class="c-title-col">
+                <strong class="c-name">{{ c.name }}</strong>
+                <span class="c-company">{{ c.company }}</span>
               </div>
-              <div class="vessel-cylinder-body">
-                <div class="vessel-thermal-fluid fluid-low"></div>
-                <div class="vessel-glass-shine"></div>
-                <div class="vessel-temp-badge badge-blue">48 °C</div>
+              <span class="c-status-chip" [class]="c.status.toLowerCase().replace(' ', '-')">
+                <span class="pulse-mini" *ngIf="c.status === 'RECEIVING'"></span>
+                {{ c.status === 'RECEIVING' ? 'SUPPLYING' : (c.status === 'PAUSED' ? 'PAUSED' : (c.status === 'COMPLETED' ? 'COMPLETED' : 'SUPPLY OFF')) }}
+              </span>
+            </div>
+
+            <!-- EXPLICIT CONTAINER TO CONSUMER LINK BADGE -->
+            <div class="container-link-pill" [class.link-active]="c.status === 'RECEIVING'">
+              <span class="link-icon">⚡</span>
+              <span class="link-label">{{ c.status === 'RECEIVING' ? 'SUPPLIED BY:' : 'ALLOCATED TANK:' }}</span>
+              <strong class="link-tank font-mono">
+                Tank 0{{ c.activeSourceTankId || (c.preferredTank === 'AUTO' ? 1 : c.preferredTank) }}
+              </strong>
+              <span class="link-rate font-mono" *ngIf="c.status === 'RECEIVING'">
+                ({{ c.deliveryRateKw | number:'1.1-1' }} kW Flowing)
+              </span>
+              <span class="link-rate font-mono text-muted" *ngIf="c.status !== 'RECEIVING'">
+                (Supply OFF)
+              </span>
+            </div>
+
+            <!-- Progress & Consumed Heat Metrics -->
+            <div class="c-metrics-row">
+              <div class="c-metric">
+                <span class="lbl">CONSUMED</span>
+                <strong class="val font-mono cyan-glow">{{ c.deliveredEnergyKwh | number:'1.2-2' }} kWh</strong>
               </div>
-              <div class="vessel-bottom-dome"></div>
-              <div class="vessel-support-legs">
-                <span class="leg l"></span>
-                <span class="leg c1"></span>
-                <span class="leg c2"></span>
-                <span class="leg r"></span>
+              <div class="c-metric">
+                <span class="lbl">TARGET</span>
+                <strong class="val font-mono">{{ c.requiredEnergyKwh | number:'1.1-1' }} kWh</strong>
+              </div>
+              <div class="c-metric">
+                <span class="lbl">PROGRESS</span>
+                <strong class="val font-mono orange-glow">{{ getConsumerProgress(c) }}%</strong>
               </div>
             </div>
 
-            <div class="tank-footer-metrics">
-              <span class="tank-label">Container 3</span>
-              <div class="tank-bar-row">
-                <div class="capsule-track">
-                  <div class="capsule-fill fill-blue" style="width: 42%"></div>
-                </div>
-                <span class="capsule-percent">42%</span>
-              </div>
+            <!-- Progress Bar -->
+            <div class="c-prog-bar">
+              <div class="c-prog-fill" [style.width.%]="getConsumerProgress(c)" [class.complete]="c.status === 'COMPLETED'"></div>
             </div>
+
+            <!-- Quick Live Supply Toggle Button directly from Dashboard -->
+            <div class="c-action-row">
+              <button 
+                type="button" 
+                class="dashboard-supply-btn"
+                [class.btn-on]="c.status === 'RECEIVING'"
+                [class.btn-off]="c.status !== 'RECEIVING'"
+                [disabled]="c.status === 'COMPLETED' || totalStoredEnergyKwh() <= 0.001"
+                (click)="toggleSupply(c.id, $event)">
+                <span *ngIf="c.status === 'RECEIVING'">
+                  <span class="btn-dot-live"></span>
+                  <strong>SUPPLY ON</strong> • Click to Turn OFF
+                </span>
+                <span *ngIf="c.status !== 'RECEIVING'">
+                  ▶ <strong>SUPPLY OFF</strong> • Click to Turn ON
+                </span>
+              </button>
+            </div>
+
           </div>
-
-          <!-- Mid Pipe: Tank 3 to Tank 4 -->
-          <div class="mid-interconnect-pipe pipe-blue"></div>
-
-          <!-- Container 4 -->
-          <div class="tank-column">
-            <div class="tank-top-dropper dropper-blue"></div>
-
-            <div class="storage-tank-vessel cold-tank">
-              <div class="vessel-top-dome">
-                <span class="inlet-valve valve-blue"></span>
-                <span class="dome-highlight"></span>
-              </div>
-              <div class="vessel-cylinder-body">
-                <div class="vessel-thermal-fluid fluid-cold"></div>
-                <div class="vessel-glass-shine"></div>
-                <div class="vessel-temp-badge badge-blue">36 °C</div>
-              </div>
-              <div class="vessel-bottom-dome"></div>
-              <div class="vessel-support-legs">
-                <span class="leg l"></span>
-                <span class="leg c1"></span>
-                <span class="leg c2"></span>
-                <span class="leg r"></span>
-              </div>
-            </div>
-
-            <div class="tank-footer-metrics">
-              <span class="tank-label">Container 4</span>
-              <div class="tank-bar-row">
-                <div class="capsule-track">
-                  <div class="capsule-fill fill-blue" style="width: 18%"></div>
-                </div>
-                <span class="capsule-percent">18%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Cooled Air Exit Manifold on Right -->
-          <div class="cooled-air-exit-section">
-            <div class="cooled-air-text-box">
-              <span class="cooled-title">Cooled Air</span>
-              <span class="cooled-sub">(to environment)</span>
-            </div>
-
-            <svg class="cooled-exit-arrow-svg" viewBox="0 0 85 60">
-              <path d="M 0 14 L 45 14 Q 65 14 65 32 L 65 42 L 80 42" 
-                    stroke="#0284c7" stroke-width="7.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M 72 35 L 83 42 L 72 49" 
-                    stroke="#0284c7" stroke-width="6.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-
         </div>
 
       </div>
@@ -382,12 +442,12 @@
     </div>
   </div>
 
-  <!-- ==========================================
-       BOTTOM ROW: 4 TELEMETRY & ANALYTICS CARDS
-       ========================================== -->
+  <!-- =========================================================================
+       3. BOTTOM ROW: 4 LIVE TELEMETRY & ANALYTICS CARDS
+       ========================================================================= -->
   <div class="bottom-analytics-grid">
 
-    <!-- Card 1: Server Heat Data -->
+    <!-- Card 1: Data Server Thermal Telemetry -->
     <div class="analytics-card">
       <div class="card-header-bar">
         <div class="header-icon-box">
@@ -398,45 +458,30 @@
             <line x1="8" y1="14" x2="12" y2="14"></line>
           </svg>
         </div>
-        <h3 class="card-title">Server Heat Data</h3>
+        <h3 class="card-title">Server Heat Generation</h3>
       </div>
 
       <div class="telemetry-rows-list">
-        <div *ngFor="let item of serverHeatData" class="telemetry-row">
-          <div class="row-left">
-            <!-- Inlet temp -->
-            <svg *ngIf="item.icon === 'thermometer'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
-            </svg>
-            <!-- Outlet temp -->
-            <svg *ngIf="item.icon === 'outlet'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="5" y="4" width="14" height="16" rx="2"></rect>
-              <line x1="9" y1="9" x2="15" y2="9"></line>
-              <line x1="9" y1="15" x2="15" y2="15"></line>
-            </svg>
-            <!-- Heat Output: Gauge/Radiator (NO $) -->
-            <svg *ngIf="item.icon === 'heat'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="3"></rect>
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M12 6v2"></path>
-              <path d="M12 16v2"></path>
-              <path d="M6 12h2"></path>
-              <path d="M16 12h2"></path>
-            </svg>
-            <!-- Flow rate -->
-            <svg *ngIf="item.icon === 'flow'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <circle cx="12" cy="14" r="3"></circle>
-              <polyline points="12 11 12 14 14 14"></polyline>
-            </svg>
-            <span class="stat-name">{{ item.label }}</span>
-          </div>
-          <span class="stat-value font-mono">{{ item.value }}</span>
+        <div class="telemetry-row">
+          <span class="stat-name">Heat Output Power</span>
+          <span class="stat-value font-mono orange-glow">{{ serverHeatKw() | number:'1.1-1' }} kW</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="stat-name">Exhaust Temperature</span>
+          <span class="stat-value font-mono flame-glow">{{ temperatureC() }} °C</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="stat-name">Energy Produced per Window</span>
+          <span class="stat-value font-mono">{{ incomingThermalEnergyKwh() | number:'1.3-3' }} kWh</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="stat-name">Charging Allocation Mode</span>
+          <span class="stat-value font-mono cyan-glow">{{ heatService.allocationMode() === 'AUTOMATIC_SEQUENTIAL' ? 'AUTO SEQUENTIAL' : 'MANUAL' }}</span>
         </div>
       </div>
     </div>
 
-    <!-- Card 2: Thermal Storage Details -->
+    <!-- Card 2: Thermal Storage Containers Breakdown -->
     <div class="analytics-card">
       <div class="card-header-bar">
         <div class="header-icon-box">
@@ -445,106 +490,12 @@
             <line x1="10" y1="2" x2="14" y2="2"></line>
           </svg>
         </div>
-        <h3 class="card-title">Thermal Storage Details</h3>
-      </div>
-
-      <div class="telemetry-rows-list">
-        <div *ngFor="let item of storageDetails" class="telemetry-row">
-          <div class="row-left">
-            <svg *ngIf="item.icon === 'thermometer'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
-            </svg>
-            <svg *ngIf="item.icon === 'stored'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
-            </svg>
-            <svg *ngIf="item.icon === 'available'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="23 4 23 10 17 10"></polyline>
-              <polyline points="1 20 1 14 7 14"></polyline>
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-            </svg>
-            <svg *ngIf="item.icon === 'avg-temp'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="6" y="5" width="12" height="15" rx="3"></rect>
-            </svg>
-            <span class="stat-name">{{ item.label }}</span>
-          </div>
-          <span class="stat-value font-mono">{{ item.value }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 3: Temperature Trend -->
-    <div class="analytics-card trend-card">
-      <div class="trend-header">
-        <h3 class="card-title">Temperature Trend</h3>
-        <div class="chart-legend">
-          <div class="legend-item">
-            <span class="legend-line orange"></span>
-            <span class="legend-lbl">Server Output</span>
-          </div>
-          <div class="legend-item">
-            <span class="legend-line blue"></span>
-            <span class="legend-lbl">Storage Avg</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="trend-y-axis-label">Temp (°C)</div>
-
-      <!-- SVG Chart -->
-      <div class="chart-render-wrap">
-        <svg class="trend-line-svg" viewBox="0 0 320 115" preserveAspectRatio="none">
-          <!-- Horizontal Grid Guides -->
-          <line x1="30" y1="10" x2="310" y2="10" stroke="#1c2d4a" stroke-width="1" stroke-dasharray="2 2"/>
-          <line x1="30" y1="35" x2="310" y2="35" stroke="#1c2d4a" stroke-width="1" stroke-dasharray="2 2"/>
-          <line x1="30" y1="60" x2="310" y2="60" stroke="#1c2d4a" stroke-width="1" stroke-dasharray="2 2"/>
-          <line x1="30" y1="85" x2="310" y2="85" stroke="#1c2d4a" stroke-width="1" stroke-dasharray="2 2"/>
-          <line x1="30" y1="105" x2="310" y2="105" stroke="#1c2d4a" stroke-width="1"/>
-
-          <!-- Y Axis Values -->
-          <text x="5" y="14" fill="#64748b" font-size="9.5">100</text>
-          <text x="8" y="39" fill="#64748b" font-size="9.5">75</text>
-          <text x="8" y="64" fill="#64748b" font-size="9.5">50</text>
-          <text x="8" y="89" fill="#64748b" font-size="9.5">25</text>
-          <text x="12" y="108" fill="#64748b" font-size="9.5">0</text>
-
-          <!-- Orange Line: Server Output (~65°C to 76°C) -->
-          <path d="M 35 45 C 55 43, 75 48, 95 46 C 120 48, 140 44, 160 41 C 185 36, 210 32, 235 34 C 260 38, 280 35, 305 35" 
-                fill="none" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="35" cy="45" r="2.5" fill="#f97316"/>
-          <circle cx="95" cy="46" r="2.5" fill="#f97316"/>
-          <circle cx="160" cy="41" r="2.5" fill="#f97316"/>
-          <circle cx="235" cy="34" r="2.5" fill="#f97316"/>
-          <circle cx="305" cy="35" r="2.5" fill="#f97316"/>
-
-          <!-- Blue Line: Storage Avg (~48°C to 58°C) -->
-          <path d="M 35 62 C 55 63, 75 64, 95 63 C 120 62, 140 58, 160 55 C 185 52, 210 54, 235 55 C 260 57, 280 55, 305 54" 
-                fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="35" cy="62" r="2.5" fill="#0284c7"/>
-          <circle cx="95" cy="63" r="2.5" fill="#0284c7"/>
-          <circle cx="160" cy="55" r="2.5" fill="#0284c7"/>
-          <circle cx="235" cy="55" r="2.5" fill="#0284c7"/>
-          <circle cx="305" cy="54" r="2.5" fill="#0284c7"/>
-        </svg>
-      </div>
-
-      <div class="chart-x-labels">
-        <span>10 AM</span>
-        <span>12 PM</span>
-        <span>2 PM</span>
-        <span>4 PM</span>
-      </div>
-    </div>
-
-    <!-- Card 4: Heat Storage Level -->
-    <div class="analytics-card">
-      <div class="card-header-bar">
-        <h3 class="card-title">Heat Storage Level</h3>
+        <h3 class="card-title">Storage Containers Breakdown</h3>
       </div>
 
       <div class="storage-levels-stack">
-        <div *ngFor="let item of storageLevels" class="storage-level-item">
-          <!-- Battery Icon -->
-          <div class="battery-icon" [style.color]="item.iconColor">
+        <div *ngFor="let tank of tanks()" class="storage-level-item">
+          <div class="battery-icon" [style.color]="isTankCharging(tank.id) ? '#f97316' : isTankDischarging(tank.id) ? '#10b981' : '#38bdf8'">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="5" y="4" width="14" height="17" rx="3"></rect>
               <line x1="10" y1="2" x2="14" y2="2"></line>
@@ -552,14 +503,77 @@
             </svg>
           </div>
 
-          <span class="level-name">{{ item.name }}</span>
-
-          <!-- Rounded Capsule Progress -->
-          <div class="level-track">
-            <div class="level-fill" [style.width.%]="item.percent" [style.background-color]="item.color"></div>
+          <div class="level-meta-col">
+            <span class="level-name">{{ tank.name }}</span>
+            <span class="level-status-sub font-mono">{{ tank.status }}</span>
           </div>
 
-          <span class="level-val font-mono">{{ item.percent }}%</span>
+          <div class="level-track">
+            <div 
+              class="level-fill" 
+              [style.width.%]="tank.fillPercentage"
+              [style.background]="isTankCharging(tank.id) ? '#f97316' : isTankDischarging(tank.id) ? '#10b981' : '#0284c7'">
+            </div>
+          </div>
+
+          <span class="level-val font-mono">{{ tank.storedEnergyKwh | number:'1.1-1' }} / {{ tank.capacityKwh }} kWh</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Energy Distribution Summary -->
+    <div class="analytics-card">
+      <div class="card-header-bar">
+        <div class="header-icon-box">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <h3 class="card-title">Live Distribution Summary</h3>
+      </div>
+
+      <div class="telemetry-rows-list">
+        <div class="telemetry-row">
+          <span class="stat-name">Active Consumers Flowing</span>
+          <span class="stat-value font-mono green-glow">{{ activeHeatSuppliesCount() }} Customers</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="stat-name">Total Distribution Rate</span>
+          <span class="stat-value font-mono orange-glow">{{ totalDeliveryPowerKw() | number:'1.1-1' }} kW</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="stat-name">Total Delivered to Date</span>
+          <span class="stat-value font-mono cyan-glow">{{ totalEnergyDeliveredKwh() | number:'1.2-2' }} kWh</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="stat-name">Total Consumers Registered</span>
+          <span class="stat-value font-mono">{{ consumers().length }} Industrial Sites</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Historical Delivery Sessions -->
+    <div class="analytics-card">
+      <div class="card-header-bar">
+        <div class="header-icon-box">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 8v4l3 3"></path>
+            <circle cx="12" cy="12" r="9"></circle>
+          </svg>
+        </div>
+        <h3 class="card-title">Recent Delivery Shipments</h3>
+      </div>
+
+      <div class="delivery-history-mini-list">
+        <div *ngFor="let h of deliveryHistory().slice(0, 3)" class="history-mini-row">
+          <div class="h-meta">
+            <strong class="h-customer">{{ h.consumerName }}</strong>
+            <span class="h-details">{{ h.date }} • {{ h.sourceTank }}</span>
+          </div>
+          <div class="h-nums">
+            <strong class="h-kwh font-mono cyan-glow">{{ h.energyDeliveredKwh | number:'1.2-2' }} kWh</strong>
+            <span class="h-amount font-mono">₹{{ h.totalAmount | number:'1.0-0' }}</span>
+          </div>
         </div>
       </div>
     </div>

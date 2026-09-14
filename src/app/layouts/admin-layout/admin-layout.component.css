@@ -120,6 +120,47 @@
   letter-spacing: 0.01em;
 }
 
+/* Heat Consumer Facility DP Avatar in Topbar */
+.topbar-consumer-avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1.5px solid var(--accent-orange);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  overflow: visible;
+}
+
+.topbar-consumer-avatar:hover {
+  transform: scale(1.08);
+  border-color: #fbbf24;
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.7);
+}
+
+.topbar-dp-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.topbar-dp-status {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  border: 1.5px solid #0a1120;
+  box-shadow: 0 0 6px var(--accent-green);
+}
+
 /* Main Body: Left Sidebar + Right Main Content Viewport */
 .admin-body {
   display: flex;
