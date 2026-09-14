@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -11,6 +12,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
   styleUrl: './admin-layout.component.css'
 })
 export class AdminLayoutComponent implements OnInit, OnDestroy {
+  readonly themeService = inject(ThemeService);
   isSidebarCollapsed: boolean = false;
   isMobileSidebarOpen: boolean = false;
   currentTimeString: string = '';
@@ -59,12 +61,15 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
 
   private updateClock(): void {
     const now = new Date();
-    this.currentTimeString = now.toLocaleTimeString('en-US', {
-      hour12: false,
+    const day = now.getDate();
+    const month = now.toLocaleString('en-US', { month: 'short' });
+    const year = now.getFullYear();
+    const time = now.toLocaleTimeString('en-US', {
+      hour12: true,
       hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+      minute: '2-digit'
     });
+    this.currentTimeString = `${day} ${month} ${year}  ${time}`;
   }
 
   toggleSidebar(): void {

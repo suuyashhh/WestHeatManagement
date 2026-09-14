@@ -1,0 +1,889 @@
+<div class="heat-consumers-page">
+
+  <!-- =========================================================================
+       1. TOP CLEAN SCADA HEADER & SUMMARY BAR
+       ========================================================================= -->
+  <header class="scada-top-strip">
+    <div class="strip-brand-col">
+      <div class="scada-pre-badge">
+        <span class="live-pulse" [class.normal]="heatService.activeHeatSuppliesCount() > 0" [class.idle]="heatService.activeHeatSuppliesCount() === 0"></span>
+        <span class="pre-badge-text">THERMAL ENERGY DISTRIBUTION</span>
+      </div>
+      <div class="header-title-with-dp">
+        <a href="assets/heat-consumer-dp.jpg" target="_blank" class="header-dp-link" title="Click to view full 8K Heat Consumer DP image">
+          <img src="assets/heat-consumer-dp.jpg" alt="Heat Consumer DP" class="header-dp-thumb" />
+          <span class="dp-badge-icon">DP</span>
+        </a>
+        <div>
+          <h1 class="page-main-heading">Heat Consumers</h1>
+          <p class="page-sub-heading">Thermal Energy Customers & Controlled Heat Supply</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clean Quick Telemetry Summary Pills -->
+    <div class="strip-summary-pills">
+      <div class="mini-kpi-pill">
+        <span class="k-label">TOTAL STORED:</span>
+        <strong class="font-mono orange-glow">{{ heatService.totalStoredEnergyKwh() | number:'1.1-1' }} kWh</strong>
+        <span class="k-sub">({{ heatService.totalStorageLevelPercent() | number:'1.0-0' }}%)</span>
+      </div>
+
+      <div class="mini-kpi-pill">
+        <span class="k-label">ACTIVE SUPPLIES:</span>
+        <strong class="font-mono green-glow">{{ heatService.activeHeatSuppliesCount() }} Flowing</strong>
+        <span class="k-sub">({{ heatService.totalDeliveryPowerKw() | number:'1.1-1' }} kW)</span>
+      </div>
+
+      <div class="mini-kpi-pill">
+        <span class="k-label">TOTAL DELIVERED:</span>
+        <strong class="font-mono cyan-glow">{{ heatService.totalEnergyDeliveredKwh() | number:'1.1-1' }} kWh</strong>
+      </div>
+    </div>
+
+    <!-- Actions: Add Consumer & Navigation -->
+    <div class="strip-actions-cluster">
+      <button type="button" class="scada-btn-primary" (click)="openAddModal()" title="Register a new thermal heat customer">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>+ Add Heat Consumer</span>
+      </button>
+
+      <div class="nav-shortcuts">
+        <a routerLink="/thermal-storage" class="scada-icon-btn" title="View Thermal Storage Vessels">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="4" width="14" height="17" rx="3"></rect>
+            <line x1="10" y1="2" x2="14" y2="2"></line>
+          </svg>
+          <span>Tanks</span>
+        </a>
+        <a routerLink="/data-server" class="scada-icon-btn" title="View Data Server Heat Source">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+          </svg>
+          <span>Server</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter & List Controls Bar -->
+  <div class="consumer-filter-bar">
+    <div class="filter-left">
+      <span class="filter-title">REGISTERED HEAT CONSUMERS</span>
+      <span class="count-badge">{{ filteredConsumers().length }} Customers</span>
+    </div>
+
+    <div class="filter-tabs">
+      <button type="button" class="tab-pill" [class.active]="activeFilter() === 'ALL'" (click)="setFilter('ALL')">All Consumers ({{ heatService.consumers().length }})</button>
+      <button type="button" class="tab-pill" [class.active]="activeFilter() === 'RECEIVING'" (click)="setFilter('RECEIVING')">Receiving Supply ({{ heatService.activeHeatSuppliesCount() }})</button>
+      <button type="button" class="tab-pill" [class.active]="activeFilter() === 'ACTIVE'" (click)="setFilter('ACTIVE')">Active / Standby</button>
+      <button type="button" class="tab-pill" [class.active]="activeFilter() === 'COMPLETED'" (click)="setFilter('COMPLETED')">Completed</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. CLEAN CONSUMER CARDS LIST (DP, Name, Tank Supplying, Consumed Heat, ON/OFF)
+       ========================================================================= -->
+  <div class="consumer-cards-grid">
+    <div 
+      *ngFor="let c of filteredConsumers()" 
+      class="clean-consumer-card"
+      [class.receiving-border]="c.status === 'RECEIVING'"
+      [class.paused-border]="c.status === 'PAUSED'"
+      (click)="openConsumerDetail(c.id)">
+      
+      <!-- Top Card Header: DP, Name, Status & Edit Button -->
+      <div class="card-head-row">
+        <!-- Consumer DP Avatar (Clickable to Edit DP) -->
+        <div class="consumer-dp-box" (click)="openEditModal(c, $event)" title="Click to change DP image">
+          <img [src]="c.imageUrl || 'assets/heat-consumer-dp.jpg'" alt="Consumer DP" class="consumer-dp-image" />
+          <span class="dp-online-badge" [class.is-flowing]="c.status === 'RECEIVING'" [class.is-paused]="c.status === 'PAUSED'"></span>
+          <span class="dp-edit-hint">✎</span>
+        </div>
+
+        <!-- Consumer Title & Company -->
+        <div class="consumer-identity">
+          <span class="consumer-company-tag">{{ c.company }}</span>
+          <h2 class="consumer-name-text">{{ c.name }}</h2>
+          <span class="consumer-location-tag">📍 {{ c.location }}</span>
+        </div>
+
+        <!-- Status Chip, Edit & Delete Buttons -->
+        <div class="card-head-actions">
+          <button 
+            type="button" 
+            class="card-edit-btn" 
+            (click)="openEditModal(c, $event)" 
+            title="Edit Consumer Info, DP & Parameters">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <span>Edit</span>
+          </button>
+          <button 
+            type="button" 
+            class="card-delete-icon-btn" 
+            (click)="promptDeleteCardConsumer(c, $event)" 
+            title="Delete this Consumer">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+          <span class="status-chip-clean" [class]="c.status.toLowerCase().replace(' ', '-')">
+            <span class="live-dot" *ngIf="c.status === 'RECEIVING'"></span>
+            {{ c.status === 'RECEIVING' ? 'SUPPLYING' : (c.status === 'PAUSED' ? 'PAUSED' : (c.status === 'COMPLETED' ? 'COMPLETED' : 'SUPPLY OFF')) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- HIGHLIGHTED TANK SUPPLYING INFORMATION -->
+      <div class="tank-supplying-highlight" [class.active-supplying]="c.status === 'RECEIVING'">
+        <div class="tank-icon-wrap">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="4" width="14" height="17" rx="3"></rect>
+            <line x1="10" y1="2" x2="14" y2="2"></line>
+            <line x1="9" y1="10" x2="15" y2="10"></line>
+          </svg>
+        </div>
+        <div class="tank-text-meta">
+          <span class="tank-caption">{{ c.status === 'RECEIVING' ? 'ACTIVELY SUPPLYING FROM STORAGE TANK:' : 'ALLOCATED STORAGE TANK (SUPPLY OFF):' }}</span>
+          <strong class="tank-name-val">
+            Tank 0{{ c.activeSourceTankId || (c.preferredTank === 'AUTO' ? 1 : c.preferredTank) }}
+            <span class="tank-avail font-mono">
+              ({{ getTank(c.activeSourceTankId)?.storedEnergyKwh | number:'1.1-1' }} kWh available)
+            </span>
+          </strong>
+        </div>
+        <span class="tank-mode-badge" *ngIf="c.autoSourceSelection">AUTO-SWITCH</span>
+      </div>
+
+      <!-- HEAT CONSUMPTION METRICS -->
+      <div class="consumption-metrics-box">
+        <div class="cons-metric">
+          <span class="m-label">HEAT CONSUMED</span>
+          <strong class="m-val font-mono cyan-glow">{{ c.deliveredEnergyKwh | number:'1.2-2' }} kWh</strong>
+        </div>
+        <div class="cons-metric">
+          <span class="m-label">TARGET DEMAND</span>
+          <strong class="m-val font-mono">{{ c.requiredEnergyKwh | number:'1.1-1' }} kWh</strong>
+        </div>
+        <div class="cons-metric">
+          <span class="m-label">SUPPLY RATE</span>
+          <strong class="m-val font-mono orange-glow">{{ c.status === 'RECEIVING' ? (c.deliveryRateKw | number:'1.1-1') + ' kW' : '0 kW' }}</strong>
+        </div>
+        <div class="cons-metric">
+          <span class="m-label">REMAINING</span>
+          <strong class="m-val font-mono">{{ (c.requiredEnergyKwh - c.deliveredEnergyKwh > 0 ? c.requiredEnergyKwh - c.deliveredEnergyKwh : 0) | number:'1.1-1' }} kWh</strong>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="card-progress-section">
+        <div class="prog-meta">
+          <span>Delivery Progress</span>
+          <strong class="font-mono">{{ getConsumerProgress(c) }}%</strong>
+        </div>
+        <div class="prog-track">
+          <div class="prog-fill" [style.width.%]="getConsumerProgress(c)" [class.complete]="c.status === 'COMPLETED'"></div>
+        </div>
+      </div>
+
+      <!-- Action Footer: Quick Supply ON/OFF Button, Edit & Controls Button -->
+      <div class="card-action-footer">
+        <!-- Direct SUPPLY ON / OFF Button -->
+        <button 
+          type="button" 
+          class="supply-toggle-btn"
+          [class.btn-supply-on]="c.status === 'RECEIVING'"
+          [class.btn-supply-off]="c.status !== 'RECEIVING'"
+          [disabled]="c.status === 'COMPLETED' || heatService.isStorageDepleted()"
+          (click)="toggleSupply(c.id, $event)">
+          
+          <span *ngIf="c.status === 'RECEIVING'" class="btn-inner">
+            <span class="btn-live-dot"></span>
+            <strong>SUPPLY ON</strong> • Click to Turn OFF
+          </span>
+
+          <span *ngIf="c.status === 'PAUSED'" class="btn-inner">
+            <strong>PAUSED</strong> • Click to Resume
+          </span>
+
+          <span *ngIf="c.status !== 'RECEIVING' && c.status !== 'PAUSED'" class="btn-inner">
+            ▶ <strong>SUPPLY OFF</strong> • Click to Turn ON
+          </span>
+        </button>
+
+        <!-- Edit Profile & DP Button -->
+        <button type="button" class="card-footer-edit-btn" (click)="openEditModal(c, $event)" title="Edit Consumer & DP Image">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+          <span>Edit</span>
+        </button>
+
+        <!-- View Controls / Details Button -->
+        <button type="button" class="open-detail-btn" (click)="$event.stopPropagation(); openConsumerDetail(c.id)">
+          <span>Controls & Telemetry</span>
+          <span class="arrow-icon">➔</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. CONSUMER DETAIL & CONTROL CENTER MODAL (Opens on click)
+       ========================================================================= -->
+  <div class="scada-modal-overlay" *ngIf="showDetailModal() && currentConsumer() as consumer" (click)="closeConsumerDetail()">
+    <div class="scada-detail-modal" (click)="$event.stopPropagation()">
+      
+      <!-- Modal Top Navigation Header -->
+      <div class="detail-modal-header">
+        <div class="detail-header-left">
+          <div class="detail-dp-frame" (click)="openEditModal(consumer)" title="Click to edit DP image">
+            <img [src]="consumer.imageUrl || 'assets/heat-consumer-dp.jpg'" alt="Consumer DP" class="detail-dp-img" />
+            <span class="detail-dp-pulse" [class.on]="consumer.status === 'RECEIVING'"></span>
+            <span class="detail-dp-hover-hint">✎ Change DP</span>
+          </div>
+          <div class="detail-title-info">
+            <span class="detail-company-sub">{{ consumer.company }}</span>
+            <h2 class="detail-consumer-title">{{ consumer.name }}</h2>
+            <div class="detail-tags-row">
+              <span class="detail-tag">📍 {{ consumer.location }}</span>
+              <span class="detail-tag">👤 {{ consumer.contactPerson }} ({{ consumer.phone }})</span>
+              <span class="detail-tag font-mono">Tariff: ₹{{ consumer.pricePerKwh }}/kWh</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-header-right">
+          <button type="button" class="detail-edit-modal-btn" (click)="openEditModal(consumer)" title="Edit profile, DP image and settings">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <span>✎ Edit</span>
+          </button>
+          <button type="button" class="detail-delete-modal-btn" (click)="promptDeleteCardConsumer(consumer)" title="Delete this consumer">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <span>Delete</span>
+          </button>
+          <span class="status-chip-clean" [class]="consumer.status.toLowerCase().replace(' ', '-')">
+            <span class="live-dot" *ngIf="consumer.status === 'RECEIVING'"></span>
+            {{ consumer.status === 'RECEIVING' ? 'SUPPLYING' : (consumer.status === 'PAUSED' ? 'PAUSED' : (consumer.status === 'COMPLETED' ? 'COMPLETED' : 'SUPPLY OFF')) }}
+          </span>
+          <button type="button" class="detail-close-btn" (click)="closeConsumerDetail()" aria-label="Close">✕</button>
+        </div>
+      </div>
+
+      <!-- Scrollable Modal Body -->
+      <div class="detail-modal-body">
+
+        <!-- 1. PRIMARY SUPPLY ON / OFF ACTION BAR -->
+        <div class="primary-supply-action-card" [class.supply-is-on]="consumer.status === 'RECEIVING'">
+          <div class="switch-meta">
+            <span class="switch-title">THERMAL ENERGY SUPPLY DISPATCH</span>
+            <span class="switch-status-text">
+              Status: <strong>{{ consumer.status === 'RECEIVING' ? 'HEAT FLOWING TO CUSTOMER' : 'SUPPLY IDLE / OFF' }}</strong>
+            </span>
+          </div>
+
+          <!-- Big Prominent ON / OFF Buttons -->
+          <div class="dispatch-buttons-cluster">
+            <!-- Toggle ON/OFF -->
+            <button 
+              type="button" 
+              class="primary-on-off-btn"
+              [class.active-on]="consumer.status === 'RECEIVING'"
+              [disabled]="consumer.status === 'COMPLETED' || heatService.isStorageDepleted()"
+              (click)="toggleSupply(consumer.id, $event)">
+              <span class="on-off-icon">{{ consumer.status === 'RECEIVING' ? '⏹' : '▶' }}</span>
+              <span class="on-off-text">{{ consumer.status === 'RECEIVING' ? 'TURN SUPPLY OFF' : 'TURN SUPPLY ON' }}</span>
+            </button>
+
+            <!-- Pause / Resume buttons -->
+            <button 
+              type="button" 
+              class="secondary-ctrl-btn btn-pause-ctrl"
+              (click)="pauseSupply(consumer.id)"
+              [disabled]="consumer.status !== 'RECEIVING'">
+              ⏸ PAUSE
+            </button>
+
+            <button 
+              type="button" 
+              class="secondary-ctrl-btn btn-resume-ctrl"
+              (click)="resumeSupply(consumer.id)"
+              [disabled]="consumer.status !== 'PAUSED' || heatService.isStorageDepleted()">
+              ▶ RESUME
+            </button>
+
+            <button 
+              type="button" 
+              class="secondary-ctrl-btn btn-stop-ctrl"
+              (click)="stopSupply(consumer.id)"
+              [disabled]="consumer.status !== 'RECEIVING' && consumer.status !== 'PAUSED'">
+              ⏹ STOP
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. IN WHICH TANK HEAT IS SUPPLYING (Prominent Section) -->
+        <div class="tank-selection-master-card">
+          <div class="card-head-sm">
+            <span class="card-label-tag">STORAGE VESSEL ALLOCATION</span>
+            <!-- Auto switch toggle -->
+            <button type="button" class="auto-toggle-chip" [class.active]="consumer.autoSourceSelection" (click)="toggleAutoSource()">
+              <span class="chip-dot"></span>
+              <span>{{ consumer.autoSourceSelection ? 'Auto-Switch: ACTIVE (Switches if tank empties)' : 'Auto-Switch: OFF (Manual)' }}</span>
+            </button>
+          </div>
+
+          <div class="current-tank-banner">
+            <div class="banner-left">
+              <span class="banner-lbl">{{ consumer.status === 'RECEIVING' ? 'CURRENTLY SUPPLYING HEAT FROM:' : 'ALLOCATED STORAGE TANK (SUPPLY OFF):' }}</span>
+              <h3 class="banner-tank-title">
+                TANK 0{{ consumer.activeSourceTankId || (consumer.preferredTank === 'AUTO' ? 1 : consumer.preferredTank) }}
+              </h3>
+            </div>
+            <div class="banner-right font-mono" *ngIf="currentSourceTank() as sTank">
+              <span class="tank-kwh cyan-glow">{{ sTank.storedEnergyKwh | number:'1.2-2' }} kWh Stored</span>
+              <span class="tank-pct">({{ sTank.fillPercentage | number:'1.1-1' }}% level • {{ sTank.temperatureC }}°C)</span>
+            </div>
+          </div>
+
+          <!-- Tank Switching Selector Buttons -->
+          <div class="tank-selector-buttons-row">
+            <span class="selector-prompt">Change Supplying Tank:</span>
+            <button 
+              type="button" 
+              class="tank-btn-chip"
+              [class.selected]="consumer.preferredTank === 'AUTO'"
+              (click)="setSourceTank('AUTO')">
+              AUTO (Best Tank)
+            </button>
+
+            <button 
+              *ngFor="let t of heatService.tanks()" 
+              type="button" 
+              class="tank-btn-chip"
+              [class.selected]="consumer.preferredTank === t.id"
+              [class.in-active-use]="consumer.activeSourceTankId === t.id && consumer.status === 'RECEIVING'"
+              (click)="setSourceTank(t.id)">
+              Tank 0{{ t.id }} ({{ t.storedEnergyKwh | number:'1.1-1' }} kWh)
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. HEAT CONSUMED & TELEMETRY TILES -->
+        <div class="consumer-telemetry-tiles-grid">
+          <div class="c-tile highlight-cyan">
+            <span class="t-lbl">HEAT CONSUMED</span>
+            <strong class="t-val font-mono cyan-glow">{{ consumer.deliveredEnergyKwh | number:'1.2-2' }} kWh</strong>
+            <span class="t-sub">Accumulated to customer</span>
+          </div>
+
+          <div class="c-tile">
+            <span class="t-lbl">TARGET DEMAND</span>
+            <strong class="t-val font-mono">{{ consumer.requiredEnergyKwh | number:'1.1-1' }} kWh</strong>
+            <span class="t-sub">Total Contracted</span>
+          </div>
+
+          <div class="c-tile highlight-orange">
+            <span class="t-lbl">HEAT DELIVERY RATE</span>
+            <strong class="t-val font-mono orange-glow">{{ consumer.deliveryRateKw | number:'1.2-2' }} kW</strong>
+            <span class="t-sub">Adjustable via slider</span>
+          </div>
+
+          <div class="c-tile">
+            <span class="t-lbl">REMAINING TO SUPPLY</span>
+            <strong class="t-val font-mono">{{ currentRemainingKwh() | number:'1.2-2' }} kWh</strong>
+            <span class="t-sub">To full order</span>
+          </div>
+
+          <div class="c-tile">
+            <span class="t-lbl">SUPPLY PROGRESS</span>
+            <strong class="t-val font-mono">{{ currentProgress() }}%</strong>
+            <span class="t-sub">{{ currentProgress() >= 100 ? 'Fulfilled' : 'In Progress' }}</span>
+          </div>
+
+          <div class="c-tile">
+            <span class="t-lbl">SUPPLY TEMP</span>
+            <strong class="t-val font-mono flame-glow">{{ consumer.temperatureC }}°C</strong>
+            <span class="t-sub">Thermal Output</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="detail-progress-card">
+          <div class="p-meta-line">
+            <span>Order Fulfillment: {{ consumer.deliveredEnergyKwh | number:'1.2-2' }} of {{ consumer.requiredEnergyKwh | number:'1.2-2' }} kWh</span>
+            <strong class="font-mono orange-glow">{{ currentProgress() }}%</strong>
+          </div>
+          <div class="p-track-lg">
+            <div class="p-fill-lg" [style.width.%]="currentProgress()" [class.done]="consumer.status === 'COMPLETED'"></div>
+          </div>
+        </div>
+
+        <!-- 4. HEAT DELIVERY RATE SLIDER CONTROL -->
+        <div class="rate-slider-card">
+          <div class="slider-head">
+            <span class="s-title">HEAT DELIVERY RATE CONTROL (0 kW → 10 kW)</span>
+            <div class="digital-rate-badge">
+              <span class="font-mono rate-number">{{ consumer.deliveryRateKw | number:'1.2-2' }}</span>
+              <span class="rate-unit">kW</span>
+            </div>
+          </div>
+
+          <input 
+            type="range" 
+            class="detail-range-slider"
+            min="0" 
+            max="10" 
+            step="0.1" 
+            [value]="consumer.deliveryRateKw"
+            (input)="onRateSliderChange($event)"
+            [disabled]="consumer.status === 'COMPLETED' || heatService.isStorageDepleted()"
+          />
+
+          <div class="presets-and-est-row">
+            <div class="presets-cluster">
+              <span class="pre-lbl">Presets:</span>
+              <button type="button" class="preset-btn" [class.active]="consumer.deliveryRateKw === 1" (click)="setRatePreset(1)">1 kW (Slow)</button>
+              <button type="button" class="preset-btn" [class.active]="consumer.deliveryRateKw === 3" (click)="setRatePreset(3)">3 kW (Med)</button>
+              <button type="button" class="preset-btn" [class.active]="consumer.deliveryRateKw === 5" (click)="setRatePreset(5)">5 kW (High)</button>
+              <button type="button" class="preset-btn" [class.active]="consumer.deliveryRateKw === 10" (click)="setRatePreset(10)">10 kW (Max)</button>
+            </div>
+
+            <div class="est-duration-box">
+              <span>Estimated Duration: <strong class="font-mono cyan-glow">{{ currentEstimatedDurationHours() }} Hours</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. COMPACT LIVE HEAT FLOW CONDUIT ANIMATION -->
+        <div class="compact-flow-conduit" [class.is-flowing]="consumer.status === 'RECEIVING'" [style.--flow-duration]="flowAnimationDuration()">
+          <div class="conduit-label">LIVE THERMAL CONDUIT: TANK 0{{ consumer.activeSourceTankId || 1 }} ➔ {{ consumer.name }}</div>
+          <div class="pipe-track-box">
+            <span class="pipe-endpoint tank-end">Tank 0{{ consumer.activeSourceTankId || 1 }}</span>
+            <div class="pipe-tube">
+              <div class="flowing-particle p1"></div>
+              <div class="flowing-particle p2"></div>
+              <div class="flowing-particle p3"></div>
+              <div class="flowing-particle p4"></div>
+            </div>
+            <span class="pipe-endpoint consumer-end">{{ consumer.name }}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="detail-modal-footer">
+        <span class="footer-note">All changes update thermal storage in real time.</span>
+        <button type="button" class="btn-close-modal" (click)="closeConsumerDetail()">Close Control Center</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. ADD HEAT CONSUMER MODAL DIALOG
+       ========================================================================= -->
+  <div class="scada-modal-overlay" *ngIf="showAddModal()" (click)="closeAddModal()">
+    <div class="scada-modal-content" (click)="$event.stopPropagation()">
+      
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-pre-title">REGISTRATION FORM</span>
+          <h2 class="modal-main-title">+ Register New Heat Consumer</h2>
+        </div>
+        <button type="button" class="modal-close-btn" (click)="closeAddModal()" aria-label="Close Modal">✕</button>
+      </div>
+
+      <!-- Error Alert in Modal -->
+      <div class="modal-form-alert" *ngIf="formError() as err">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>{{ err }}</span>
+      </div>
+
+      <form (ngSubmit)="submitNewConsumer()" class="modal-form-body">
+        
+        <!-- DP Image Selection for New Consumer -->
+        <div class="dp-edit-section">
+          <span class="form-subheading">CONSUMER DISPLAY PICTURE (DP)</span>
+          <div class="dp-edit-row">
+            <div class="dp-preview-wrap">
+              <img [src]="newConsumer.imageUrl || 'assets/heat-consumer-dp.jpg'" alt="Preview" class="dp-large-preview" />
+              <span class="dp-preview-badge">Selected DP</span>
+            </div>
+
+            <div class="dp-controls-wrap">
+              <div class="dp-upload-actions">
+                <input 
+                  type="file" 
+                  #addFileInput 
+                  accept="image/*" 
+                  style="display: none" 
+                  (change)="onAddImageFileSelected($event)" />
+                <button type="button" class="btn-upload-dp" (click)="addFileInput.click()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <span>📁 Upload Image from PC</span>
+                </button>
+                <span class="dp-upload-hint">Upload any PNG, JPG, WEBP — automatically converted and saved to local storage!</span>
+              </div>
+
+              <div class="dp-url-field">
+                <label class="form-label-mini">OR Enter Image URL / Asset Path:</label>
+                <input type="text" class="scada-input scada-input-sm" [(ngModel)]="newConsumer.imageUrl" name="newImageUrl" placeholder="assets/heat-consumer-dp.jpg or https://..." />
+              </div>
+
+              <div class="dp-presets-row">
+                <span class="preset-label">Quick Presets:</span>
+                <button type="button" class="btn-preset-pill" (click)="setAddImagePreset('assets/heat-consumer-dp.jpg')">Default Factory</button>
+                <button type="button" class="btn-preset-pill" (click)="setAddImagePreset('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300')">High-Tech Lab</button>
+                <button type="button" class="btn-preset-pill" (click)="setAddImagePreset('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300')">Heavy Industry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Consumer / Facility Name *</label>
+            <input type="text" class="scada-input" [(ngModel)]="newConsumer.name" name="name" placeholder="e.g. ABC Food Processing" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Company / Industry Name</label>
+            <input type="text" class="scada-input" [(ngModel)]="newConsumer.company" name="company" placeholder="e.g. Apex Agro & Foods Ltd." />
+          </div>
+        </div>
+
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Contact Person</label>
+            <input type="text" class="scada-input" [(ngModel)]="newConsumer.contactPerson" name="contactPerson" placeholder="e.g. Rajesh Sharma" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Phone Number</label>
+            <input type="text" class="scada-input" [(ngModel)]="newConsumer.phone" name="phone" placeholder="+91 98230 44120" />
+          </div>
+        </div>
+
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="scada-input" [(ngModel)]="newConsumer.email" name="email" placeholder="r.sharma@apexfoods.in" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Facility Location / Bay</label>
+            <input type="text" class="scada-input" [(ngModel)]="newConsumer.location" name="location" placeholder="Industrial Zone Bay-4" />
+          </div>
+        </div>
+
+        <div class="form-row-triple">
+          <div class="form-field">
+            <label class="form-label">Required Energy (kWh) *</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="newConsumer.requiredEnergyKwh" name="requiredEnergyKwh" min="1" step="0.5" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Max Heat Rate (kW) *</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="newConsumer.maxHeatRateKw" name="maxHeatRateKw" min="0.5" max="10" step="0.5" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Tariff (₹ / kWh)</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="newConsumer.pricePerKwh" name="pricePerKwh" min="1" step="0.5" />
+          </div>
+        </div>
+
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Preferred Storage Tank</label>
+            <select class="scada-select" [(ngModel)]="newConsumer.preferredTank" name="preferredTank">
+              <option value="AUTO">AUTO (Select Most Available)</option>
+              <option [ngValue]="1">Tank 01 ({{ heatService.tanks()[0].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+              <option [ngValue]="2">Tank 02 ({{ heatService.tanks()[1].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+              <option [ngValue]="3">Tank 03 ({{ heatService.tanks()[2].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+              <option [ngValue]="4">Tank 04 ({{ heatService.tanks()[3].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Initial Status</label>
+            <select class="scada-select" [(ngModel)]="newConsumer.status" name="status">
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="WAITING">WAITING</option>
+              <option value="RECEIVING">RECEIVING (Immediate Supply)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-checkbox-row">
+          <label class="scada-checkbox-label">
+            <input type="checkbox" [(ngModel)]="newConsumer.autoSourceSelection" name="autoSourceSelection" />
+            <span class="custom-check"></span>
+            <span>Enable Automatic Source Selection (auto-switch when selected vessel empties)</span>
+          </label>
+        </div>
+
+        <!-- Dynamic Calculation Preview -->
+        <div class="modal-calc-preview">
+          <div class="preview-item">
+            <span class="p-lbl">Estimated Supply Duration:</span>
+            <strong class="font-mono orange-glow">{{ formEstimatedDurationHours() }} Hours</strong>
+          </div>
+          <div class="preview-item">
+            <span class="p-lbl">Estimated Total Billing:</span>
+            <strong class="font-mono cyan-glow">₹{{ (newConsumer.requiredEnergyKwh * newConsumer.pricePerKwh) | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+
+        <div class="modal-footer-actions">
+          <button type="button" class="btn-cancel" (click)="closeAddModal()">Cancel</button>
+          <button type="submit" class="btn-submit">+ Register Heat Consumer</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       5. EDIT HEAT CONSUMER & DP IMAGE MODAL (Persistent in localStorage)
+       ========================================================================= -->
+  <div class="scada-modal-overlay" *ngIf="showEditModal()" (click)="closeEditModal()">
+    <div class="scada-modal-content edit-modal-container" (click)="$event.stopPropagation()">
+      
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-pre-title">
+            <span class="edit-pulse-dot"></span>
+            CONSUMER PROFILE &amp; DP EDITOR • {{ editForm.id }}
+          </span>
+          <h2 class="modal-main-title">✎ Edit Consumer: {{ editForm.name }}</h2>
+        </div>
+        <button type="button" class="modal-close-btn" (click)="closeEditModal()" aria-label="Close Modal">✕</button>
+      </div>
+
+      <!-- Error Alert in Modal -->
+      <div class="modal-form-alert" *ngIf="editFormError() as err">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>{{ err }}</span>
+      </div>
+
+      <form (ngSubmit)="saveConsumerEdit()" class="modal-form-body">
+
+        <!-- DP / Image Upload & Preset Section -->
+        <div class="dp-edit-section">
+          <span class="form-subheading">CONSUMER DISPLAY PICTURE (DP)</span>
+          <div class="dp-edit-row">
+            <div class="dp-preview-wrap">
+              <img [src]="editForm.imageUrl || 'assets/heat-consumer-dp.jpg'" alt="Preview" class="dp-large-preview" />
+              <span class="dp-preview-badge">Live DP Preview</span>
+            </div>
+
+            <div class="dp-controls-wrap">
+              <div class="dp-upload-actions">
+                <input 
+                  type="file" 
+                  #editFileInput 
+                  accept="image/*" 
+                  style="display: none" 
+                  (change)="onEditImageFileSelected($event)" />
+                <button type="button" class="btn-upload-dp" (click)="editFileInput.click()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <span>📁 Upload New Image from PC</span>
+                </button>
+                <span class="dp-upload-hint">Upload PNG, JPG, or WEBP from your computer — automatically stored in localStorage!</span>
+              </div>
+
+              <div class="dp-url-field">
+                <label class="form-label-mini">OR Enter Image URL / Local Asset Path:</label>
+                <input type="text" class="scada-input scada-input-sm" [(ngModel)]="editForm.imageUrl" name="editImageUrl" placeholder="assets/heat-consumer-dp.jpg or https://..." />
+              </div>
+
+              <div class="dp-presets-row">
+                <span class="preset-label">Quick Presets:</span>
+                <button type="button" class="btn-preset-pill" (click)="setEditImagePreset('assets/heat-consumer-dp.jpg')">Industrial Plant</button>
+                <button type="button" class="btn-preset-pill" (click)="setEditImagePreset('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300')">High-Tech Lab</button>
+                <button type="button" class="btn-preset-pill" (click)="setEditImagePreset('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300')">Heavy Factory</button>
+                <button type="button" class="btn-preset-pill" (click)="setEditImagePreset('https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=300')">Robotics Unit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="form-subheading">COMPANY &amp; FACILITY IDENTIFICATION</span>
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Consumer / Facility Name *</label>
+            <input type="text" class="scada-input" [(ngModel)]="editForm.name" name="editName" placeholder="e.g. ABC Food Processing" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Parent Company / Industry Name *</label>
+            <input type="text" class="scada-input" [(ngModel)]="editForm.company" name="editCompany" placeholder="e.g. Apex Agro & Foods Ltd." required />
+          </div>
+        </div>
+
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Facility Location / Bay</label>
+            <input type="text" class="scada-input" [(ngModel)]="editForm.location" name="editLocation" placeholder="Industrial Zone Bay-4" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Contact Person</label>
+            <input type="text" class="scada-input" [(ngModel)]="editForm.contactPerson" name="editContactPerson" placeholder="Rajesh Sharma" />
+          </div>
+        </div>
+
+        <div class="form-row-dual">
+          <div class="form-field">
+            <label class="form-label">Phone Number</label>
+            <input type="text" class="scada-input" [(ngModel)]="editForm.phone" name="editPhone" placeholder="+91 98230 44120" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="scada-input" [(ngModel)]="editForm.email" name="editEmail" placeholder="r.sharma@apexfoods.in" />
+          </div>
+        </div>
+
+        <span class="form-subheading">THERMAL SUPPLY &amp; STORAGE PARAMETERS</span>
+        <div class="form-row-triple">
+          <div class="form-field">
+            <label class="form-label">Target Energy Demand (kWh) *</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="editForm.requiredEnergyKwh" name="editRequiredEnergyKwh" min="1" step="0.5" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Max Heat Rate (kW) *</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="editForm.maxHeatRateKw" name="editMaxHeatRateKw" min="0.5" max="10" step="0.5" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Current Delivery Rate (kW)</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="editForm.deliveryRateKw" name="editDeliveryRateKw" min="0" max="10" step="0.5" />
+          </div>
+        </div>
+
+        <div class="form-row-triple">
+          <div class="form-field">
+            <label class="form-label">Supplying Storage Tank</label>
+            <select class="scada-select" [(ngModel)]="editForm.preferredTank" name="editPreferredTank">
+              <option value="AUTO">AUTO (Automatic Sequential / Available)</option>
+              <option [ngValue]="1">Tank 01 ({{ heatService.tanks()[0].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+              <option [ngValue]="2">Tank 02 ({{ heatService.tanks()[1].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+              <option [ngValue]="3">Tank 03 ({{ heatService.tanks()[2].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+              <option [ngValue]="4">Tank 04 ({{ heatService.tanks()[3].storedEnergyKwh | number:'1.1-1' }} kWh available)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Tariff Rate (₹ / kWh)</label>
+            <input type="number" class="scada-input font-mono" [(ngModel)]="editForm.pricePerKwh" name="editPricePerKwh" min="1" step="0.5" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Operational Status</label>
+            <select class="scada-select" [(ngModel)]="editForm.status" name="editStatus">
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="RECEIVING">RECEIVING (Supply Flowing)</option>
+              <option value="PAUSED">PAUSED</option>
+              <option value="WAITING">WAITING</option>
+              <option value="COMPLETED">COMPLETED</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-checkbox-row">
+          <label class="scada-checkbox-label">
+            <input type="checkbox" [(ngModel)]="editForm.autoSourceSelection" name="editAutoSourceSelection" />
+            <span class="custom-check"></span>
+            <span>Enable Automatic Source Selection (auto-switch when supplying vessel empties)</span>
+          </label>
+        </div>
+
+        <!-- Footer Actions: Delete Consumer & Save Changes -->
+        <div class="modal-footer-actions">
+          <button type="button" class="btn-danger-delete" (click)="promptDeleteFromEdit()">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <span>Delete Consumer</span>
+          </button>
+          
+          <div class="footer-save-cluster">
+            <button type="button" class="btn-cancel" (click)="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn-submit">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              <span>Save Changes &amp; Store</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       6. DEDICATED IN-APP DELETE CONFIRMATION MODAL (NEVER BLOCKED BY BROWSER)
+       ========================================================================= -->
+  <div class="scada-modal-overlay delete-overlay" *ngIf="consumerToDelete() as toDelete" (click)="cancelDeletePrompt()">
+    <div class="scada-modal-content delete-confirm-modal" (click)="$event.stopPropagation()">
+      <div class="delete-icon-large">
+        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#ef4444" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+
+      <div class="delete-content-wrap">
+        <span class="delete-badge-tag">PERMANENT ACTION</span>
+        <h3 class="delete-confirm-title">Delete Heat Consumer?</h3>
+        <p class="delete-confirm-desc">
+          Are you sure you want to delete <strong class="delete-target-name">{{ toDelete.name }}</strong> ({{ toDelete.company }})?
+          This consumer will be completely removed from active tracking and local storage.
+        </p>
+      </div>
+
+      <div class="delete-confirm-actions">
+        <button type="button" class="btn-cancel" (click)="cancelDeletePrompt()">Cancel</button>
+        <button type="button" class="btn-danger-confirm-delete" (click)="confirmDeleteConsumer(toDelete.id)">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Yes, Permanently Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

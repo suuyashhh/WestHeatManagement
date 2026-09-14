@@ -1,94 +1,143 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface StorageTank {
-  id: string;
-  name: string;
-  type: string;
-  capacityMWh: number;
-  currentMWh: number;
-  socPercent: number;
-  temperature: number;
-  pressure: string;
-  flowRate: string;
-  mode: 'charging' | 'discharging' | 'standby';
-}
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { WasteHeatService, AllocationMode, StorageDurationOption } from '../../services/waste-heat.service';
 
 @Component({
   selector: 'app-thermal-storage',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './thermal-storage.component.html',
   styleUrl: './thermal-storage.component.css'
 })
 export class ThermalStorageComponent {
-  globalMode: 'auto' | 'force_charge' | 'peak_discharge' = 'auto';
+  readonly heatService = inject(WasteHeatService);
 
-  tanks: StorageTank[] = [
-    {
-      id: 'TK-SALT-01',
-      name: 'Molten Nitrate Salt Main Vessel',
-      type: 'Sensible Molten Salt (60/40 NaNO3-KNO3)',
-      capacityMWh: 250,
-      currentMWh: 216,
-      socPercent: 86.4,
-      temperature: 565,
-      pressure: '1.2 Bar',
-      flowRate: '+14.2 MWth',
-      mode: 'charging'
-    },
-    {
-      id: 'TK-STEAM-02',
-      name: 'High-Pressure Steam Accumulator',
-      type: 'Pressurized Ruths Steam Vessel',
-      capacityMWh: 80,
-      currentMWh: 73.6,
-      socPercent: 92.0,
-      temperature: 198,
-      pressure: '15.4 Bar',
-      flowRate: '+4.8 MWth',
-      mode: 'charging'
-    },
-    {
-      id: 'TK-PCM-03',
-      name: 'Latent Heat Phase Change Cell',
-      type: 'Eutectic Salt Matrix (PCM)',
-      capacityMWh: 45,
-      currentMWh: 30.8,
-      socPercent: 68.5,
-      temperature: 284,
-      pressure: '2.4 Bar',
-      flowRate: '-6.2 MWth',
-      mode: 'discharging'
-    },
-    {
-      id: 'TK-STRAT-04',
-      name: 'Stratified Return Water Buffer',
-      type: 'Thermocline Water Tank',
-      capacityMWh: 60,
-      currentMWh: 25.2,
-      socPercent: 42.0,
-      temperature: 72,
-      pressure: '3.1 Bar',
-      flowRate: '0.0 MWth',
-      mode: 'standby'
-    }
-  ];
+  // Modal / Drawer state for Storage Capacity Configuration
+  readonly showConfigModal = signal<boolean>(false);
 
-  setGlobalMode(mode: 'auto' | 'force_charge' | 'peak_discharge'): void {
-    this.globalMode = mode;
+  // Editable capacity inputs bound in the configuration form
+  editCapacities: { [tankId: number]: number } = {
+    1: 10,
+    2: 20,
+    3: 15,
+    4: 25
+  };
+
+  capacityError = signal<string | null>(null);
+  capacitySuccess = signal<boolean>(false);
+
+  // Temporary priority order for editing
+  editPriority: number[] = [1, 2, 3, 4];
+
+  constructor() {
+    this.syncFormWithService();
   }
 
-  toggleTankMode(tank: StorageTank): void {
-    if (tank.mode === 'charging') {
-      tank.mode = 'discharging';
-      tank.flowRate = '-8.5 MWth';
-    } else if (tank.mode === 'discharging') {
-      tank.mode = 'standby';
-      tank.flowRate = '0.0 MWth';
-    } else {
-      tank.mode = 'charging';
-      tank.flowRate = '+10.0 MWth';
+  syncFormWithService(): void {
+    const current = this.heatService.tanks();
+    for (const t of current) {
+      this.editCapacities[t.id] = t.capacityKwh;
     }
+    this.editPriority = [...this.heatService.priorityOrder()];
+  }
+
+  openConfigModal(): void {
+    this.syncFormWithService();
+    this.capacityError.set(null);
+    this.capacitySuccess.set(false);
+    this.showConfigModal.set(true);
+  }
+
+  closeConfigModal(): void {
+    this.showConfigModal.set(false);
+    this.capacityError.set(null);
+  }
+
+  applyCapacities(): void {
+    this.capacityError.set(null);
+    this.capacitySuccess.set(false);
+
+    const result = this.heatService.updateTankCapacities(this.editCapacities);
+    if (!result.success) {
+      this.capacityError.set(result.error || 'Failed to update storage capacities.');
+    } else {
+      this.capacitySuccess.set(true);
+      setTimeout(() => {
+        this.capacitySuccess.set(false);
+        this.showConfigModal.set(false);
+      }, 900);
+    }
+  }
+
+  // Allocation Mode Toggle
+  setAllocationMode(mode: AllocationMode): void {
+    this.heatService.setAllocationMode(mode);
+  }
+
+  // Manual Active Tank Selection
+  selectManualTank(id: number): void {
+    const isAvailable = this.heatService.selectManualTank(id);
+    if (!isAvailable) {
+      // Tank is full
+    }
+  }
+
+  // Priority Order modification with duplicate prevention (swaps positions)
+  changePriority(slotIndex: number, newTankIdStr: string): void {
+    const newTankId = parseInt(newTankIdStr, 10);
+    const order = [...this.heatService.priorityOrder()];
+    const existingIndex = order.indexOf(newTankId);
+
+    if (existingIndex !== -1) {
+      // Swap elements to ensure no duplicate tank IDs
+      const temp = order[slotIndex];
+      order[slotIndex] = newTankId;
+      order[existingIndex] = temp;
+    } else {
+      order[slotIndex] = newTankId;
+    }
+
+    this.heatService.setPriorityOrder(order);
+  }
+
+  // Duration selection
+  setDuration(sec: StorageDurationOption): void {
+    this.heatService.setDuration(sec);
+  }
+
+  // Simulation Speed multiplier
+  setSpeed(speed: number): void {
+    this.heatService.setSimulationSpeed(speed);
+  }
+
+  // Reset Storage with SCADA confirmation modal
+  readonly showResetModal = signal<boolean>(false);
+
+  openResetModal(): void {
+    this.showResetModal.set(true);
+  }
+
+  closeResetModal(): void {
+    this.showResetModal.set(false);
+  }
+
+  executeReset(): void {
+    this.heatService.resetStorage();
+    this.showResetModal.set(false);
+  }
+
+  confirmResetStorage(): void {
+    this.openResetModal();
+  }
+
+  // Helpers
+  getTank(id: number) {
+    return this.heatService.tanks().find((t) => t.id === id);
+  }
+
+  isTankActive(id: number): boolean {
+    return this.heatService.activeChargingTankId() === id;
   }
 }

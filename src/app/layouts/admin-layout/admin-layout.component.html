@@ -1,114 +1,98 @@
 <div class="admin-shell">
-  <!-- Top Navigation / Telemetry Header -->
+  <!-- Top Navigation Header -->
   <header class="admin-topbar">
     <div class="topbar-left">
-      <!-- Mobile Left-Sidebar Trigger -->
+      <!-- Topbar Sidebar Collapse/Expand Toggle -->
       <button 
-        class="mobile-menu-trigger" 
-        (click)="toggleMobileSidebar()" 
-        title="Toggle Menu">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        type="button" 
+        class="topbar-sidebar-toggle" 
+        (click)="toggleSidebar()" 
+        [title]="isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+        aria-label="Toggle Sidebar Menu">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </button>
 
-      <div class="plant-badge">
-        <span class="live-pulse normal"></span>
-        <span class="plant-id">PLANT 04-WEST</span>
-        <span class="plant-divider">/</span>
-        <span class="plant-sub">ACTIVE TELEMETRY</span>
-      </div>
-
-      <!-- Quick Search Bar -->
-      <div class="search-container">
-        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input 
-          type="text" 
-          placeholder="Search boilers, zones, sensor IDs (e.g. TS-201)..." 
-          class="search-input" />
-        <span class="search-shortcut">⌘K</span>
+      <!-- Brand Flame Logo + Title -->
+      <div class="topbar-brand">
+        <div class="brand-flame-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z" fill="#f97316" stroke="#ea580c"></path>
+          </svg>
+        </div>
+        <span class="brand-title">Waste Heat Management System</span>
       </div>
     </div>
 
-    <!-- Topbar Right Control Panel -->
+    <!-- Topbar Right: Status & Clock -->
     <div class="topbar-right">
-      <!-- Live Clock -->
-      <div class="system-clock-box">
-        <span class="clock-label">TELEMETRY SYNC</span>
-        <span class="clock-val font-mono">{{ currentTimeString }}</span>
+      <div class="system-status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-text">System Online</span>
       </div>
 
-      <!-- Emergency Quick Action -->
-      <button class="topbar-action-btn emergency-btn" title="Initiate Cooling Loop Purge">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      <div class="system-date-time">
+        <svg class="calendar-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
-        <span class="btn-text">AUTO COOL</span>
+        <span class="date-text">{{ currentTimeString || '12 Sep 2025  04:45 PM' }}</span>
+      </div>
+
+      <!-- Theme Switcher Toggle (Dark / Light Mode) in Navbar Corner -->
+      <button 
+        type="button" 
+        class="theme-toggle-btn"
+        [class.is-light]="themeService.currentTheme() === 'light'"
+        (click)="themeService.toggleTheme()"
+        [title]="themeService.currentTheme() === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        [attr.aria-label]="themeService.currentTheme() === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+        <div class="theme-track">
+          <span class="theme-icon moon-icon" *ngIf="themeService.currentTheme() === 'dark'">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
+          <span class="theme-icon sun-icon" *ngIf="themeService.currentTheme() === 'light'">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+          <span class="theme-mode-label">{{ themeService.currentTheme() === 'dark' ? 'Dark' : 'Light' }}</span>
+        </div>
       </button>
 
-      <!-- Notification Bell -->
-      <div class="notifications-wrapper">
-        <button 
-          class="topbar-icon-btn" 
-          (click)="toggleNotifications()"
-          title="Active Alerts">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
-          <span class="badge-dot" *ngIf="unreadAlertCount > 0">{{ unreadAlertCount }}</span>
-        </button>
-
-        <!-- Dropdown Notifications Menu -->
-        <div class="notifications-dropdown" *ngIf="isNotificationsOpen">
-          <div class="dropdown-header">
-            <span class="dropdown-title">CRITICAL SYSTEM NOTIFICATIONS</span>
-            <span class="badge badge-flame">{{ notifications.length }} Unread</span>
-          </div>
-
-          <div class="dropdown-list">
-            <div *ngFor="let notif of notifications" class="dropdown-item" [ngClass]="'item-' + notif.type">
-              <div class="notif-header">
-                <span class="notif-title">{{ notif.title }}</span>
-                <span class="notif-time">{{ notif.time }}</span>
-              </div>
-              <p class="notif-desc">{{ notif.desc }}</p>
-            </div>
-          </div>
-
-          <div class="dropdown-footer">
-            <button class="view-all-btn" (click)="toggleNotifications()">View All Incidents</button>
-          </div>
-        </div>
-      </div>
+      <!-- Heat Consumer Facility DP Avatar -->
+      <a routerLink="/heat-consumers" class="topbar-consumer-avatar" title="View Heat Consumer Control Center">
+        <img src="assets/heat-consumer-dp.jpg" alt="Heat Consumer DP" class="topbar-dp-img" />
+        <span class="topbar-dp-status"></span>
+      </a>
     </div>
   </header>
 
   <!-- Main Viewport Body & Left Sidebar Layout -->
   <div class="admin-body">
     <!-- LEFT SIDEBAR COMPONENT -->
-    <app-sidebar 
-      [isCollapsed]="isSidebarCollapsed"
-      [isMobileOpen]="isMobileSidebarOpen"
-      (toggleCollapse)="toggleSidebar()"
-      (closeMobile)="closeMobileSidebar()">
+    <app-sidebar [isCollapsed]="isSidebarCollapsed" [isMobileOpen]="isMobileSidebarOpen"
+      (toggleCollapse)="toggleSidebar()" (closeMobile)="closeMobileSidebar()">
     </app-sidebar>
 
     <!-- Center / Right Main Routed Content -->
     <main class="admin-main-viewport">
       <router-outlet></router-outlet>
     </main>
-  </div>
-
-  <!-- Backdrop for Mobile Drawer -->
-  <div 
-    class="mobile-backdrop" 
-    *ngIf="isMobileSidebarOpen" 
-    (click)="closeMobileSidebar()">
   </div>
 </div>

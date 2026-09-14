@@ -1,235 +1,626 @@
 <div class="data-server-page">
-  <!-- Page Header -->
+  <!-- Compact Page Header -->
   <div class="page-header">
     <div class="header-info">
       <div class="pre-badge">
-        <span class="live-pulse normal"></span>
-        <span>GATEWAY INFRASTRUCTURE</span>
+        <span class="live-pulse" [class.normal]="heatService.heatOutputKw() > 0" [class.paused]="heatService.heatOutputKw() === 0"></span>
+        <span>Industrial SCADA Gateway</span>
       </div>
-      <h1 class="page-title">Industrial Data Server & SCADA Gateways</h1>
+      <h1 class="page-main-title">Server Waste-Heat Extraction & Telemetry</h1>
     </div>
 
-    <div class="header-actions">
-      <button class="btn btn-secondary" (click)="pingCluster()">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        <span>Ping All Nodes</span>
-      </button>
-      <button class="btn btn-primary">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Register New Endpoint</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- BIG ANIMATED DATA SERVER SHOWCASE (HEAT COMING OUT, NO TEXTS/VALUES) -->
-  <div class="animated-server-stage">
-    <div class="stage-ambient-glow"></div>
-
-    <!-- Animated Server Container -->
-    <div class="server-rack-system">
-
-      <!-- RISING HEAT WAVES & THERMAL PLUMES (ANIMATED) -->
-      <div class="heat-exhaust-plumes">
-        <!-- Floating heat wave bands -->
-        <div class="heat-wave wave-1"></div>
-        <div class="heat-wave wave-2"></div>
-        <div class="heat-wave wave-3"></div>
-        <div class="heat-wave wave-4"></div>
-        <div class="heat-wave wave-5"></div>
-
-        <!-- SVG Heat Stream Flow Lines -->
-        <svg class="heat-stream-svg" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="stream-line line-1" d="M150 200 C 130 150, 170 100, 140 20" stroke="url(#heatGrad1)"
-            stroke-width="4" stroke-linecap="round" />
-          <path class="stream-line line-2" d="M100 200 C 80 140, 120 90, 90 10" stroke="url(#heatGrad2)"
-            stroke-width="3.5" stroke-linecap="round" />
-          <path class="stream-line line-3" d="M200 200 C 220 145, 180 85, 210 15" stroke="url(#heatGrad1)"
-            stroke-width="3.5" stroke-linecap="round" />
-          <path class="stream-line line-4" d="M60 200 C 40 135, 80 80, 50 30" stroke="url(#heatGrad3)" stroke-width="3"
-            stroke-linecap="round" />
-          <path class="stream-line line-5" d="M240 200 C 260 140, 220 75, 250 25" stroke="url(#heatGrad3)"
-            stroke-width="3" stroke-linecap="round" />
-
-          <defs>
-            <linearGradient id="heatGrad1" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.9" />
-              <stop offset="50%" stop-color="#ff9100" stop-opacity="0.7" />
-              <stop offset="100%" stop-color="#ffab00" stop-opacity="0" />
-            </linearGradient>
-            <linearGradient id="heatGrad2" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#ff1744" stop-opacity="0.95" />
-              <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6" />
-              <stop offset="100%" stop-color="#ffea00" stop-opacity="0" />
-            </linearGradient>
-            <linearGradient id="heatGrad3" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.8" />
-              <stop offset="70%" stop-color="#ffa000" stop-opacity="0.4" />
-              <stop offset="100%" stop-color="#fff8e1" stop-opacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <!-- Rising Thermal Particles / Embers -->
-        <span class="heat-ember ember-1"></span>
-        <span class="heat-ember ember-2"></span>
-        <span class="heat-ember ember-3"></span>
-        <span class="heat-ember ember-4"></span>
-        <span class="heat-ember ember-5"></span>
-        <span class="heat-ember ember-6"></span>
-        <span class="heat-ember ember-7"></span>
-        <span class="heat-ember ember-8"></span>
+    <!-- Quick Status Badges -->
+    <div class="header-badges-cluster">
+      <div class="scada-chip" [class.active-heat]="heatService.heatOutputKw() > 0">
+        <span class="chip-dot"></span>
+        <span class="chip-label">STATUS:</span>
+        <span class="chip-val">{{ heatService.status() }}</span>
       </div>
-
-      <!-- MAIN SERVER RACK HARDWARE CHASSIS -->
-      <div class="rack-cabinet">
-        <!-- Top Exhaust Ventilation Grille with Glowing Heat Aura -->
-        <div class="rack-top-vent">
-          <div class="exhaust-glow"></div>
-          <div class="vent-slots">
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-            <span class="vent-slot"></span>
-          </div>
-        </div>
-
-        <!-- Server Blade Units -->
-        <div class="rack-body">
-          <!-- Server Blade 1 -->
-          <div class="server-blade heat-core-1">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-pulse"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan"></span>
-              <span class="ind-dot orange blink"></span>
-            </div>
-          </div>
-
-          <!-- Server Blade 2 -->
-          <div class="server-blade heat-core-2">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed intense"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot orange blink"></span>
-              <span class="ind-dot red pulse"></span>
-            </div>
-          </div>
-
-          <!-- Server Blade 3 (High Thermal Activity) -->
-          <div class="server-blade heat-core-3">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed intense"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan"></span>
-              <span class="ind-dot orange"></span>
-            </div>
-          </div>
-
-          <!-- Server Blade 4 -->
-          <div class="server-blade heat-core-4">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-pulse"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan blink"></span>
-            </div>
-          </div>
-
-          <!-- Server Blade 5 -->
-          <div class="server-blade heat-core-5">
-            <div class="blade-handle"></div>
-            <div class="blade-drive-bays">
-              <div class="drive-bay"><span class="led led-blink-fast"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-              <div class="drive-bay"><span class="led led-blink"></span></div>
-              <div class="drive-bay"><span class="led led-active"></span></div>
-            </div>
-            <div class="blade-vent-mesh">
-              <div class="heat-bleed"></div>
-            </div>
-            <div class="blade-indicators">
-              <span class="ind-dot green"></span>
-              <span class="ind-dot cyan"></span>
-              <span class="ind-dot orange blink"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom Base Intake Grille & Stand -->
-        <div class="rack-bottom">
-          <div class="intake-fans">
-            <div class="fan-grille">
-              <div class="fan-blade spinning"></div>
-            </div>
-            <div class="fan-grille">
-              <div class="fan-blade spinning-fast"></div>
-            </div>
-            <div class="fan-grille">
-              <div class="fan-blade spinning"></div>
-            </div>
-          </div>
-          <div class="rack-feet">
-            <span class="foot left"></span>
-            <span class="foot right"></span>
-          </div>
-        </div>
-
+      <div class="scada-chip temp-chip">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span class="chip-label">EXHAUST:</span>
+        <span class="chip-val">{{ heatService.temperatureC() }}°C</span>
       </div>
-
-      <!-- Floor Reflection & Shadow -->
-      <div class="server-floor-reflection"></div>
+      <div class="scada-chip power-chip">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span class="chip-label">HEAT OUT:</span>
+        <span class="chip-val highlight">{{ heatService.heatOutputKw() | number:'1.2-2' }} kW</span>
+      </div>
     </div>
   </div>
 
+  <!-- MAIN DUAL-COLUMN WORKSPACE: LEFT SERVER STAGE + RIGHT INTERACTIVE SCADA CONTROL PANEL -->
+  <div class="scada-workspace-grid">
+
+    <!-- ============================================================
+         LEFT COLUMN: REALISTIC ANIMATED DATA SERVER WITH REACTIVE DUAL-SIDE HEAT EXHAUST
+         ============================================================ -->
+    <div class="server-stage-panel" 
+         [style.--heat-ratio]="heatService.heatIntensityRatio()"
+         [style.--heat-kw]="heatService.heatOutputKw()"
+         [class.is-idle]="heatService.heatOutputKw() === 0"
+         [class.is-max]="heatService.heatOutputKw() >= 4.5">
+
+      <!-- Server Stage Card Header -->
+      <div class="panel-inner-header">
+        <div class="header-title-wrap">
+          <div class="status-indicator-lamp" [class.lamp-hot]="heatService.heatOutputKw() > 0" [class.lamp-off]="heatService.heatOutputKw() === 0"></div>
+          <span class="panel-title-text">42U Compute Core • Lateral Heat Dissipation Stage</span>
+        </div>
+        <div class="live-power-tag">
+          Simulated Load: <strong>{{ heatService.heatOutputKw() | number:'1.2-2' }} kW</strong>
+        </div>
+      </div>
+
+      <!-- Stage Viewport Container -->
+      <div class="animated-server-stage">
+        
+        <!-- Dynamic Ambient Thermal Radiation Haze (Left & Right) -->
+        <div class="thermal-haze-glow left"></div>
+        <div class="thermal-haze-glow right"></div>
+
+        <!-- Central Stage Area containing Server and Left/Right Heat Streams -->
+        <div class="server-stage-layout">
+
+          <!-- LEFT-SIDE HEAT EXHAUST SYSTEM -->
+          <div class="side-heat-exhaust left-exhaust">
+            <div class="plume-cloud left-cloud-1"></div>
+            <div class="plume-cloud left-cloud-2"></div>
+            <div class="plume-cloud left-cloud-3"></div>
+
+            <svg class="lateral-heat-svg" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="heat-trail trail-l1" d="M220 220 C 160 210, 90 180, 20 120" stroke="url(#heatGradL1)" stroke-width="4.5" stroke-linecap="round"/>
+              <path class="heat-trail trail-l2" d="M220 160 C 140 150, 70 110, 10 50" stroke="url(#heatGradL2)" stroke-width="4" stroke-linecap="round"/>
+              <path class="heat-trail trail-l3" d="M220 100 C 150 90, 80 50, 30 10" stroke="url(#heatGradL1)" stroke-width="3.5" stroke-linecap="round"/>
+              <path class="heat-trail trail-l4" d="M220 260 C 170 250, 110 220, 50 170" stroke="url(#heatGradL3)" stroke-width="3" stroke-linecap="round"/>
+              
+              <defs>
+                <linearGradient id="heatGradL1" x1="1" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.95"/>
+                  <stop offset="50%" stop-color="#ff9100" stop-opacity="0.75"/>
+                  <stop offset="100%" stop-color="#ffab00" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="heatGradL2" x1="1" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#ff1744" stop-opacity="0.9"/>
+                  <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#ffea00" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="heatGradL3" x1="1" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.85"/>
+                  <stop offset="70%" stop-color="#ffa000" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#fff8e1" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <span class="heat-particle lp-1"></span>
+            <span class="heat-particle lp-2"></span>
+            <span class="heat-particle lp-3"></span>
+            <span class="heat-particle lp-4"></span>
+            <span class="heat-particle lp-5"></span>
+          </div>
+
+          <!-- REALISTIC HIGH-TECH ENTERPRISE SERVER RACK (CENTER) -->
+          <div class="realistic-server-rack">
+            
+            <div class="side-louver-bank left-louvers">
+              <span class="louver-fin hot"></span>
+              <span class="louver-fin intense"></span>
+              <span class="louver-fin intense"></span>
+              <span class="louver-fin hot"></span>
+              <span class="louver-fin hot"></span>
+              <span class="louver-fin normal"></span>
+            </div>
+
+            <div class="chassis-outer-frame">
+              
+              <div class="rack-rail left-rail">
+                <span class="rail-screw s1"></span>
+                <span class="rail-unit u1"></span>
+                <span class="rail-screw s2"></span>
+                <span class="rail-unit u2"></span>
+                <span class="rail-screw s3"></span>
+                <span class="rail-unit u3"></span>
+                <span class="rail-screw s4"></span>
+                <span class="rail-unit u4"></span>
+                <span class="rail-screw s5"></span>
+                <span class="rail-unit u5"></span>
+                <span class="rail-screw s6"></span>
+              </div>
+
+              <div class="chassis-inner-bay">
+                
+                <div class="chassis-header-vent">
+                  <div class="internal-core-glow"></div>
+                  <div class="top-grille-honeycomb">
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                    <span class="grille-slot"></span>
+                  </div>
+                </div>
+
+                <!-- Blade 1 -->
+                <div class="enterprise-blade blade-1">
+                  <div class="blade-latch"></div>
+                  <div class="nvme-drive-caddy">
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                  </div>
+                  <div class="honeycomb-heatsink-mesh">
+                    <div class="radiant-core-glow"></div>
+                  </div>
+                  <div class="blade-optic-cluster">
+                    <div class="sfp-optic"><span class="optic-laser"></span></div>
+                    <div class="diagnostic-leds">
+                      <span class="d-led green"></span>
+                      <span class="d-led cyan blink"></span>
+                      <span class="d-led amber"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Blade 2 -->
+                <div class="enterprise-blade blade-2">
+                  <div class="blade-latch"></div>
+                  <div class="nvme-drive-caddy">
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                  </div>
+                  <div class="honeycomb-heatsink-mesh">
+                    <div class="radiant-core-glow intense"></div>
+                  </div>
+                  <div class="blade-optic-cluster">
+                    <div class="sfp-optic"><span class="optic-laser active"></span></div>
+                    <div class="diagnostic-leds">
+                      <span class="d-led green"></span>
+                      <span class="d-led red pulse"></span>
+                      <span class="d-led amber blink"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Blade 3 -->
+                <div class="enterprise-blade blade-3">
+                  <div class="blade-latch"></div>
+                  <div class="nvme-drive-caddy">
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                  </div>
+                  <div class="honeycomb-heatsink-mesh">
+                    <div class="radiant-core-glow intense"></div>
+                  </div>
+                  <div class="blade-optic-cluster">
+                    <div class="sfp-optic"><span class="optic-laser"></span></div>
+                    <div class="diagnostic-leds">
+                      <span class="d-led green"></span>
+                      <span class="d-led cyan"></span>
+                      <span class="d-led amber blink"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Blade 4 -->
+                <div class="enterprise-blade blade-4">
+                  <div class="blade-latch"></div>
+                  <div class="nvme-drive-caddy">
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                  </div>
+                  <div class="honeycomb-heatsink-mesh">
+                    <div class="radiant-core-glow"></div>
+                  </div>
+                  <div class="blade-optic-cluster">
+                    <div class="sfp-optic"><span class="optic-laser active"></span></div>
+                    <div class="diagnostic-leds">
+                      <span class="d-led green"></span>
+                      <span class="d-led green"></span>
+                      <span class="d-led cyan blink"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Blade 5 -->
+                <div class="enterprise-blade blade-5">
+                  <div class="blade-latch"></div>
+                  <div class="nvme-drive-caddy">
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink-fast"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led active"></span></div>
+                    <div class="caddy-tray"><span class="caddy-led blink"></span></div>
+                  </div>
+                  <div class="honeycomb-heatsink-mesh">
+                    <div class="radiant-core-glow"></div>
+                  </div>
+                  <div class="blade-optic-cluster">
+                    <div class="sfp-optic"><span class="optic-laser"></span></div>
+                    <div class="diagnostic-leds">
+                      <span class="d-led green"></span>
+                      <span class="d-led cyan blink"></span>
+                      <span class="d-led amber"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Turbines Module -->
+                <div class="chassis-intake-module">
+                  <div class="dual-intake-turbines">
+                    <div class="turbine-housing">
+                      <div class="turbine-bezel">
+                        <div class="turbine-impeller spinning-fast"></div>
+                        <span class="turbine-axis"></span>
+                      </div>
+                    </div>
+                    <div class="center-vent-grid">
+                      <span class="dot-matrix"></span>
+                      <span class="dot-matrix"></span>
+                      <span class="dot-matrix"></span>
+                    </div>
+                    <div class="turbine-housing">
+                      <div class="turbine-bezel">
+                        <div class="turbine-impeller spinning-fast"></div>
+                        <span class="turbine-axis"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pedestal-feet">
+                    <span class="heavy-foot left"></span>
+                    <span class="heavy-foot right"></span>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="rack-rail right-rail">
+                <span class="rail-screw s1"></span>
+                <span class="rail-unit u1"></span>
+                <span class="rail-screw s2"></span>
+                <span class="rail-unit u2"></span>
+                <span class="rail-screw s3"></span>
+                <span class="rail-unit u3"></span>
+                <span class="rail-screw s4"></span>
+                <span class="rail-unit u4"></span>
+                <span class="rail-screw s5"></span>
+                <span class="rail-unit u5"></span>
+                <span class="rail-screw s6"></span>
+              </div>
+
+            </div>
+
+            <div class="side-louver-bank right-louvers">
+              <span class="louver-fin hot"></span>
+              <span class="louver-fin intense"></span>
+              <span class="louver-fin intense"></span>
+              <span class="louver-fin hot"></span>
+              <span class="louver-fin hot"></span>
+              <span class="louver-fin normal"></span>
+            </div>
+
+          </div>
+
+          <!-- RIGHT-SIDE HEAT EXHAUST SYSTEM -->
+          <div class="side-heat-exhaust right-exhaust">
+            <div class="plume-cloud right-cloud-1"></div>
+            <div class="plume-cloud right-cloud-2"></div>
+            <div class="plume-cloud right-cloud-3"></div>
+
+            <svg class="lateral-heat-svg" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="heat-trail trail-r1" d="M0 220 C 60 210, 130 180, 200 120" stroke="url(#heatGradR1)" stroke-width="4.5" stroke-linecap="round"/>
+              <path class="heat-trail trail-r2" d="M0 160 C 80 150, 150 110, 210 50" stroke="url(#heatGradR2)" stroke-width="4" stroke-linecap="round"/>
+              <path class="heat-trail trail-r3" d="M0 100 C 70 90, 140 50, 190 10" stroke="url(#heatGradR1)" stroke-width="3.5" stroke-linecap="round"/>
+              <path class="heat-trail trail-r4" d="M0 260 C 50 250, 110 220, 170 170" stroke="url(#heatGradR3)" stroke-width="3" stroke-linecap="round"/>
+              
+              <defs>
+                <linearGradient id="heatGradR1" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff3d00" stop-opacity="0.95"/>
+                  <stop offset="50%" stop-color="#ff9100" stop-opacity="0.75"/>
+                  <stop offset="100%" stop-color="#ffab00" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="heatGradR2" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff1744" stop-opacity="0.9"/>
+                  <stop offset="60%" stop-color="#ff9100" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#ffea00" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="heatGradR3" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.85"/>
+                  <stop offset="70%" stop-color="#ffa000" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#fff8e1" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <span class="heat-particle rp-1"></span>
+            <span class="heat-particle rp-2"></span>
+            <span class="heat-particle rp-3"></span>
+            <span class="heat-particle rp-4"></span>
+            <span class="heat-particle rp-5"></span>
+          </div>
+
+        </div>
+
+        <div class="chassis-ground-shadow"></div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         RIGHT COLUMN: COMPACT INTERACTIVE SCADA CONTROL & CALCULATION PANEL
+         ============================================================ -->
+    <div class="scada-control-column">
+
+      <div class="scada-panel-card main-controls-card">
+        
+        <!-- Header -->
+        <div class="card-header-row">
+          <div class="panel-icon-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+            </svg>
+          </div>
+          <div class="card-title-meta">
+            <h2 class="control-panel-heading">Simulation Control</h2>
+            <span class="control-panel-sub">Waste-Heat Extraction Module</span>
+          </div>
+          <span class="live-tag">INTERACTIVE</span>
+        </div>
+
+        <!-- 1. HEAT OUTPUT CONTROL SLIDER -->
+        <div class="control-section slider-section">
+          <div class="control-label-row">
+            <label for="heatSlider" class="section-label">Heat Output Control</label>
+            <div class="active-val-badge">
+              <span class="val-num">{{ heatService.heatOutputKw() | number:'1.2-2' }}</span>
+              <span class="val-unit">kW</span>
+            </div>
+          </div>
+
+          <div class="slider-container">
+            <input 
+              id="heatSlider"
+              type="range" 
+              min="0" 
+              max="5" 
+              step="0.05"
+              [value]="heatService.heatOutputKw()"
+              (input)="onSliderInput($event)"
+              class="custom-scada-slider"
+              aria-label="Heat Output Control Slider"
+              [style.--slider-fill]="(heatService.heatOutputKw() / 5.0 * 100) + '%'"
+            />
+            <div class="slider-scale-ticks">
+              <span [class.active-tick]="heatService.heatOutputKw() === 0">0 kW</span>
+              <span [class.active-tick]="heatService.heatOutputKw() >= 0.9 && heatService.heatOutputKw() <= 1.1">1 kW</span>
+              <span [class.active-tick]="heatService.heatOutputKw() >= 2.4 && heatService.heatOutputKw() <= 2.6">2.5 kW</span>
+              <span [class.active-tick]="heatService.heatOutputKw() >= 3.9 && heatService.heatOutputKw() <= 4.1">4 kW</span>
+              <span [class.active-tick]="heatService.heatOutputKw() === 5">5 kW</span>
+            </div>
+          </div>
+
+          <!-- Preset Quick Buttons -->
+          <div class="presets-row">
+            <button 
+              type="button" 
+              *ngFor="let p of presets" 
+              class="preset-btn"
+              [class.active]="heatService.heatOutputKw() === p"
+              (click)="setPreset(p)">
+              {{ p === 0 ? '0 kW (Idle)' : p === 1 ? '1 kW (Default)' : p + ' kW' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. LIVE PARAMETERS DISPLAY (SEPARATE TEMPERATURE & POWER) -->
+        <div class="control-section live-metrics-section">
+          <div class="live-params-grid">
+            
+            <div class="telemetry-box temp-box">
+              <div class="box-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+                </svg>
+              </div>
+              <div class="box-content">
+                <span class="box-title">Temperature</span>
+                <span class="box-value">{{ heatService.temperatureC() }}°C</span>
+              </div>
+            </div>
+
+            <div class="telemetry-box power-box">
+              <div class="box-icon flame-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z" fill="#f97316" stroke="#ea580c"></path>
+                </svg>
+              </div>
+              <div class="box-content">
+                <span class="box-title">Heat Output</span>
+                <span class="box-value glow-orange">{{ heatService.heatOutputKw() | number:'1.2-2' }} kW</span>
+              </div>
+            </div>
+
+            <div class="telemetry-box status-box">
+              <div class="box-icon">
+                <span class="status-pulse-dot" [class.online]="heatService.heatOutputKw() > 0" [class.idle]="heatService.heatOutputKw() === 0"></span>
+              </div>
+              <div class="box-content">
+                <span class="box-title">Status</span>
+                <span class="box-value status-text-label" [class.text-active]="heatService.heatOutputKw() > 0">
+                  {{ heatService.heatOutputKw() > 0 ? 'Active' : 'Standby' }}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. STORAGE DURATION SELECTION -->
+        <div class="control-section duration-section">
+          <div class="control-label-row">
+            <span class="section-label">Storage Duration</span>
+            <span class="duration-active-note">Active: {{ heatService.durationLabel() }}</span>
+          </div>
+          <div class="duration-toggle-group">
+            <button 
+              type="button" 
+              class="duration-tab" 
+              [class.selected]="heatService.durationSeconds() === 5"
+              (click)="setDuration(5)">
+              <div class="tab-indicator"></div>
+              <div class="tab-content">
+                <span class="tab-title">5 Seconds</span>
+                <span class="tab-desc">Instantaneous burst</span>
+              </div>
+            </button>
+            <button 
+              type="button" 
+              class="duration-tab" 
+              [class.selected]="heatService.durationSeconds() === 300"
+              (click)="setDuration(300)">
+              <div class="tab-indicator"></div>
+              <div class="tab-content">
+                <span class="tab-title">5 Minutes</span>
+                <span class="tab-desc">Accumulated charge</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. PROMINENT CARD: THERMAL ENERGY STORED -->
+        <div class="thermal-energy-prominent-card">
+          <div class="prominent-card-top">
+            <div class="energy-icon-badge">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="16" height="12" rx="2"></rect>
+                <line x1="20" y1="11" x2="20" y2="15"></line>
+                <line x1="10" y1="10" x2="10" y2="16"></line>
+                <line x1="7" y1="13" x2="13" y2="13"></line>
+              </svg>
+            </div>
+            <div class="energy-titles">
+              <span class="energy-heading">Thermal Energy Stored</span>
+              <span class="energy-sub">for {{ heatService.durationLabel() }} extraction</span>
+            </div>
+          </div>
+
+          <!-- Live Dynamically Calculated Readings -->
+          <div class="energy-readouts-cluster">
+            <div class="energy-primary-readout">
+              <span class="energy-large-val">{{ heatService.energyKj() | number:'1.1-2' }}</span>
+              <span class="energy-large-unit">kJ</span>
+            </div>
+            <span class="eq-symbol">=</span>
+            <div class="energy-secondary-readout">
+              <span class="energy-kwh-val">{{ heatService.energyKwh() | number:'1.4-5' }}</span>
+              <span class="energy-kwh-unit">kWh thermal</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Storage Level Visual Fill Bar -->
+          <div class="energy-meter-container">
+            <div class="meter-bar-track">
+              <div class="meter-bar-fill" [style.width]="(heatService.energyKwh() / 0.4166 * 100) + '%'"></div>
+            </div>
+          </div>
+
+          <!-- Formula & Calculation Note -->
+          <div class="energy-calculation-box">
+            <div class="formula-line">
+              <code>{{ heatService.heatOutputKw() | number:'1.2-2' }} kW × {{ heatService.durationSeconds() }}s = {{ heatService.energyKj() | number:'1.1-2' }} kJ ({{ heatService.energyKwh() | number:'1.4-5' }} kWh)</code>
+            </div>
+            <p class="energy-rule-note">
+              <span>Energy stored depends on heat output power and storage duration.</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- 5. VISUAL INDICATOR: HEAT FLOW → THERMAL STORAGE -->
+        <div class="heat-flow-conduit-card" [class.flow-active]="heatService.heatOutputKw() > 0 && !heatService.isAllStorageFull()">
+          <div class="flow-header">
+            <div class="flow-title-wrap">
+              <span class="flow-title">Heat Flow &rarr; Thermal Storage</span>
+              <div class="flow-chips-group">
+                <span class="flow-target-chip">Target: <strong>{{ heatService.activeStorageName() }}</strong></span>
+                <span class="flow-rate-chip" *ngIf="heatService.heatOutputKw() > 0 && !heatService.isAllStorageFull()">{{ heatService.heatOutputKw() | number:'1.2-2' }} kW</span>
+                <span class="flow-rate-chip idle" *ngIf="heatService.heatOutputKw() === 0">Halted</span>
+                <span class="flow-rate-chip idle" *ngIf="heatService.isAllStorageFull()">Storage Full</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-graphic-stage">
+            <div class="source-node">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="8" rx="2"></rect>
+                <rect x="2" y="14" width="20" height="8" rx="2"></rect>
+              </svg>
+              <span>Server</span>
+            </div>
+
+            <div class="flow-pipe-line">
+              <div class="pipe-core-glow"></div>
+              <div class="flowing-heat-stream" *ngIf="heatService.heatOutputKw() > 0">
+                <span class="flow-pulse p1"></span>
+                <span class="flow-pulse p2"></span>
+                <span class="flow-pulse p3"></span>
+                <span class="flow-pulse p4"></span>
+              </div>
+              <div class="flow-arrow-head">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </div>
+            </div>
+
+            <div class="target-node">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="5" y="4" width="14" height="17" rx="3"></rect>
+                <line x1="9" y1="10" x2="15" y2="10"></line>
+                <line x1="9" y1="14" x2="15" y2="14"></line>
+              </svg>
+              <span>Storage</span>
+            </div>
+
+            <a routerLink="/thermal-storage" class="flow-inline-jump-btn" title="Open Thermal Storage Complex">
+              <span>View &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 </div>
