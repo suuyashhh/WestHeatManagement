@@ -416,7 +416,17 @@ export class WasteHeatService {
         if (raw !== null) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
-            return parsed;
+            return parsed.map((c: HeatConsumer) => {
+              // If marked COMPLETED but still has unmet demand, restore to ACTIVE
+              if (c.status === 'COMPLETED' && c.deliveredEnergyKwh < c.requiredEnergyKwh - 0.05) {
+                return { ...c, status: 'ACTIVE' as ConsumerStatus };
+              }
+              // Ensure delivery rate is valid if set to 0 while active
+              if ((!c.deliveryRateKw || c.deliveryRateKw <= 0) && c.maxHeatRateKw > 0) {
+                return { ...c, deliveryRateKw: Math.min(c.maxHeatRateKw, 4.0) };
+              }
+              return c;
+            });
           }
         }
       } catch (e) {
@@ -514,7 +524,22 @@ export class WasteHeatService {
   private readonly TICK_MS = 100; // updates every 100ms for ultra-smooth fluid animation
 
   constructor() {
+    this.sanitizeConsumersState();
     this.startSimulationLoop();
+  }
+
+  private sanitizeConsumersState(): void {
+    this.consumers.update((list) =>
+      list.map((c) => {
+        if (c.status === 'COMPLETED' && c.deliveredEnergyKwh < c.requiredEnergyKwh - 0.05) {
+          return { ...c, status: 'ACTIVE' as ConsumerStatus };
+        }
+        if ((!c.deliveryRateKw || c.deliveryRateKw <= 0) && c.maxHeatRateKw > 0) {
+          return { ...c, deliveryRateKw: Math.min(c.maxHeatRateKw, 4.0) };
+        }
+        return c;
+      })
+    );
   }
 
   // =========================================================================
@@ -873,15 +898,21 @@ export class WasteHeatService {
         if (c.id === id) {
           updated = true;
           const req = updates.requiredEnergyKwh !== undefined ? Number(updates.requiredEnergyKwh) : c.requiredEnergyKwh;
-          const rate = updates.deliveryRateKw !== undefined ? Number(updates.deliveryRateKw) : c.deliveryRateKw;
+          const rate = updates.deliveryRateKw !== undefined ? Number(updates.deliveryRateKw) : (c.deliveryRateKw > 0 ? c.deliveryRateKw : 4.0);
           const hours = rate > 0 ? Math.round((req / rate) * 10) / 10 : c.supplyDurationHours;
           let activeTank = c.activeSourceTankId;
           if (updates.preferredTank !== undefined) {
             activeTank = updates.preferredTank === 'AUTO' ? (c.activeSourceTankId || 1) : updates.preferredTank;
           }
+          let newStatus = updates.status !== undefined ? updates.status : c.status;
+          // If demand was increased so delivered < req, status should no longer be COMPLETED
+          if (newStatus === 'COMPLETED' && c.deliveredEnergyKwh < req - 0.05) {
+            newStatus = 'ACTIVE';
+          }
           return {
             ...c,
             ...updates,
+            status: newStatus,
             requiredEnergyKwh: req,
             deliveryRateKw: rate,
             activeSourceTankId: activeTank,
@@ -968,7 +999,7 @@ export class WasteHeatService {
 
     // Check if available energy exists
     if (this.totalStoredEnergyKwh() <= 0.001) {
-      this.notify('alert', 'INSUFFICIENT STORED THERMAL ENERGY – Cannot begin heat transfer');
+      this.notify('alert', 'INSUFFICIENT STORED THERMAL ENERGY – Cannot begin heat transfer. Storage tanks are depleted.');
       this.consumers.update((list) =>
         list.map((c) => (c.id === id ? { ...c, status: 'NO ENERGY AVAILABLE' } : c))
       );
@@ -976,17 +1007,21 @@ export class WasteHeatService {
       return false;
     }
 
-    if (consumer.deliveredEnergyKwh >= consumer.requiredEnergyKwh) {
-      this.notify('info', 'Customer order already completed.');
-      return false;
+    let requiredKwh = consumer.requiredEnergyKwh;
+    if (consumer.deliveredEnergyKwh >= requiredKwh) {
+      // If customer demand was already met, auto-extend demand by 25 kWh so supply can run seamlessly
+      requiredKwh = Math.round((consumer.deliveredEnergyKwh + 25.0) * 10) / 10;
+      this.notify('info', `Target demand extended to ${requiredKwh} kWh for ${consumer.name}. Resuming heat supply...`);
     }
 
-    const rate = consumer.deliveryRateKw > 0 ? consumer.deliveryRateKw : 4.0;
+    const maxRate = consumer.maxHeatRateKw > 0 ? consumer.maxHeatRateKw : 5.0;
+    const rate = consumer.deliveryRateKw > 0 ? consumer.deliveryRateKw : Math.min(maxRate, 4.0);
+
     // Determine active tank
     let targetTankId = consumer.preferredTank === 'AUTO' ? 1 : consumer.preferredTank;
     const targetTank = this.tanks().find((t) => t.id === targetTankId);
     if (!targetTank || targetTank.storedEnergyKwh <= 0.001) {
-      // Find alternate
+      // Find alternate tank with available stored energy
       const alternate = this.tanks().find((t) => t.storedEnergyKwh > 0.005);
       if (alternate) {
         targetTankId = alternate.id;
@@ -998,6 +1033,7 @@ export class WasteHeatService {
         c.id === id
           ? {
               ...c,
+              requiredEnergyKwh: requiredKwh,
               status: 'RECEIVING',
               deliveryRateKw: rate,
               activeSourceTankId: targetTankId
@@ -1007,7 +1043,7 @@ export class WasteHeatService {
     );
     this.saveConsumersToStorage();
 
-    this.notify('success', `Thermal energy supply started for ${consumer.name} at ${rate.toFixed(1)} kW`);
+    this.notify('success', `Thermal energy supply started for ${consumer.name} from Tank 0${targetTankId} at ${rate.toFixed(1)} kW`);
     return true;
   }
 

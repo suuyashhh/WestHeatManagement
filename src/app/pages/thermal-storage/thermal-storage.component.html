@@ -17,7 +17,7 @@
       
       <!-- 1. Server Heat Input -->
       <div class="scada-kpi-pill">
-        <span class="kpi-pill-label">SERVER HEAT INPUT</span>
+        <span class="kpi-pill-label">HEAT INPUT</span>
         <div class="kpi-pill-val orange-glow">
           <strong>{{ heatService.heatOutputKw() | number:'1.2-2' }}</strong> kW
         </div>
@@ -33,7 +33,7 @@
 
       <!-- 3. Storage Duration -->
       <div class="scada-kpi-pill duration-pill">
-        <span class="kpi-pill-label">STORAGE DURATION</span>
+        <span class="kpi-pill-label">DURATION</span>
         <div class="duration-toggle-mini">
           <button type="button" class="d-btn" [class.active]="heatService.durationSeconds() === 5" (click)="setDuration(5)">5s</button>
           <button type="button" class="d-btn" [class.active]="heatService.durationSeconds() === 300" (click)="setDuration(300)">5m</button>
@@ -44,38 +44,38 @@
       <div class="scada-kpi-pill highlight-pill">
         <span class="kpi-pill-label">ENERGY RECEIVED</span>
         <div class="kpi-pill-val">
-          <span class="val-primary">{{ heatService.incomingThermalEnergyKj() | number:'1.1-2' }} kJ</span>
-          <span class="val-secondary">({{ heatService.incomingThermalEnergyKwh() | number:'1.4-5' }} kWh)</span>
+          <span class="val-primary">{{ heatService.incomingThermalEnergyKj() | number:'1.1-1' }} kJ</span>
+          <span class="val-secondary">({{ heatService.incomingThermalEnergyKwh() | number:'1.3-3' }} kWh)</span>
         </div>
       </div>
 
       <!-- 5. Total Storage Capacity -->
       <div class="scada-kpi-pill">
-        <span class="kpi-pill-label">TOTAL CAPACITY</span>
+        <span class="kpi-pill-label">CAPACITY</span>
         <div class="kpi-pill-val cyan-glow">
-          <strong>{{ heatService.totalStorageCapacityKwh() | number:'1.1-2' }}</strong> kWh
+          <strong>{{ heatService.totalStorageCapacityKwh() | number:'1.1-1' }}</strong> kWh
         </div>
       </div>
 
       <!-- 6. Total Stored Energy -->
       <div class="scada-kpi-pill accent-pill">
-        <span class="kpi-pill-label">TOTAL STORED</span>
+        <span class="kpi-pill-label">STORED</span>
         <div class="kpi-pill-val orange-glow">
-          <strong>{{ heatService.totalStoredEnergyKwh() | number:'1.4-5' }}</strong> kWh
+          <strong>{{ heatService.totalStoredEnergyKwh() | number:'1.2-2' }}</strong> kWh
         </div>
       </div>
 
       <!-- 7. Total Storage Level -->
       <div class="scada-kpi-pill level-pill">
-        <span class="kpi-pill-label">STORAGE LEVEL</span>
+        <span class="kpi-pill-label">SYS LEVEL</span>
         <div class="kpi-pill-val">
-          <strong>{{ heatService.totalStorageLevelPercent() | number:'1.2-2' }}%</strong>
+          <strong>{{ heatService.totalStorageLevelPercent() | number:'1.1-1' }}%</strong>
         </div>
       </div>
 
       <!-- 8. Active Storage Target & Status -->
       <div class="scada-kpi-pill status-pill" [class.charging]="heatService.activeChargingTankId() !== null" [class.all-full]="heatService.isAllStorageFull()">
-        <span class="kpi-pill-label">ACTIVE STORAGE</span>
+        <span class="kpi-pill-label">ACTIVE TANK</span>
         <div class="kpi-pill-val">
           <span class="active-tank-tag">{{ heatService.activeStorageName() }}</span>
           <span class="status-badge-chip">{{ heatService.storageStatus() }}</span>

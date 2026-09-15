@@ -21,11 +21,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 6px 14px;
+  padding: 4px 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
 }
@@ -87,23 +87,31 @@
 .summary-kpis-wrapper {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: nowrap;
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 1px 0;
+}
+
+.summary-kpis-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .scada-kpi-pill {
   background: var(--bg-card-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 4px 8px;
+  padding: 2px 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 82px;
+  min-width: 58px;
+  flex-shrink: 0;
   transition: var(--transition-fast);
 }
 
@@ -112,7 +120,7 @@
 }
 
 .kpi-pill-label {
-  font-size: 8.5px;
+  font-size: 7.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--text-muted);
@@ -124,7 +132,7 @@
 
 .kpi-pill-val {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
@@ -176,7 +184,7 @@
 .scada-kpi-pill.highlight-pill {
   background: linear-gradient(135deg, rgba(249, 115, 22, 0.14) 0%, rgba(17, 26, 47, 0.9) 100%);
   border-color: rgba(249, 115, 22, 0.4);
-  min-width: 140px;
+  min-width: 104px;
 }
 
 .val-primary {
@@ -185,13 +193,13 @@
 }
 
 .val-secondary {
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--accent-sky);
 }
 
 /* Status Pill */
 .scada-kpi-pill.status-pill {
-  min-width: 120px;
+  min-width: 90px;
 }
 
 .active-tank-tag {
@@ -200,10 +208,10 @@
 }
 
 .status-badge-chip {
-  font-size: 9.5px;
+  font-size: 8.5px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 3px;
-  padding: 1px 4px;
+  padding: 1px 3px;
   color: var(--text-secondary);
 }
 
@@ -223,18 +231,18 @@
 .summary-actions-cluster {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
 .scada-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 10.5px;
+  gap: 3px;
+  font-size: 9.5px;
   font-weight: 700;
   border-radius: var(--radius-sm);
-  padding: 5px 10px;
+  padding: 3px 6px;
   cursor: pointer;
   transition: var(--transition-fast);
   white-space: nowrap;
@@ -305,14 +313,14 @@
 .scada-nav-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 10.5px;
+  gap: 4px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--accent-cyan);
   background: rgba(6, 182, 212, 0.08);
   border: 1px solid rgba(6, 182, 212, 0.25);
   border-radius: var(--radius-sm);
-  padding: 5px 10px;
+  padding: 4px 8px;
   text-decoration: none;
   transition: var(--transition-fast);
 }
@@ -558,8 +566,8 @@
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
-  width: 700px;
-  height: 380px;
+  width: 880px;
+  height: 440px;
   background: radial-gradient(ellipse at center, rgba(234, 88, 12, 0.28) 0%, rgba(249, 115, 22, 0.1) 50%, transparent 75%);
   filter: blur(65px);
   pointer-events: none;
@@ -573,14 +581,12 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1040px;
-  transform: scale(0.76);
-  transform-origin: center center;
+  max-width: 1260px;
 }
 
 /* Overhead Manifold System */
 .overhead-manifold-system {
-  width: 88%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -590,9 +596,9 @@
 
 .main-header-pipe {
   width: 100%;
-  height: 14px;
+  height: 16px;
   background: linear-gradient(180deg, #475569 0%, #1e293b 50%, #0f172a 100%);
-  border-radius: 7px;
+  border-radius: 8px;
   border: 2px solid #334155;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   position: relative;
@@ -625,19 +631,19 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  padding: 0 20px;
+  padding: 0 28px;
 }
 
 .feeder-branch {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 28px;
+  width: 32px;
 }
 
 .branch-pipe {
-  width: 8px;
-  height: 24px;
+  width: 10px;
+  height: 26px;
   background: linear-gradient(90deg, #334155 0%, #1e293b 100%);
   border-left: 1px solid #475569;
   border-right: 1px solid #475569;
@@ -649,7 +655,7 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%;
-  height: 14px;
+  height: 16px;
   background: linear-gradient(180deg, #ff9800, #ff3d00);
   box-shadow: 0 0 6px #ff3d00;
   animation: feeder-drop 0.8s infinite linear;
@@ -666,8 +672,8 @@
 }
 
 .flow-valve {
-  width: 16px;
-  height: 10px;
+  width: 20px;
+  height: 11px;
   background: #1e293b;
   border: 1px solid #334155;
   border-radius: 2px;
@@ -702,46 +708,46 @@
 }
 
 .thermal-container {
-  width: 185px;
+  width: 232px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 6px 4px 8px;
-  background: rgba(15, 23, 42, 0.4);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 6px 10px;
+  background: rgba(15, 23, 42, 0.45);
   transition: all 0.25s ease;
 }
 
 /* Highlight Active Charging Tank (Requirement 5) */
 .thermal-container.tank-charging {
   border-color: rgba(249, 115, 22, 0.8);
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.45), inset 0 0 10px rgba(249, 115, 22, 0.15);
-  background: rgba(249, 115, 22, 0.04);
+  box-shadow: 0 0 24px rgba(249, 115, 22, 0.45), inset 0 0 12px rgba(249, 115, 22, 0.15);
+  background: rgba(249, 115, 22, 0.05);
 }
 
 .thermal-container.tank-full {
   border-color: rgba(6, 182, 212, 0.7);
-  box-shadow: 0 0 16px rgba(6, 182, 212, 0.35);
+  box-shadow: 0 0 18px rgba(6, 182, 212, 0.35);
 }
 
 /* Dome Top */
 .container-dome.top {
-  width: 140px;
-  height: 20px;
+  width: 180px;
+  height: 25px;
   background: linear-gradient(180deg, #334155 0%, #1e293b 80%, #0f172a 100%);
-  border-radius: 70px 70px 0 0;
-  border-top: 1.5px solid #475569;
-  border-left: 1.5px solid #475569;
-  border-right: 1.5px solid #475569;
+  border-radius: 90px 90px 0 0;
+  border-top: 2px solid #475569;
+  border-left: 2px solid #475569;
+  border-right: 2px solid #475569;
   display: flex;
   justify-content: center;
   position: relative;
 }
 
 .inlet-flange-active {
-  width: 22px;
-  height: 8px;
+  width: 26px;
+  height: 10px;
   background: #090d16;
   border: 1.5px solid #475569;
   border-radius: 2px;
@@ -764,10 +770,10 @@
 
 .pressure-relief-valve {
   position: absolute;
-  top: 3px;
-  right: 20px;
-  width: 8px;
-  height: 10px;
+  top: 4px;
+  right: 28px;
+  width: 9px;
+  height: 11px;
   background: #475569;
   border: 1px solid #64748b;
   border-radius: 2px;
@@ -780,8 +786,8 @@
 
 /* Vessel Cylindrical Body */
 .vessel-cylindrical-body {
-  width: 140px;
-  height: 220px;
+  width: 180px;
+  height: 280px;
   background: linear-gradient(90deg, #1e293b 0%, #0f172a 12%, #090d16 50%, #0f172a 88%, #1e293b 100%);
   border-left: 2px solid #475569;
   border-right: 2px solid #475569;
@@ -896,7 +902,7 @@
 
 @keyframes bubble-rise {
   0% { transform: translateY(0) scale(0.6); opacity: 0.9; }
-  100% { transform: translateY(-140px) scale(1.2); opacity: 0; }
+  100% { transform: translateY(-180px) scale(1.2); opacity: 0; }
 }
 
 .chamber-thermal-shimmer {
@@ -908,7 +914,7 @@
 
 /* Sight Glass Column */
 .sight-glass-column {
-  width: 14px;
+  width: 16px;
   height: 100%;
   background: #020617;
   border-left: 1px solid #334155;
@@ -934,24 +940,24 @@
 
 /* Bottom Dome */
 .container-dome.bottom {
-  width: 140px;
-  height: 16px;
+  width: 180px;
+  height: 18px;
   background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-  border-radius: 0 0 70px 70px;
-  border-bottom: 1.5px solid #475569;
-  border-left: 1.5px solid #475569;
-  border-right: 1.5px solid #475569;
+  border-radius: 0 0 90px 90px;
+  border-bottom: 2px solid #475569;
+  border-left: 2px solid #475569;
+  border-right: 2px solid #475569;
 }
 
 .container-support-legs {
-  width: 120px;
+  width: 152px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
 .support-leg {
-  width: 14px;
+  width: 16px;
   height: 18px;
   background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%);
   border: 1px solid #475569;
@@ -959,11 +965,12 @@
 }
 
 .drain-valve {
-  width: 10px;
-  height: 8px;
+  width: 12px;
+  height: 9px;
   background: #1e293b;
   border-radius: 2px;
   border: 1px solid #334155;
+  margin-top: 2px;
 }
 
 .drain-valve.active {
@@ -976,25 +983,29 @@
    ========================================================================== */
 .tank-telemetry-card {
   width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(13, 22, 41, 0.9);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  backdrop-filter: blur(8px);
   border-radius: var(--radius-sm);
-  padding: 6px 8px;
-  margin-top: 6px;
+  padding: 8px 10px;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .tank-telemetry-card.active-card {
   border-color: var(--accent-orange);
-  background: rgba(249, 115, 22, 0.08);
+  background: rgba(249, 115, 22, 0.12);
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.25);
 }
 
 .tank-telemetry-card.full-card {
   border-color: var(--accent-cyan);
-  background: rgba(6, 182, 212, 0.08);
+  background: rgba(6, 182, 212, 0.12);
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
 }
 
 .tank-card-header {
@@ -1004,16 +1015,16 @@
 }
 
 .tank-name-text {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #ffffff;
   letter-spacing: 0.02em;
 }
 
 .tank-status-pill {
-  font-size: 8.5px;
+  font-size: 9.5px;
   font-weight: 800;
-  padding: 1px 5px;
+  padding: 2px 6px;
   border-radius: 3px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1045,30 +1056,35 @@
 .tank-kpi-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3px 6px;
+  gap: 4px 10px;
 }
 
 .tank-metric {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  font-size: 9.5px;
+  font-size: 10.5px;
+  white-space: nowrap;
+  gap: 4px;
 }
 
 .metric-lbl {
-  color: var(--text-muted);
+  color: #94a3b8;
   font-weight: 600;
+  font-size: 10px;
 }
 
 .metric-val {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: var(--text-primary);
+  color: #f8fafc;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .metric-val small {
-  font-size: 8px;
-  color: var(--text-muted);
+  font-size: 8.5px;
+  color: #64748b;
 }
 
 .metric-val.orange-text {
@@ -1081,16 +1097,16 @@
 
 .tank-mini-bar-track {
   width: 100%;
-  height: 4px;
-  border-radius: 2px;
-  background: #0f172a;
+  height: 5px;
+  border-radius: 3px;
+  background: #060b17;
   overflow: hidden;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .tank-mini-bar-fill {
   height: 100%;
-  border-radius: 2px;
+  border-radius: 3px;
   background: linear-gradient(90deg, #f97316 0%, #10b981 100%);
   transition: width 0.35s ease;
 }
@@ -1107,8 +1123,8 @@
 }
 
 .tank-shadow-slot {
-  width: 165px;
-  height: 16px;
+  width: 210px;
+  height: 18px;
   border-radius: 50%;
   filter: blur(5px);
 }
@@ -1487,6 +1503,62 @@ body.light-theme .preset-btn {
   background: #ffffff;
   border-color: #cbd5e1;
   color: #334155;
+}
+
+/* ==========================================================================
+   RESPONSIVE SCALING & ADAPTIVE VIEWPORT RULES
+   ========================================================================== */
+@media (max-height: 860px) {
+  .vessel-cylindrical-body {
+    height: 250px;
+  }
+  .active-tanks-glow {
+    height: 380px;
+  }
+}
+
+@media (max-height: 760px) {
+  .storage-page {
+    gap: 4px;
+  }
+  .vessel-cylindrical-body {
+    height: 220px;
+  }
+  .container-dome.top {
+    height: 22px;
+  }
+  .tank-telemetry-card {
+    padding: 6px 8px;
+    gap: 3px;
+    margin-top: 5px;
+  }
+  .tank-name-text {
+    font-size: 12px;
+  }
+  .tank-metric {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .storage-complex-layout {
+    transform: scale(0.94);
+    transform-origin: center center;
+  }
+}
+
+@media (max-width: 1100px) {
+  .storage-complex-layout {
+    transform: scale(0.85);
+    transform-origin: center center;
+  }
+}
+
+@media (max-width: 960px) {
+  .storage-complex-layout {
+    transform: scale(0.75);
+    transform-origin: center center;
+  }
 }
 
 
