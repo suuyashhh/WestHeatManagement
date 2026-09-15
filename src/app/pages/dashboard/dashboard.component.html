@@ -198,7 +198,7 @@
            ===================================================================== -->
       <div class="charging-conduit-section">
         <div class="conduit-label-box" [class.is-flowing]="serverHeatKw() > 0">
-          <span class="conduit-title">Hot Thermal Stream</span>
+          <span class="conduit-title">Hot Supply</span>
           <span class="conduit-sub font-mono">{{ serverHeatKw() | number:'1.1-1' }} kW ({{ temperatureC() }}°C)</span>
         </div>
 
@@ -224,82 +224,122 @@
            ===================================================================== -->
       <div class="containers-assembly-block">
         
-        <!-- Overhead Charging Manifold -->
-        <div class="overhead-manifold-bar" [class.active-manifold]="serverHeatKw() > 0">
-          <div class="manifold-glow-line" [class.active]="serverHeatKw() > 0"></div>
+        <!-- Overhead Charging Manifold (Receiving Hot Thermal Stream from Server) -->
+        <div class="overhead-manifold-system">
+          <div class="main-header-pipe" [class.active-manifold]="serverHeatKw() > 0">
+            <div class="energy-flow-pulse" [class.active-flow]="serverHeatKw() > 0 && activeChargingTankId() !== null"></div>
+          </div>
+
+          <!-- 4 Selective Downward Feeder Branches -->
+          <div class="pipe-feeders-row">
+            <div 
+              *ngFor="let tank of tanks()" 
+              class="feeder-branch" 
+              [class.filling]="isTankCharging(tank.id)"
+              [class.full-branch]="tank.status === 'FULL'"
+              [class.empty]="!isTankCharging(tank.id) && tank.status !== 'FULL'">
+              <div class="branch-pipe">
+                <span class="pulse-jet" *ngIf="isTankCharging(tank.id)"></span>
+              </div>
+              <div 
+                class="flow-valve" 
+                [class.active]="isTankCharging(tank.id)" 
+                [class.full]="tank.status === 'FULL'"
+                [class.closed]="!isTankCharging(tank.id) && tank.status !== 'FULL'"></div>
+            </div>
+          </div>
         </div>
 
-        <!-- 4 Storage Cylinders Grid -->
-        <div class="tanks-flex-row">
+        <!-- 4 Storage Vessels Grid (Exact Thermal Storage Page Industrial Aesthetic) -->
+        <div class="storage-containers-row">
           <div 
             *ngFor="let tank of tanks()" 
-            class="tank-column" 
-            [class.is-charging]="isTankCharging(tank.id)"
-            [class.is-discharging]="isTankDischarging(tank.id)">
+            class="thermal-container" 
+            [class.tank-charging]="isTankCharging(tank.id)"
+            [class.tank-discharging]="isTankDischarging(tank.id)"
+            [class.tank-full]="tank.status === 'FULL'"
+            [class.cold-heel]="tank.storedEnergyKwh <= 0.001">
             
-            <!-- Top Dropper from Overhead Manifold into Container -->
-            <div class="tank-top-dropper" [class.dropper-charging]="isTankCharging(tank.id)">
-              <span class="dropper-flow-dot" *ngIf="isTankCharging(tank.id)"></span>
+            <!-- Top Dome with Inlet Flange & Relief Valve -->
+            <div class="container-dome top">
+              <div class="inlet-flange-active" [class.idle-flange]="!isTankCharging(tank.id)">
+                <span class="flange-heat-glow" *ngIf="isTankCharging(tank.id)"></span>
+              </div>
+              <div class="pressure-relief-valve" [class.cold]="!isTankCharging(tank.id)"></div>
             </div>
 
-            <!-- Cylindrical Tank Vessel -->
-            <div class="storage-tank-vessel" [class.active-vessel]="isTankCharging(tank.id) || isTankDischarging(tank.id)">
-              
-              <!-- Dome Cap with Valves -->
-              <div class="vessel-top-dome">
-                <span class="inlet-valve" [class.valve-open]="isTankCharging(tank.id)"></span>
-                <span class="dome-highlight"></span>
-              </div>
+            <!-- Vessel Cylindrical Shell with Viewing Core -->
+            <div class="vessel-cylindrical-body">
+              <div class="vessel-shell-band b-top"></div>
+              <div class="vessel-shell-band b-mid"></div>
+              <div class="vessel-shell-band b-bot"></div>
 
-              <!-- Cylinder Body with Dynamic Fluid Height -->
-              <div class="vessel-cylinder-body">
-                <!-- Thermal Fluid Level (Dynamic Height) -->
+              <!-- Transparent Liquid Chamber with Dynamic Molten Heat -->
+              <div class="vessel-liquid-chamber">
+                <div class="influx-energy-stream" *ngIf="isTankCharging(tank.id)"></div>
+
+                <!-- DYNAMIC MOLTEN LIQUID VOLUME -->
                 <div 
-                  class="vessel-thermal-fluid" 
+                  class="molten-liquid-volume" 
                   [style.height.%]="tank.fillPercentage"
-                  [class.fluid-charging]="isTankCharging(tank.id)"
-                  [class.fluid-discharging]="isTankDischarging(tank.id)">
-                  <div class="fluid-wave"></div>
-                </div>
+                  [class.has-heat]="tank.storedEnergyKwh > 0.001"
+                  [class.is-discharging]="isTankDischarging(tank.id)">
+                  
+                  <!-- Liquid Surface Wave SVG -->
+                  <svg class="liquid-surface-wave" viewBox="0 0 160 24" preserveAspectRatio="none" *ngIf="tank.storedEnergyKwh > 0.001">
+                    <path class="wave-path-1" d="M0 12 Q 40 0, 80 12 T 160 12 V 24 H 0 Z" fill="#ff7a00"/>
+                    <path class="wave-path-2" d="M0 14 Q 40 24, 80 14 T 160 14 V 24 H 0 Z" fill="#ff3d00" opacity="0.8"/>
+                  </svg>
 
-                <div class="vessel-glass-shine"></div>
-
-                <!-- Temperature & Fill Readouts inside Vessel -->
-                <div class="vessel-inner-readout">
-                  <span class="vessel-temp-badge">{{ tank.temperatureC }} °C</span>
-                  <span class="vessel-kwh-badge font-mono">{{ tank.storedEnergyKwh | number:'1.1-1' }} kWh</span>
-                </div>
-              </div>
-
-              <!-- Bottom Dome & Legs -->
-              <div class="vessel-bottom-dome">
-                <!-- Discharge Valve at bottom -->
-                <span class="outlet-valve" [class.valve-discharging]="isTankDischarging(tank.id)"></span>
-              </div>
-              <div class="vessel-support-legs">
-                <span class="leg l"></span>
-                <span class="leg c1"></span>
-                <span class="leg c2"></span>
-                <span class="leg r"></span>
-              </div>
-            </div>
-
-            <!-- Tank Footer Meta -->
-            <div class="tank-footer-metrics">
-              <div class="tank-name-row">
-                <strong class="tank-label">{{ tank.name }}</strong>
-                <span class="tank-status-pill" [class]="tank.status.toLowerCase()">{{ tank.status }}</span>
-              </div>
-              <div class="tank-bar-row">
-                <div class="capsule-track">
-                  <div 
-                    class="capsule-fill" 
-                    [style.width.%]="tank.fillPercentage"
-                    [class.fill-charging]="isTankCharging(tank.id)"
-                    [class.fill-discharging]="isTankDischarging(tank.id)">
+                  <!-- Molten Core Embers -->
+                  <div class="molten-core-mass" *ngIf="tank.storedEnergyKwh > 0.001">
+                    <span class="energy-bubble eb-1"></span>
+                    <span class="energy-bubble eb-2"></span>
+                    <span class="energy-bubble eb-3"></span>
                   </div>
                 </div>
-                <span class="capsule-percent font-mono">{{ tank.fillPercentage | number:'1.0-0' }}%</span>
+
+                <!-- Chamber shimmer -->
+                <div class="chamber-thermal-shimmer" *ngIf="tank.storedEnergyKwh > 0.001"></div>
+              </div>
+
+              <!-- Sight Glass Column with Dynamic Level -->
+              <div class="sight-glass-column">
+                <div class="sight-glass-fill" [style.height.%]="tank.fillPercentage" [class.empty]="tank.storedEnergyKwh <= 0.001"></div>
+              </div>
+            </div>
+
+            <!-- Bottom Dome & Support Legs -->
+            <div class="container-dome bottom"></div>
+            <div class="container-support-legs">
+              <span class="support-leg left"></span>
+              <span class="drain-valve" [class.active]="tank.storedEnergyKwh > 0.001" [class.discharging]="isTankDischarging(tank.id)"></span>
+              <span class="support-leg right"></span>
+            </div>
+
+            <!-- SCADA Telemetry Badge (Matching Thermal Storage Page) -->
+            <div class="tank-telemetry-card" [class.active-card]="isTankCharging(tank.id)" [class.discharging-card]="isTankDischarging(tank.id)" [class.full-card]="tank.status === 'FULL'">
+              <div class="tank-card-header">
+                <strong class="tank-name-text">{{ tank.name }}</strong>
+                <span class="tank-status-pill" [class]="tank.status.toLowerCase()">
+                  {{ tank.status }}
+                </span>
+              </div>
+
+              <div class="tank-kpi-lines">
+                <div class="tank-line-row">
+                  <span class="metric-lbl">STORED:</span>
+                  <span class="metric-val font-mono"><strong class="orange-text">{{ tank.storedEnergyKwh | number:'1.1-1' }}</strong> / {{ tank.capacityKwh | number:'1.0-0' }} kWh</span>
+                </div>
+                <div class="tank-line-row">
+                  <span class="metric-lbl">STATUS:</span>
+                  <span class="metric-val font-mono highlight-level">{{ tank.fillPercentage | number:'1.0-0' }}% <span class="temp-sep">•</span> {{ tank.temperatureC }}°C</span>
+                </div>
+              </div>
+
+              <!-- Mini Progress Bar -->
+              <div class="tank-mini-bar-track">
+                <div class="tank-mini-bar-fill" [style.width.%]="tank.fillPercentage"></div>
               </div>
 
               <!-- Supplying Consumer Indicator Tag -->
@@ -309,7 +349,7 @@
               </div>
             </div>
 
-            <!-- Bottom Dropper connecting to Distribution Manifold -->
+            <!-- Bottom Dropper connecting into Distribution Manifold -->
             <div class="tank-bottom-dropper" [class.dropper-discharging]="isTankDischarging(tank.id)">
               <span class="dropper-flow-dot-down" *ngIf="isTankDischarging(tank.id)"></span>
             </div>
@@ -329,8 +369,8 @@
            ===================================================================== -->
       <div class="distribution-conduit-section">
         <div class="conduit-label-box dist-label-box" [class.is-flowing]="activeHeatSuppliesCount() > 0">
-          <span class="conduit-title">Energy Delivery Conduit</span>
-          <span class="conduit-sub font-mono">{{ totalDeliveryPowerKw() | number:'1.1-1' }} kW (Active Flow)</span>
+          <span class="conduit-title">Delivery Pipe</span>
+          <span class="conduit-sub font-mono">{{ totalDeliveryPowerKw() | number:'1.1-1' }} kW</span>
         </div>
 
         <!-- SVG Distribution Pipe -->
@@ -422,7 +462,6 @@
                 class="dashboard-supply-btn"
                 [class.btn-on]="c.status === 'RECEIVING'"
                 [class.btn-off]="c.status !== 'RECEIVING'"
-                [disabled]="c.status === 'COMPLETED' || totalStoredEnergyKwh() <= 0.001"
                 (click)="toggleSupply(c.id, $event)">
                 <span *ngIf="c.status === 'RECEIVING'">
                   <span class="btn-dot-live"></span>

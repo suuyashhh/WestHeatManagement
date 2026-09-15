@@ -704,50 +704,633 @@
 }
 
 /* ==========================================================================
-   STAGE 2: 4 STORAGE CONTAINERS (TANKS 01–04)
+   STAGE 2: 4 STORAGE CONTAINERS (TANKS 01–04) - INDUSTRIAL SCADA VESSELS
    ========================================================================== */
 .containers-assembly-block {
   flex: 1;
-  min-width: 440px;
+  min-width: 480px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  background: rgba(13, 23, 44, 0.4);
-  border: 1px solid rgba(26, 43, 73, 0.6);
+  background: radial-gradient(circle at 50% 50%, #131e34 0%, #0c1424 70%, #080d19 100%);
+  border: 1px solid rgba(26, 43, 73, 0.8);
   border-radius: 12px;
-  padding: 10px 14px;
+  padding: 10px 12px;
+  overflow: hidden;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.5);
 }
 
 /* Overhead Charging Manifold */
-.overhead-manifold-bar {
-  height: 8px;
+.overhead-manifold-system {
   width: 100%;
-  background: #192b47;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  z-index: 4;
-  margin-top: 6px;
+  z-index: 10;
+  margin-top: 2px;
+}
+
+.main-header-pipe {
+  width: 96%;
+  height: 12px;
+  background: linear-gradient(180deg, #475569 0%, #1e293b 50%, #0f172a 100%);
+  border-radius: 6px;
+  border: 1.5px solid #334155;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.overhead-manifold-bar.active-manifold {
-  background: linear-gradient(90deg, #ff5500 0%, #f97316 50%, #ea580c 100%);
-  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+.main-header-pipe.active-manifold {
+  border-color: rgba(249, 115, 22, 0.6);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.35);
 }
 
-.manifold-glow-line {
-  height: 2px;
-  background: rgba(255, 255, 255, 0.2);
+.energy-flow-pulse {
+  position: absolute;
+  top: 0; left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, #ff5722 40%, #ff9800 80%, transparent 100%);
+  filter: blur(2px);
+  opacity: 0;
+}
+
+.energy-flow-pulse.active-flow {
+  opacity: 1;
+  animation: manifold-flow 1.8s linear infinite;
+}
+
+@keyframes manifold-flow {
+  0% { transform: translateX(-80%); opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { transform: translateX(180%); opacity: 0.2; }
+}
+
+.pipe-feeders-row {
+  width: 96%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+
+.feeder-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+}
+
+.branch-pipe {
+  width: 6px;
+  height: 14px;
+  background: linear-gradient(90deg, #334155 0%, #1e293b 100%);
+  border-left: 1px solid #475569;
+  border-right: 1px solid #475569;
+  position: relative;
+  overflow: hidden;
+}
+
+.pulse-jet {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(180deg, #ff9800, #ff3d00);
+  box-shadow: 0 0 6px #ff3d00;
+  animation: feeder-drop 0.8s infinite linear;
+}
+
+@keyframes feeder-drop {
+  0% { transform: translateY(-100%); opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { transform: translateY(180%); opacity: 0.2; }
+}
+
+.flow-valve {
+  width: 14px;
+  height: 7px;
+  background: #1e293b;
+  border: 1px solid #334155;
   border-radius: 2px;
-  margin: 1px auto;
-  width: 98%;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.manifold-glow-line.active {
+.flow-valve.active {
+  background: #ff5722;
+  box-shadow: 0 0 8px #ff5722;
+}
+
+.flow-valve.full {
+  background: #06b6d4;
+  box-shadow: 0 0 8px #06b6d4;
+}
+
+.flow-valve.closed {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+/* 4 Containers Row */
+.storage-containers-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+  z-index: 5;
+  margin: 4px 0;
+}
+
+.thermal-container {
+  width: 114px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 4px 3px 5px;
+  background: rgba(15, 23, 42, 0.45);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.thermal-container.tank-charging {
+  border-color: rgba(249, 115, 22, 0.8);
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.35), inset 0 0 8px rgba(249, 115, 22, 0.1);
+  background: rgba(249, 115, 22, 0.04);
+}
+
+.thermal-container.tank-discharging {
+  border-color: rgba(16, 185, 129, 0.8);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.35), inset 0 0 8px rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.04);
+}
+
+.thermal-container.tank-full {
+  border-color: rgba(6, 182, 212, 0.7);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+}
+
+/* Top Dome */
+.container-dome.top {
+  width: 88px;
+  height: 14px;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 80%, #0f172a 100%);
+  border-radius: 44px 44px 0 0;
+  border-top: 1.5px solid #475569;
+  border-left: 1.5px solid #475569;
+  border-right: 1.5px solid #475569;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.inlet-flange-active {
+  width: 16px;
+  height: 6px;
+  background: #090d16;
+  border: 1px solid #475569;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.inlet-flange-active.idle-flange {
+  border-color: #334155;
+}
+
+.flange-heat-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #ff3d00;
+  box-shadow: 0 0 6px #ff3d00;
+  animation: flange-pulse 1.4s infinite alternate ease-in-out;
+}
+
+@keyframes flange-pulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.pressure-relief-valve {
+  position: absolute;
+  top: 2px;
+  right: 12px;
+  width: 6px;
+  height: 7px;
+  background: #475569;
+  border: 1px solid #64748b;
+  border-radius: 1px;
+}
+
+.pressure-relief-valve.cold {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+/* Cylindrical Body */
+.vessel-cylindrical-body {
+  width: 88px;
+  height: 165px;
+  background: linear-gradient(90deg, #1e293b 0%, #0f172a 12%, #090d16 50%, #0f172a 88%, #1e293b 100%);
+  border-left: 1.5px solid #475569;
+  border-right: 1.5px solid #475569;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+.vessel-shell-band {
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(180deg, #475569 0%, #334155 50%, #1e293b 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid #0f172a;
+  z-index: 8;
+}
+
+.b-top { top: 22%; }
+.b-mid { top: 52%; }
+.b-bot { top: 82%; }
+
+/* Liquid Core Chamber */
+.vessel-liquid-chamber {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #040711;
+  border: 1px solid #1e293b;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.influx-energy-stream {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(255, 145, 0, 0.95) 0%, rgba(255, 61, 0, 0.8) 70%, transparent 100%);
+  filter: blur(1px);
+  z-index: 6;
+  animation: influx-stream-pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes influx-stream-pulse {
+  0% { height: 30px; opacity: 0.7; }
+  50% { height: 48px; opacity: 1; width: 8px; }
+  100% { height: 30px; opacity: 0.7; }
+}
+
+/* Molten Liquid Volume */
+.molten-liquid-volume {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 0;
+}
+
+.molten-liquid-volume.has-heat {
+  background: linear-gradient(180deg, #ff7a00 0%, #ff3d00 45%, #d50000 100%);
+  box-shadow: 0 0 14px rgba(255, 87, 34, 0.7);
+}
+
+.molten-liquid-volume.has-heat.is-discharging {
+  background: linear-gradient(180deg, #ff9100 0%, #ff4d00 40%, #10b981 100%);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
+}
+
+.liquid-surface-wave {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  z-index: 7;
+}
+
+.wave-path-1 { animation: wave-drift-1 2.5s infinite linear; }
+.wave-path-2 { animation: wave-drift-2 3.5s infinite linear; }
+
+@keyframes wave-drift-1 {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-8px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes wave-drift-2 {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+  100% { transform: translateX(0); }
+}
+
+.molten-core-mass {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+}
+
+.energy-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffeb3b;
+  box-shadow: 0 0 4px #ffeb3b;
+}
+
+.eb-1 { width: 3px; height: 3px; left: 25%; bottom: 10%; animation: bubble-rise-dash 2.8s infinite ease-in; }
+.eb-2 { width: 4px; height: 4px; left: 65%; bottom: 15%; animation: bubble-rise-dash 3.4s infinite ease-in 0.8s; }
+.eb-3 { width: 3px; height: 3px; left: 45%; bottom: 5%; animation: bubble-rise-dash 2.6s infinite ease-in 1.4s; }
+
+@keyframes bubble-rise-dash {
+  0% { transform: translateY(0) scale(0.6); opacity: 0.9; }
+  100% { transform: translateY(-110px) scale(1.2); opacity: 0; }
+}
+
+.chamber-thermal-shimmer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 50% 60%, rgba(255, 61, 0, 0.35) 0%, transparent 80%);
+  animation: shimmer-pulse 2s infinite alternate ease-in-out;
+}
+
+@keyframes shimmer-pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.85; }
+}
+
+/* Sight Glass Column */
+.sight-glass-column {
+  width: 10px;
+  height: 100%;
+  background: #020617;
+  border-left: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1px;
+}
+
+.sight-glass-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #ff9800 0%, #ff3d00 100%);
+  border-radius: 1px;
+  box-shadow: 0 0 4px #ff5722;
+  transition: height 0.5s ease;
+  min-height: 0;
+}
+
+.sight-glass-fill.empty {
+  height: 0 !important;
+  box-shadow: none;
+}
+
+/* Bottom Dome */
+.container-dome.bottom {
+  width: 88px;
+  height: 12px;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  border-radius: 0 0 44px 44px;
+  border-bottom: 1.5px solid #475569;
+  border-left: 1.5px solid #475569;
+  border-right: 1.5px solid #475569;
+}
+
+.container-support-legs {
+  width: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.support-leg {
+  width: 10px;
+  height: 12px;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 60%, #0f172a 100%);
+  border: 1px solid #475569;
+  border-radius: 0 0 2px 2px;
+}
+
+.drain-valve {
+  width: 8px;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 1px;
+  border: 1px solid #334155;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+}
+
+.drain-valve.active {
+  background: #ff5722;
+  box-shadow: 0 0 4px #ff5722;
+}
+
+.drain-valve.discharging {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+/* SCADA Telemetry Card */
+.tank-telemetry-card {
+  width: 100%;
+  background: rgba(13, 22, 41, 0.92);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  backdrop-filter: blur(6px);
+  border-radius: 6px;
+  padding: 5px 6px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.tank-telemetry-card.active-card {
+  border-color: var(--accent-orange);
+  background: rgba(249, 115, 22, 0.12);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.25);
+}
+
+.tank-telemetry-card.discharging-card {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+}
+
+.tank-telemetry-card.full-card {
+  border-color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.12);
+}
+
+.tank-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tank-name-text {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tank-status-pill {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tank-status-pill.charging {
+  background: rgba(249, 115, 22, 0.2);
+  color: var(--accent-orange);
+  border: 1px solid rgba(249, 115, 22, 0.4);
+  animation: lamp-blink 1.6s infinite ease-in-out;
+}
+
+.tank-status-pill.discharging {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.tank-status-pill.full {
+  background: rgba(6, 182, 212, 0.2);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.tank-status-pill.standby {
+  background: rgba(100, 116, 139, 0.15);
+  color: var(--text-muted);
+}
+
+.tank-status-pill.stored {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-amber);
+}
+
+.tank-kpi-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.tank-line-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8.5px;
+  white-space: nowrap;
+}
+
+.tank-line-row .metric-lbl {
+  font-size: 8px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+
+.tank-line-row .metric-val {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.tank-line-row .metric-val small {
+  font-size: 7.5px;
+  color: #64748b;
+}
+
+.temp-sep {
+  color: #64748b;
+  margin: 0 2px;
+}
+
+.orange-text {
+  color: var(--accent-orange);
+}
+
+.highlight-level {
+  color: var(--accent-sky);
+}
+
+.tank-mini-bar-track {
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: #060b17;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.tank-mini-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #f97316 0%, #10b981 100%);
+  transition: width 0.35s ease;
+}
+
+.tank-supply-tag {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-top: 2px;
+}
+
+/* Bottom Dropper into Lower Distribution Manifold */
+.tank-bottom-dropper {
+  width: 5px;
+  height: 12px;
+  border-radius: 2px;
+  background: #192b47;
+  position: relative;
+  z-index: 3;
+  margin-top: 2px;
+  transition: background 0.3s ease;
+}
+
+.tank-bottom-dropper.dropper-discharging {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.dropper-flow-dot-down {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 0 8px #ffffff;
+  box-shadow: 0 0 6px #10b981;
+  animation: dropHeatFlow 0.8s infinite linear;
 }
 
 /* Lower Distribution Manifold Bar */
@@ -758,7 +1341,7 @@
   border-radius: 4px;
   position: relative;
   z-index: 4;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   transition: all 0.3s ease;
 }
 
@@ -779,409 +1362,6 @@
 .dist-glow-line.active {
   background: #ffffff;
   box-shadow: 0 0 8px #ffffff;
-}
-
-/* Tanks Flex Layout */
-.tanks-flex-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  width: 100%;
-  position: relative;
-  margin: 8px 0;
-}
-
-.tank-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 98px;
-  flex-shrink: 0;
-  position: relative;
-}
-
-/* Vertical Droppers from Overhead Manifold into Tank */
-.tank-top-dropper {
-  width: 6px;
-  height: 18px;
-  border-radius: 2px;
-  background: #192b47;
-  position: relative;
-  z-index: 3;
-  transition: background 0.3s ease;
-}
-
-.tank-top-dropper.dropper-charging {
-  background: #f97316;
-  box-shadow: 0 0 8px #f97316;
-}
-
-.dropper-flow-dot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 6px #ff5500;
-  animation: dropHeatFlow 0.8s infinite linear;
-}
-
-@keyframes dropHeatFlow {
-  0% { top: 0%; opacity: 0.8; }
-  100% { top: 100%; opacity: 0.2; }
-}
-
-/* Vertical Dropper into Lower Distribution Manifold */
-.tank-bottom-dropper {
-  width: 6px;
-  height: 18px;
-  border-radius: 2px;
-  background: #192b47;
-  position: relative;
-  z-index: 3;
-  margin-top: 4px;
-  transition: background 0.3s ease;
-}
-
-.tank-bottom-dropper.dropper-discharging {
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-}
-
-.dropper-flow-dot-down {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 6px #10b981;
-  animation: dropHeatFlow 0.8s infinite linear;
-}
-
-/* Storage Tank Vessel */
-.storage-tank-vessel {
-  width: 88px;
-  height: 155px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
-  transition: filter 0.3s ease;
-}
-
-.storage-tank-vessel.active-vessel {
-  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.35));
-}
-
-.is-charging .storage-tank-vessel.active-vessel {
-  filter: drop-shadow(0 0 14px rgba(249, 115, 22, 0.45));
-}
-
-.is-discharging .storage-tank-vessel.active-vessel {
-  filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.45));
-}
-
-.vessel-top-dome {
-  width: 84px;
-  height: 20px;
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  background: radial-gradient(circle at 50% 0%, #2c4777 0%, #15243e 70%, #0c1728 100%);
-  border: 1.5px solid #385587;
-  border-bottom: none;
-  position: relative;
-}
-
-.inlet-valve {
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 5px;
-  border-radius: 2px 2px 0 0;
-  background: #253b61;
-  transition: all 0.3s ease;
-}
-
-.inlet-valve.valve-open {
-  background: #f97316;
-  box-shadow: 0 0 8px #f97316;
-}
-
-.dome-highlight {
-  position: absolute;
-  top: 3px;
-  left: 12px;
-  right: 12px;
-  height: 4px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
-}
-
-.vessel-cylinder-body {
-  width: 84px;
-  flex: 1;
-  background: #081222;
-  border-left: 1.5px solid #385587;
-  border-right: 1.5px solid #385587;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column-reverse; /* Fluid fills from bottom up */
-}
-
-.vessel-bottom-dome {
-  width: 84px;
-  height: 18px;
-  border-radius: 0 0 50% 50% / 0 0 100% 100%;
-  background: linear-gradient(180deg, #15243e 0%, #09101d 100%);
-  border: 1.5px solid #385587;
-  border-top: none;
-  position: relative;
-}
-
-.outlet-valve {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 5px;
-  border-radius: 0 0 2px 2px;
-  background: #253b61;
-  transition: all 0.3s ease;
-}
-
-.outlet-valve.valve-discharging {
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-}
-
-/* Tank Fluid Heating / Cooling Dynamics */
-.vessel-thermal-fluid {
-  position: relative;
-  width: 100%;
-  background: linear-gradient(180deg, #0284c7 0%, #0369a1 40%, #1e3a8a 80%, #0b1528 100%);
-  box-shadow: inset 0 0 16px rgba(2, 132, 199, 0.7);
-  transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease;
-  min-height: 4px;
-}
-
-.vessel-thermal-fluid.fluid-charging {
-  background: linear-gradient(180deg, #ffc400 0%, #ff4d00 45%, #db2777 80%, #1e3a8a 100%);
-  box-shadow: inset 0 0 24px rgba(255, 120, 0, 0.95);
-}
-
-.vessel-thermal-fluid.fluid-discharging {
-  background: linear-gradient(180deg, #34d399 0%, #10b981 40%, #0284c7 80%, #0f172a 100%);
-  box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.85);
-}
-
-/* Fluid Surface Wave Animation */
-.fluid-wave {
-  position: absolute;
-  top: -4px;
-  left: -20%;
-  width: 140%;
-  height: 8px;
-  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 80%);
-  opacity: 0.6;
-  animation: fluidWave 2.4s infinite ease-in-out alternate;
-}
-
-@keyframes fluidWave {
-  0% { transform: translateX(-5px) scaleY(0.9); }
-  100% { transform: translateX(5px) scaleY(1.2); }
-}
-
-.vessel-glass-shine {
-  position: absolute;
-  top: 0;
-  left: 6px;
-  width: 12px;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 5;
-}
-
-.vessel-inner-readout {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  z-index: 6;
-  pointer-events: none;
-}
-
-.vessel-temp-badge {
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid #385587;
-  padding: 2px 7px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-.is-charging .vessel-temp-badge {
-  border-color: #f97316;
-  color: #f97316;
-}
-
-.is-discharging .vessel-temp-badge {
-  border-color: #10b981;
-  color: #10b981;
-}
-
-.vessel-kwh-badge {
-  font-size: 9.5px;
-  color: #cbd5e1;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-}
-
-.vessel-support-legs {
-  display: flex;
-  justify-content: space-between;
-  width: 70px;
-  height: 10px;
-}
-
-.vessel-support-legs .leg {
-  width: 3.5px;
-  height: 10px;
-  background: #283e60;
-  border-radius: 1px;
-}
-
-.vessel-support-legs .leg.l { transform: rotate(-20deg); }
-.vessel-support-legs .leg.r { transform: rotate(20deg); }
-
-/* Tank Footer Telemetry */
-.tank-footer-metrics {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  width: 100%;
-  margin-top: 5px;
-}
-
-.tank-name-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 2px;
-}
-
-.tank-label {
-  font-size: 11px;
-  color: #cbd5e1;
-  font-weight: 700;
-}
-
-.tank-status-pill {
-  font-size: 8.5px;
-  font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.tank-status-pill.charging {
-  background: rgba(249, 115, 22, 0.2);
-  color: #f97316;
-  border: 1px solid rgba(249, 115, 22, 0.4);
-}
-
-.tank-status-pill.discharging {
-  background: rgba(16, 185, 129, 0.2);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.4);
-}
-
-.tank-status-pill.idle {
-  background: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-}
-
-.tank-status-pill.full {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.4);
-}
-
-.tank-bar-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  justify-content: center;
-}
-
-.capsule-track {
-  flex: 1;
-  height: 5px;
-  background: #162640;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.capsule-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: #0284c7;
-  transition: width 0.6s ease;
-}
-
-.capsule-fill.fill-charging {
-  background: #f97316;
-}
-
-.capsule-fill.fill-discharging {
-  background: #10b981;
-}
-
-.capsule-percent {
-  font-size: 10px;
-  font-weight: 600;
-  color: #cbd5e1;
-}
-
-.tank-supply-tag {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  padding: 1px 6px;
-  border-radius: 4px;
-  margin-top: 2px;
-}
-
-.tank-supply-tag .supply-bullet {
-  font-size: 9px;
-  color: #10b981;
-}
-
-.tank-supply-tag .supply-txt {
-  font-size: 8.5px;
-  font-weight: 600;
-  color: #34d399;
-  white-space: nowrap;
 }
 
 /* ==========================================================================

@@ -337,6 +337,13 @@ export class HeatConsumersComponent {
       return;
     }
 
+    const req = Number(this.editForm.requiredEnergyKwh);
+    let status = this.editForm.status;
+    const existing = this.heatService.consumers().find((c) => c.id === id);
+    if (existing && existing.deliveredEnergyKwh < req - 0.05 && status === 'COMPLETED') {
+      status = 'ACTIVE';
+    }
+
     this.heatService.updateConsumer(id, {
       name: this.editForm.name.trim(),
       company: this.editForm.company.trim() || this.editForm.name.trim(),
@@ -344,12 +351,12 @@ export class HeatConsumersComponent {
       phone: this.editForm.phone.trim(),
       email: this.editForm.email.trim(),
       location: this.editForm.location.trim(),
-      requiredEnergyKwh: Number(this.editForm.requiredEnergyKwh),
+      requiredEnergyKwh: req,
       maxHeatRateKw: Number(this.editForm.maxHeatRateKw),
       deliveryRateKw: Math.min(Number(this.editForm.deliveryRateKw) || Number(this.editForm.maxHeatRateKw), Number(this.editForm.maxHeatRateKw)),
       preferredTank: this.editForm.preferredTank,
       pricePerKwh: Number(this.editForm.pricePerKwh) || 8.0,
-      status: this.editForm.status,
+      status: status,
       autoSourceSelection: this.editForm.autoSourceSelection,
       imageUrl: this.editForm.imageUrl
     });

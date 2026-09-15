@@ -202,8 +202,8 @@
           class="supply-toggle-btn"
           [class.btn-supply-on]="c.status === 'RECEIVING'"
           [class.btn-supply-off]="c.status !== 'RECEIVING'"
-          [disabled]="c.status === 'COMPLETED' || heatService.isStorageDepleted()"
-          (click)="toggleSupply(c.id, $event)">
+          (click)="toggleSupply(c.id, $event)"
+          title="Toggle Thermal Energy Supply">
           
           <span *ngIf="c.status === 'RECEIVING'" class="btn-inner">
             <span class="btn-live-dot"></span>
@@ -214,7 +214,11 @@
             <strong>PAUSED</strong> • Click to Resume
           </span>
 
-          <span *ngIf="c.status !== 'RECEIVING' && c.status !== 'PAUSED'" class="btn-inner">
+          <span *ngIf="c.status === 'COMPLETED' && c.deliveredEnergyKwh >= c.requiredEnergyKwh" class="btn-inner">
+            ✔ <strong>ORDER COMPLETE</strong> • Click to Deliver More
+          </span>
+
+          <span *ngIf="c.status !== 'RECEIVING' && c.status !== 'PAUSED' && !(c.status === 'COMPLETED' && c.deliveredEnergyKwh >= c.requiredEnergyKwh)" class="btn-inner">
             ▶ <strong>SUPPLY OFF</strong> • Click to Turn ON
           </span>
         </button>
@@ -305,10 +309,9 @@
               type="button" 
               class="primary-on-off-btn"
               [class.active-on]="consumer.status === 'RECEIVING'"
-              [disabled]="consumer.status === 'COMPLETED' || heatService.isStorageDepleted()"
               (click)="toggleSupply(consumer.id, $event)">
               <span class="on-off-icon">{{ consumer.status === 'RECEIVING' ? '⏹' : '▶' }}</span>
-              <span class="on-off-text">{{ consumer.status === 'RECEIVING' ? 'TURN SUPPLY OFF' : 'TURN SUPPLY ON' }}</span>
+              <span class="on-off-text">{{ consumer.status === 'RECEIVING' ? 'TURN SUPPLY OFF' : (consumer.status === 'COMPLETED' && consumer.deliveredEnergyKwh >= consumer.requiredEnergyKwh ? 'EXTEND & TURN ON' : 'TURN SUPPLY ON') }}</span>
             </button>
 
             <!-- Pause / Resume buttons -->
@@ -324,7 +327,7 @@
               type="button" 
               class="secondary-ctrl-btn btn-resume-ctrl"
               (click)="resumeSupply(consumer.id)"
-              [disabled]="consumer.status !== 'PAUSED' || heatService.isStorageDepleted()">
+              [disabled]="consumer.status !== 'PAUSED'">
               ▶ RESUME
             </button>
 
@@ -448,12 +451,11 @@
           <input 
             type="range" 
             class="detail-range-slider"
-            min="0" 
+            min="0.5" 
             max="10" 
-            step="0.1" 
+            step="0.5" 
             [value]="consumer.deliveryRateKw"
             (input)="onRateSliderChange($event)"
-            [disabled]="consumer.status === 'COMPLETED' || heatService.isStorageDepleted()"
           />
 
           <div class="presets-and-est-row">
